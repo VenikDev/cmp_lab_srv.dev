@@ -1,0 +1,11 @@
+GET {{host}}/
+Accept: application/json
+###
+
+GET {{host}}/api/v1/albums
+Accept: application/json
+###
+
+GET {{host}}/api/v1/album/RaizeRaize
+Accept: application/json
+###
