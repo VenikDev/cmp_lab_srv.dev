@@ -3,7 +3,7 @@ package main
 import (
 	"comparisonLaboratories/src/db"
 	"comparisonLaboratories/src/server"
-	"github.com/gin-gonic/gin"
+	"comparisonLaboratories/src/transport"
 	"github.com/go-pg/pg/v10"
 	"github.com/joho/godotenv"
 	"log"
@@ -16,9 +16,8 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	app := gin.Default()
-	server.SetupServer(app)
-	server.SetupRouters(app)
+	server.SetupServer(server.Server)
+	transport.SetupRouters(server.Server)
 
 	err = db.ConnectToDB(&pg.Options{
 		User:     os.Getenv("USER"),
@@ -43,7 +42,7 @@ func main() {
 	}
 	log.Println(users)
 
-	err = app.Run()
+	err = server.Server.Run()
 	if err != nil {
 		log.Fatalln("Server did not start")
 	}
