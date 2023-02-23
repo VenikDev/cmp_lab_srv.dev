@@ -12,7 +12,7 @@ const (
 	JSON_LABORATORY   = "\\laboratory.json"
 )
 
-func getWorkDir() string {
+func getWorkDir() (wordDir string) {
 	wordDir, err := os.Getwd()
 	if err != nil {
 		panic(err)
@@ -22,11 +22,10 @@ func getWorkDir() string {
 }
 
 func pathToConfig() string {
-	wordDir := getWorkDir()
-	return wordDir + CONFIG_FOR_SEARCH
+	return getWorkDir() + CONFIG_FOR_SEARCH
 }
 
-func ParseKeyValues() []KeyValue {
+func ParseKeyValues() (arrKeyValues []KeyValue) {
 	pathToConfig := pathToConfig()
 
 	jsonFile, err := os.Open(pathToConfig + JSON_KEY_WORD)
@@ -37,7 +36,7 @@ func ParseKeyValues() []KeyValue {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
 	// we initialize our KeyValue array
-	arrKeyValues := make([]KeyValue, 2)
+	arrKeyValues = make([]KeyValue, 2)
 
 	err = json.Unmarshal(byteValue, &arrKeyValues)
 	if err != nil {
@@ -47,7 +46,7 @@ func ParseKeyValues() []KeyValue {
 	return arrKeyValues
 }
 
-func ParseLabs() []Laboratory {
+func ParseLabs() (arrLabs []Laboratory) {
 	pathToConfig := pathToConfig()
 
 	jsonFile, err := os.Open(pathToConfig + JSON_LABORATORY)
@@ -58,7 +57,7 @@ func ParseLabs() []Laboratory {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
 	// we initialize our KeyValue array
-	arrLabs := make([]Laboratory, 2)
+	arrLabs = make([]Laboratory, 2)
 
 	err = json.Unmarshal(byteValue, &arrLabs)
 	if err != nil {

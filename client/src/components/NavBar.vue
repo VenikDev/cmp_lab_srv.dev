@@ -1,5 +1,5 @@
 <template>
-<div class="flex my-3 shadow-md p-4">
+<div class="nav_bar">
   <button class="select_city_btn">
     Нижний тагил
   </button>
@@ -11,9 +11,15 @@
 </script>
 
 <style scoped>
+
 .select_city_btn {
-  @apply text-cyan-600;
+  @apply text-white p-2;
   font-family: 'Comfortaa', cursive;
   text-decoration: underline
 }
+
+.nav_bar {
+  @apply flex my-3 shadow-md p-4 bg-cyan-600 rounded-xl;
+}
+
 </style>

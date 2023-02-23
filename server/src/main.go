@@ -3,7 +3,6 @@ package main
 import (
 	"comparisonLaboratories/src/db"
 	"comparisonLaboratories/src/server"
-	"comparisonLaboratories/src/services/parse/config"
 	"comparisonLaboratories/src/transport"
 	"github.com/go-pg/pg/v10"
 	"github.com/joho/godotenv"
@@ -16,8 +15,6 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-
-	config.ParseLabs()
 
 	server.SetupServer(server.Server)
 	transport.SetupRouters(server.Server)

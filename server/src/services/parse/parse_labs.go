@@ -1,13 +1,15 @@
 package parse
 
 import (
+	"comparisonLaboratories/src/services/parse/config"
 	"github.com/PuerkitoBio/goquery"
 	"log"
 	"net/http"
 )
 
-func Parse(url string) map[string]string {
-	res, err := http.Get(url)
+func Parse(key string, lab config.Laboratory) map[string]string {
+	request := lab.Url + key
+	res, err := http.Get(request)
 	if err != nil {
 		log.Fatal(err)
 	}

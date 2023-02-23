@@ -1,12 +1,10 @@
 package transport
 
 import (
-	"comparisonLaboratories/src/model"
 	"comparisonLaboratories/src/services"
+	"comparisonLaboratories/src/services/parse/config"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
-	"strconv"
 )
 
 func SetupRouters(app *gin.Engine) {
@@ -14,42 +12,21 @@ func SetupRouters(app *gin.Engine) {
 		context.HTML(http.StatusOK, "index.html", nil)
 	})
 
-	app.GET(API_V1+"/album/:id", func(context *gin.Context) {
-		paramID := context.Param("id")
-
-		if paramID != "" {
-			id, err := strconv.Atoi(paramID)
-			if err != nil {
-				log.Fatalln("id album isn int")
-				return
-			}
-			for _, a := range model.Albums {
-				if a.ID == uint64(id) {
-					context.IndentedJSON(http.StatusOK, a)
-					return
-				}
-			}
-		}
-
-		context.IndentedJSON(
-			http.StatusNotFound,
-			http.StatusText(http.StatusNotFound))
+	app.GET(API_V1+"/get_labs", func(context *gin.Context) {
+		context.IndentedJSON(http.StatusOK, config.ParseLabs())
 	})
 
-	app.GET(API_V1+"/albums", func(context *gin.Context) {
-		context.IndentedJSON(http.StatusOK, model.Albums)
-	})
+	app.GET(API_V1+"/analysis", func(context *gin.Context) {
+		key := context.Query("key")
 
-	app.POST(API_V1+"/analysis", func(context *gin.Context) {
-		url := context.Query("url")
-
-		if url != "" {
-			result, err := services.GetAnalysis(url)
+		if key != "" {
+			result, err := services.GetAnalysis(key)
 			if err == nil {
 				context.IndentedJSON(http.StatusOK, result)
-			} else {
-				context.IndentedJSON(http.StatusNotFound, http.StatusText(http.StatusNotFound))
+				return
 			}
 		}
+
+		context.IndentedJSON(http.StatusNotFound, http.StatusText(http.StatusNotFound))
 	})
 }

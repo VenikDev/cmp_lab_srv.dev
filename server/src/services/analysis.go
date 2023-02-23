@@ -5,8 +5,8 @@ import (
 	"errors"
 )
 
-func GetAnalysis(url string) (map[string]string, error) {
-	result := parse.Parse(url)
+func GetAnalysis(key string) (map[string]string, error) {
+	result := parse.Parse(key)
 
 	if len(result) != 0 {
 		return result, nil
