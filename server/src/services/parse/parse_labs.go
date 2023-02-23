@@ -9,6 +9,7 @@ import (
 
 func Parse(key string, lab config.Laboratory) map[string]string {
 	request := lab.Url + key
+	log.Printf("request = %s", request)
 	res, err := http.Get(request)
 	if err != nil {
 		log.Fatal(err)

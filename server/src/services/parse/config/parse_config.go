@@ -8,7 +8,7 @@ import (
 
 const (
 	CONFIG_FOR_SEARCH = "\\config_for_search"
-	JSON_KEY_WORD     = "\\key_word.json"
+	JSON_KEY_WORD     = "\\key_words.json"
 	JSON_LABORATORY   = "\\laboratory.json"
 )
 
