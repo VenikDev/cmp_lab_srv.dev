@@ -5,4 +5,6 @@ type Laboratory struct {
 	Name string `json:"name"`
 	// url офф сайта
 	Url string `json:"url"`
+	// параметры запроса
+	Params []string `json:"params"`
 }

@@ -10,20 +10,21 @@ import (
 func Parse(key string, lab config.Laboratory) map[string]string {
 	request := lab.Url + key
 	log.Printf("request = %s", request)
-	res, err := http.Get(request)
+	// получаем страницу
+	response, err := http.Get(request)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer res.Body.Close()
-	if res.StatusCode != 200 {
-		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
+	defer response.Body.Close()
+	if response.StatusCode != 200 {
+		log.Printf("status code error: %d %s", response.StatusCode, response.Status)
 		return nil
 	}
 
 	// Load the HTML document
-	doc, err := goquery.NewDocumentFromReader(res.Body)
+	doc, err := goquery.NewDocumentFromReader(response.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return nil
 	}
 	result := make(map[string]string)

@@ -23,7 +23,6 @@ func main() {
 
 	if err != nil {
 		log.Fatalln(err)
-		panic("database not connected")
 	}
 	defer func(Database *pg.DB) {
 		err := Database.Close()
