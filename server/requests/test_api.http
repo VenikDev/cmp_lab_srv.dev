@@ -6,6 +6,5 @@ GET {{host}}/api/v1/albums
 Accept: application/json
 ###
 
-GET {{host}}/api/v1/album/RaizeRaize
+GET {{host}}{{api_v1}}/get_labs
 Accept: application/json
-###

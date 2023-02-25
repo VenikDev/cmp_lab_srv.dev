@@ -1,14 +1,10 @@
 package model
 
-type Album struct {
-	ID     uint64 `json:"ID"`
-	Name   string `json:"name"`
-	Rating uint8  `json:"rating"`
-	Author string `json:"author"`
-}
+type ListAnalyses []Analysis
+type LabAndListAnalyses map[string]ListAnalyses
+type AnalysesResponse []LabAndListAnalyses
 
-var Albums = [...]Album{
-	{ID: 1, Name: "Rammstein", Rating: 5, Author: "Rammstein"},
-	{ID: 2, Name: "Raize Raize", Rating: 5, Author: "Rammstein"},
-	{ID: 3, Name: "Main tail", Rating: 5, Author: "Rammstein"},
+type Analysis struct {
+	Name  string `json:"name"`
+	Price int    `json:"price"`
 }

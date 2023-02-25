@@ -1,10 +1,17 @@
 [
   {
-    "name": "citylab",
-    "url": "https://citilab.ru/search/?q="
+    "name": "citilab",
+    "url": "https://citilab.ru/search",
+    "param_for_find": "q"
   },
   {
     "name": "gemotest",
-    "url": "https://gemotest.ru/search/?q="
+    "url": "https://gemotest.ru/search",
+    "param_for_find": "q"
+  },
+  {
+    "name": "invitro",
+    "url": "https://www.invitro.ru/search",
+    "param_for_find": "q"
   }
 ]
