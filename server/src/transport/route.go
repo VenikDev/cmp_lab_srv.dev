@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+	"strings"
 )
 
 func InitRouters(app *gin.Engine) {
@@ -19,6 +20,7 @@ func InitRouters(app *gin.Engine) {
 
 	app.GET(API_V1+"/analysis", func(context *gin.Context) {
 		key := context.Query("key")
+		strings.Trim(key, " ")
 		log.Printf("key = %s", key)
 
 		if key != "" {

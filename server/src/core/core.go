@@ -1,7 +1,8 @@
 package core
 
 import (
-	"comparisonLaboratories/src/services/parse/config"
+	"comparisonLaboratories/src/model"
+	"comparisonLaboratories/src/services/parse"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"net/http"
@@ -9,13 +10,13 @@ import (
 
 var (
 	Server        = gin.Default()
-	KeyValuesDict []config.KeyValue
-	Laboratories  []config.Laboratory
+	KeyValuesDict []model.KeyValue
+	Laboratories  []model.Laboratory
 )
 
 func InitConfig() {
-	KeyValuesDict = config.ParseKeyValues()
-	Laboratories = config.ParseLabs()
+	KeyValuesDict = parse.ParseKeyValues()
+	Laboratories = parse.ParseLabs()
 }
 
 func InitServer(app *gin.Engine) {

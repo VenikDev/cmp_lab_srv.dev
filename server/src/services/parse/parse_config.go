@@ -1,7 +1,9 @@
-package config
+package parse
 
 import (
+	"comparisonLaboratories/src/model"
 	"encoding/json"
+	"io"
 	"io/ioutil"
 	"os"
 )
@@ -25,7 +27,7 @@ func pathToConfig() string {
 	return getWorkDir() + CONFIG_FOR_SEARCH
 }
 
-func ParseKeyValues() (arrKeyValues []KeyValue) {
+func ParseKeyValues() (arrKeyValues []model.KeyValue) {
 	pathToConfig := pathToConfig()
 
 	jsonFile, err := os.Open(pathToConfig + JSON_KEY_WORD)
@@ -36,7 +38,7 @@ func ParseKeyValues() (arrKeyValues []KeyValue) {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
 	// we initialize our KeyValue array
-	arrKeyValues = make([]KeyValue, 2)
+	arrKeyValues = make([]model.KeyValue, 2)
 
 	err = json.Unmarshal(byteValue, &arrKeyValues)
 	if err != nil {
@@ -46,7 +48,7 @@ func ParseKeyValues() (arrKeyValues []KeyValue) {
 	return arrKeyValues
 }
 
-func ParseLabs() (arrLabs []Laboratory) {
+func ParseLabs() (arrLabs []model.Laboratory) {
 	pathToConfig := pathToConfig()
 
 	jsonFile, err := os.Open(pathToConfig + JSON_LABORATORY)
@@ -54,11 +56,10 @@ func ParseLabs() (arrLabs []Laboratory) {
 		panic(err)
 	}
 
-	byteValue, _ := ioutil.ReadAll(jsonFile)
+	byteValue, _ := io.ReadAll(jsonFile)
 
 	// we initialize our KeyValue array
-	arrLabs = make([]Laboratory, 2)
-
+	arrLabs = make([]model.Laboratory, 2)
 	err = json.Unmarshal(byteValue, &arrLabs)
 	if err != nil {
 		panic(err)
