@@ -1,54 +1,58 @@
 <script setup>
-
-import {Translate} from "./translate.js";
-import {ref} from "vue";
+import {computed, ref, watch} from "vue";
 import axios from "axios";
+import {URL} from "./common/url.js";
+import {Translate} from "./common/translate.js";
 
 let query = ref("");
-let list = ref([])
 
-const key = "url"
-const value = `https://gemotest.ru/search/?q=${query}`
-const url = `api/v1/analysis?${key}=${value}`
+const props = defineProps({
+  list: Object,
+})
+let list = ref(props.list)
+
+const emits = defineEmits([
+  "update:modalValue"
+])
+
+watch(list, () => {
+  emits("update:modalValue", list)
+})
+
+/**
+ * Установить новое ключевое слово в url
+ */
+const getURL = () => {
+  return URL + `api/v1/analysis?key=${query.value}`
+}
+
+/**
+ * Получить список анализов по искомому слову
+ */
 const getResponse = async () => {
-  list = await axios.get(url)
-      .then((response) => {
-        return response.data
-      })
+  list.value = (await axios.get(getURL())).data
+  console.log("list: ", list.value)
 }
 
 </script>
 
 <template>
-  <div>
-    <div class="container_border">
-      <div class="my-2 content-center">
-        <label class="label_level_2">
-          {{ Translate("label2") }}
-        </label>
-      </div>
-      <input
-          v-model="query"
-          class="input"
-          id="search"
-          type="text"
-          :placeholder="Translate('field_for_search')"
-      >
-      <button class="button_for_search" @click="getResponse">
-        {{ Translate("field_for_search") }}
-      </button>
+  <div class="container_border">
+    <div class="my-2 content-center">
+      <label class="label_level_2">
+        {{ Translate("label2") }}
+      </label>
     </div>
-    <!-- print all response -->
-<!--    <div v-for="(idx, value) in list" key="idx">-->
-<!--      <div class="container_border">-->
-<!--        <h3>-->
-<!--          {{ idx }}-->
-<!--        </h3>-->
-<!--        <span>-->
-<!--        {{ value }}-->
-<!--      </span>-->
-<!--      </div>-->
-<!--    </div>-->
+    <input
+        v-model="query"
+        class="input"
+        id="search"
+        type="text"
+        :placeholder="Translate('field_for_search')"
+    >
+    <button class="button_for_search" @click="getResponse">
+      {{ Translate("field_for_search") }}
+    </button>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <script setup>
 
-import { Translate } from "./translate"
+import { Translate } from "./common/translate.js"
 
 </script>
 

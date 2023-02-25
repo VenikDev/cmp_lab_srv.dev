@@ -1,4 +1,4 @@
-import * as keys from "../assets/dict/key_word.json";
+import * as keys from "../../assets/dict/key_word.json";
 
 
 /**

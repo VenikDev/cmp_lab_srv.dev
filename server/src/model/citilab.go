@@ -11,10 +11,12 @@ const (
 	PROFILE = "ПРОФИЛЬ"
 )
 
+// findProfile
 func findProfile(str string) bool {
 	return strings.Contains(str, PROFILE)
 }
 
+// GetAnalyzesCitilab
 func GetAnalyzesCitilab(document *goquery.Document) ListAnalyses {
 	result := make(ListAnalyses, 0)
 	re := regexp.MustCompile("[0-9]+")
