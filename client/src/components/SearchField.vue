@@ -7,17 +7,22 @@ import {Translate} from "./common/translate.js";
 let query = ref("");
 
 const props = defineProps({
-  list: Object,
-})
-let list = ref(props.list)
+  modelValue: {
+    type: String,
+  }
+});
 
-const emits = defineEmits([
-  "update:modalValue"
-])
+const emit = defineEmits(['update:modelValue']);
 
-watch(list, () => {
-  emits("update:modalValue", list)
-})
+const list = ref(props.modelValue);
+
+watch(list, (newValue) => {
+  emit('update:modelValue', newValue);
+});
+
+watch(() => props.modelValue, (newValue) => {
+  list.value = newValue;
+});
 
 /**
  * Установить новое ключевое слово в url
