@@ -31,7 +31,7 @@ func GetListTests(key string, lab model.Laboratory) model.ListAnalyses {
 		return nil
 	}
 
-	result := lab.GetAnalyzes(doc, key)
+	result := lab.GetAnalyzes(doc)
 
 	return result
 }

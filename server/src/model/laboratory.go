@@ -1,10 +1,13 @@
 package model
 
-import "github.com/PuerkitoBio/goquery"
+import (
+	"github.com/PuerkitoBio/goquery"
+)
 
 const (
-	CITILAB = "citilab"
-	INVITRO = "invitro"
+	CITILAB  = "citilab"
+	INVITRO  = "invitro"
+	GEMOTEST = "gemotest"
 )
 
 type ILaboratory interface {
@@ -23,15 +26,19 @@ type Laboratory struct {
 	ParamForFind string `json:"param_for_find"`
 }
 
-func (lab *Laboratory) GetAnalyzes(document *goquery.Document, key string) ListAnalyses {
+func (lab *Laboratory) GetAnalyzes(document *goquery.Document) ListAnalyses {
 	switch lab.GetName() {
 	case CITILAB:
 		{
-			return GetAnalyzesCitilab(document, key)
+			return GetAnalyzesCitilab(document)
 		}
 	case INVITRO:
 		{
-			return GetAnalyzesInvitro(document, key)
+			return GetAnalyzesInvitro(document)
+		}
+	case GEMOTEST:
+		{
+			return GetAnalyzesGemotest(document)
 		}
 	default:
 		return nil

@@ -6,17 +6,16 @@ import (
 	"strconv"
 )
 
-func GetAnalyzesInvitro(document *goquery.Document) ListAnalyses {
+func GetAnalyzesGemotest(document *goquery.Document) ListAnalyses {
 	result := make(ListAnalyses, 0)
 	re := regexp.MustCompile("[0-9]+")
 
 	// Find the review items
-	document.Find(".iwg_margin").Each(func(i int,
-		selection *goquery.Selection) {
+	document.Find(".analize-item_narrow").Each(func(i int, selection *goquery.Selection) {
 		// For each item found, get the title
-		title := selection.Find("a").Find("h3").Text()
+		title := selection.Find(".analize-item__title").Find("a").Text()
 		if title != "" {
-			price := selection.Find(".search__result-order-meta-price ").Text()
+			price := selection.Find(".add-to-cart__price").Text()
 
 			// если не пустые
 			if price != "" {
