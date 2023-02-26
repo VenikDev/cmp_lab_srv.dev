@@ -68,7 +68,7 @@ const getResponse = async () => {
 }
 
 .button_for_search {
-  @apply text-cyan-600 w-1/5 border-2 border-cyan-600 h-10 rounded-xl active:bg-cyan-600 active:text-white
+  @apply text-ChineseViolet w-1/5 border-2 border-ChineseViolet h-10 rounded-xl duration-300 active:bg-ChineseViolet active:text-white
 }
 
 .label_level_2 {

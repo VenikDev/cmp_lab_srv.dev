@@ -21,7 +21,7 @@ import { Translate } from "./common/translate.js"
 <style scoped>
 
   .label_level_1 {
-    @apply text-cyan-600 text-5xl;
+    @apply text-ChineseViolet text-5xl;
     font-family: 'Comfortaa', cursive;
   }
 

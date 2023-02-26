@@ -42,16 +42,12 @@ let listAnalyses = ref({})
 }
 
 .container_border {
-  @apply my-6 shadow-md p-4 border-2 p-4 border-cyan-600 rounded-xl;
+  @apply my-6 shadow-md p-4 border-2 p-4 border-ChineseViolet rounded-xl;
 }
 
 .font_and_color {
   @apply text-cyan-600;
   font-family: 'Comfortaa', cursive;
-}
-
-body::-webkit-scrollbar-track {
-  @apply bg-cyan-600
 }
 
 </style>

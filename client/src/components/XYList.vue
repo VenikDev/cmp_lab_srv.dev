@@ -13,14 +13,14 @@ const {} = defineProps({
   <div class="container_border scroll">
     <div class="grid grid-cols-3">
       <div
-          class="container_border mx-4"
-          v-for="item in Object.keys(list)"
+          class="mx-4 size_col"
+          v-for="nameLab in Object.keys(list)"
           key="item"
       >
-        <h1 class="font_and_color">
-          {{ item }}
-        </h1>
-        <div v-for="analyses in list[item]">
+        <div class="font_and_color title_lab">
+          {{ nameLab }}
+        </div>
+        <div v-for="analyses in list[nameLab]">
           <list-item :analysisData="analyses"/>
         </div>
       </div>
@@ -31,13 +31,18 @@ const {} = defineProps({
 <style scoped>
 
 .scroll {
-  width: 1000px;
   overflow: scroll;
-  max-height: 1000px;
+  height: auto;
+  width: 100%;
 }
 
-.scroll::-webkit-scrollbar-track {
-  @apply bg-cyan-600
+.size_col {
+  min-width: 300px;
+  width: auto;
+}
+
+.title_lab {
+  @apply text-2xl bg-PompPower text-white p-4 rounded-xl mt-2
 }
 
 </style>
