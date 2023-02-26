@@ -32,7 +32,7 @@ func CORSMiddleware() gin.HandlerFunc {
 }
 
 func InitConfig() {
-	KeyValuesDict = parse.ParseKeyValues()
+	//KeyValuesDict = parse.ParseKeyValues()
 	Laboratories = parse.ParseLabs()
 }
 
