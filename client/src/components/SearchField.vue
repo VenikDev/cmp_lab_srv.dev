@@ -7,17 +7,22 @@ import {Translate} from "./common/translate.js";
 let query = ref("");
 
 const props = defineProps({
-  list: Object,
-})
-let list = ref(props.list)
+  modelValue: {
+    type: String,
+  }
+});
 
-const emits = defineEmits([
-  "update:modalValue"
-])
+const emit = defineEmits(['update:modelValue']);
 
-watch(list, () => {
-  emits("update:modalValue", list)
-})
+const list = ref(props.modelValue);
+
+watch(list, (newValue) => {
+  emit('update:modelValue', newValue);
+});
+
+watch(() => props.modelValue, (newValue) => {
+  list.value = newValue;
+});
 
 /**
  * Установить новое ключевое слово в url
@@ -63,7 +68,7 @@ const getResponse = async () => {
 }
 
 .button_for_search {
-  @apply text-cyan-600 w-1/5 border-2 border-cyan-600 h-10 rounded-xl active:bg-cyan-600 active:text-white
+  @apply text-ChineseViolet w-1/5 border-2 border-ChineseViolet h-10 rounded-xl duration-300 active:bg-ChineseViolet active:text-white
 }
 
 .label_level_2 {

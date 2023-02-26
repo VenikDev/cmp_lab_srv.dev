@@ -19,7 +19,7 @@
 }
 
 .nav_bar {
-  @apply flex my-3 shadow-md p-4 bg-cyan-600 rounded-xl;
+  @apply flex my-3 shadow-md p-4 bg-ChineseViolet rounded-xl;
 }
 
 </style>
