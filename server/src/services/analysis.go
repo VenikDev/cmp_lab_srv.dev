@@ -4,10 +4,13 @@ import (
 	"comparisonLaboratories/src/core"
 	"comparisonLaboratories/src/model"
 	"errors"
+	"github.com/PuerkitoBio/goquery"
+	"log"
+	"sync"
 )
 
 // Получить список анализов для каждой лаборатории
-func GetAnalysis(key string) (model.LabAndListAnalyses, error) {
+func GetLaboratoryAnalyses(key string) (model.LabAndListAnalyses, error) {
 	labsAndListTests := make(model.LabAndListAnalyses)
 	fillMapAnalyses(labsAndListTests, key)
 
@@ -19,12 +22,46 @@ func GetAnalysis(key string) (model.LabAndListAnalyses, error) {
 	}
 }
 
-// заполняем список с анализвми для каждоый лаборатории
+// Функция заполняет массив структур ключами и анализами с помощью указанного URL.
+// Для каждой лаборатории из списка отправляется запрос, полученные данные помещаются в documentChannel,
+// после чего на основании содержимого массива labsAndListTests создаются анализы. После того, как все запросы
+// будут обработаны, выполнится метод Wait, который ожидает, пока не завершатся все задания из директивы Add.
 func fillMapAnalyses(labsAndListTests model.LabAndListAnalyses, key string) {
+	var wg sync.WaitGroup
+
+	sizeLabs := len(labsAndListTests)
+
+	documentChannel := make(chan struct {
+		Name string
+		Data *goquery.Document
+	}, sizeLabs)
+	defer close(documentChannel)
+
 	for _, lab := range core.Laboratories {
-		listTests := core.GetListTests(key, lab)
-		if len(listTests) != 0 {
-			labsAndListTests[lab.GetName()] = listTests
-		}
+		wg.Add(1)
+
+		url := core.CreateURLFrom(key, lab)
+		log.Println("Send request on", url)
+
+		go func(nameLab string, url string) {
+
+			documentChannel <- struct {
+				Name string
+				Data *goquery.Document
+			}{Name: nameLab, Data: core.GetHtmlFrom(url)}
+
+			wg.Done()
+		}(lab.Name, url)
 	}
+
+	for idx := 0; idx < sizeLabs; idx++ {
+		foundData := <-documentChannel
+
+		log.Println("Received a list of analyzes from", foundData.Name)
+
+		foundLaboratories := model.GetAnalyzes(foundData.Name, foundData.Data)
+		labsAndListTests[foundData.Name] = foundLaboratories
+	}
+
+	wg.Wait()
 }

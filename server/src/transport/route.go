@@ -24,7 +24,7 @@ func InitRouters(app *gin.Engine) {
 		log.Printf("key = %s", key)
 
 		if key != "" {
-			result, err := services.GetAnalysis(key)
+			result, err := services.GetLaboratoryAnalyses(key)
 			if err == nil {
 				context.IndentedJSON(http.StatusOK, result)
 				return

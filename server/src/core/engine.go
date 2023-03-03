@@ -8,30 +8,25 @@ import (
 	"net/http"
 )
 
-func GetListTests(key string, lab model.Laboratory) model.ListAnalyses {
-	request := fmt.Sprintf("%s?%s=%s", lab.GetUrl(), lab.GetParamForFind(), key)
-	log.Printf("request = %s", request)
+func CreateURLFrom(key string, lab model.Laboratory) string {
+	return fmt.Sprintf("%s?%s=%s", lab.GetUrl(), lab.GetParamForFind(), key)
+}
 
-	// получаем страницу
-	response, err := http.Get(request)
+func GetHtmlFrom(url string) *goquery.Document {
+	response, err := http.Get(url)
 	if err != nil {
 		log.Println(err)
-		return nil
 	}
 	defer response.Body.Close()
 	if response.StatusCode != 200 {
 		log.Printf("status code error: %d %s", response.StatusCode, response.Status)
-		return nil
 	}
 
 	// Load the HTML document
 	doc, err := goquery.NewDocumentFromReader(response.Body)
 	if err != nil {
 		log.Println(err)
-		return nil
 	}
 
-	result := lab.GetAnalyzes(doc)
-
-	return result
+	return doc
 }
