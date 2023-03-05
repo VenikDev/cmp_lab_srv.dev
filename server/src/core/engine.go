@@ -1,10 +1,10 @@
 package core
 
 import (
+	"comparisonLaboratories/src/clog"
 	"comparisonLaboratories/src/model"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
-	"log"
 	"net/http"
 )
 
@@ -15,17 +15,17 @@ func CreateURLFrom(key string, lab model.Laboratory) string {
 func GetHtmlFrom(url string) *goquery.Document {
 	response, err := http.Get(url)
 	if err != nil {
-		log.Println(err)
+		clog.Logger.Error(err)
 	}
 	defer response.Body.Close()
 	if response.StatusCode != 200 {
-		log.Printf("status code error: %d %s", response.StatusCode, response.Status)
+		clog.Logger.Error("status code error: %d %s", response.StatusCode, response.Status)
 	}
 
 	// Load the HTML document
 	doc, err := goquery.NewDocumentFromReader(response.Body)
 	if err != nil {
-		log.Println(err)
+		clog.Logger.Error(err)
 	}
 
 	return doc

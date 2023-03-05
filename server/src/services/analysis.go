@@ -1,15 +1,20 @@
 package services
 
 import (
+	"comparisonLaboratories/src/clog"
 	"comparisonLaboratories/src/core"
 	"comparisonLaboratories/src/model"
 	"errors"
 	"github.com/PuerkitoBio/goquery"
-	"log"
-	"sync"
 )
 
-// Получить список анализов для каждой лаборатории
+// resultDocument. Структура получения результатов запроса
+type resultDocument struct {
+	Name string
+	Data *goquery.Document
+}
+
+// GetLaboratoryAnalyses. Получить список анализов для каждой лаборатории
 func GetLaboratoryAnalyses(key string) (model.LabAndListAnalyses, error) {
 	labsAndListTests := make(model.LabAndListAnalyses)
 	fillMapAnalyses(labsAndListTests, key)
@@ -27,41 +32,33 @@ func GetLaboratoryAnalyses(key string) (model.LabAndListAnalyses, error) {
 // после чего на основании содержимого массива labsAndListTests создаются анализы. После того, как все запросы
 // будут обработаны, выполнится метод Wait, который ожидает, пока не завершатся все задания из директивы Add.
 func fillMapAnalyses(labsAndListTests model.LabAndListAnalyses, key string) {
-	var wg sync.WaitGroup
+	sizeLabs := len(core.Laboratories)
 
-	sizeLabs := len(labsAndListTests)
-
-	documentChannel := make(chan struct {
-		Name string
-		Data *goquery.Document
-	}, sizeLabs)
+	documentChannel := make(chan resultDocument, sizeLabs)
 	defer close(documentChannel)
 
 	for _, lab := range core.Laboratories {
-		wg.Add(1)
-
 		url := core.CreateURLFrom(key, lab)
-		log.Println("Send request on", url)
+		clog.Logger.Info("fillMapAnalyses: ", "Send request", url)
 
 		go func(nameLab string, url string) {
+			documentChannel <- resultDocument{
+				Name: nameLab,
+				Data: core.GetHtmlFrom(url),
+			}
 
-			documentChannel <- struct {
-				Name string
-				Data *goquery.Document
-			}{Name: nameLab, Data: core.GetHtmlFrom(url)}
-
-			wg.Done()
 		}(lab.Name, url)
 	}
 
 	for idx := 0; idx < sizeLabs; idx++ {
 		foundData := <-documentChannel
 
-		log.Println("Received a list of analyzes from", foundData.Name)
+		clog.Logger.Info(
+			"fillMapAnalyses: ",
+			"Received a list of analyzes from", foundData.Name,
+		)
 
 		foundLaboratories := model.GetAnalyzes(foundData.Name, foundData.Data)
 		labsAndListTests[foundData.Name] = foundLaboratories
 	}
-
-	wg.Wait()
 }
