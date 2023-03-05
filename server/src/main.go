@@ -28,5 +28,6 @@ func main() {
 
 	}(db.Database)
 
-	herr.HandlerError(core.Server.Run(), "Server did not start")
+	port := os.Getenv("PORT")
+	herr.HandlerError(core.Server.Run(port), "Server did not start")
 }
