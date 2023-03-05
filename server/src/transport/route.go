@@ -1,10 +1,10 @@
 package transport
 
 import (
+	"comparisonLaboratories/src/clog"
 	"comparisonLaboratories/src/core"
 	"comparisonLaboratories/src/services"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 	"strings"
 )
@@ -21,7 +21,7 @@ func InitRouters(app *gin.Engine) {
 	app.GET(API_V1+"/analysis", func(context *gin.Context) {
 		key := context.Query("key")
 		strings.Trim(key, " ")
-		log.Printf("key = %s", key)
+		clog.Logger.Info("InitRouters", "key word", key)
 
 		if key != "" {
 			result, err := services.GetLaboratoryAnalyses(key)
