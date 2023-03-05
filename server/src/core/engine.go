@@ -1,37 +1,30 @@
 package core
 
 import (
+	"comparisonLaboratories/src/clog"
+	"comparisonLaboratories/src/herr"
 	"comparisonLaboratories/src/model"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
-	"log"
 	"net/http"
 )
 
-func GetListTests(key string, lab model.Laboratory) model.ListAnalyses {
-	request := fmt.Sprintf("%s?%s=%s", lab.GetUrl(), lab.GetParamForFind(), key)
-	log.Printf("request = %s", request)
+func CreateURLFrom(key string, lab model.Laboratory) string {
+	return fmt.Sprintf("%s?%s=%s", lab.GetUrl(), lab.GetParamForFind(), key)
+}
 
-	// получаем страницу
-	response, err := http.Get(request)
-	if err != nil {
-		log.Println(err)
-		return nil
-	}
+func GetHtmlFrom(url string) *goquery.Document {
+	response, err := http.Get(url)
+	herr.HandlerError(err, "")
+
 	defer response.Body.Close()
 	if response.StatusCode != 200 {
-		log.Printf("status code error: %d %s", response.StatusCode, response.Status)
-		return nil
+		clog.Logger.Error("status code error: %d %s", response.StatusCode, response.Status)
 	}
 
 	// Load the HTML document
 	doc, err := goquery.NewDocumentFromReader(response.Body)
-	if err != nil {
-		log.Println(err)
-		return nil
-	}
+	herr.HandlerError(err, "")
 
-	result := lab.GetAnalyzes(doc)
-
-	return result
+	return doc
 }

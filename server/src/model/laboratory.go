@@ -26,20 +26,19 @@ type Laboratory struct {
 	ParamForFind string `json:"param_for_find"`
 }
 
-func (lab *Laboratory) GetAnalyzes(document *goquery.Document) ListAnalyses {
-	switch lab.GetName() {
+type LabSearchResults struct {
+	Name string
+	Data ListAnalyses
+}
+
+func GetAnalyzes(labName string, document *goquery.Document) ListAnalyses {
+	switch labName {
 	case CITILAB:
-		{
-			return GetAnalyzesCitilab(document)
-		}
+		return GetAnalyzesCitilab(document)
 	case INVITRO:
-		{
-			return GetAnalyzesInvitro(document)
-		}
+		return GetAnalyzesInvitro(document)
 	case GEMOTEST:
-		{
-			return GetAnalyzesGemotest(document)
-		}
+		return GetAnalyzesGemotest(document)
 	default:
 		return nil
 	}

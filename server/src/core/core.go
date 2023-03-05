@@ -9,9 +9,8 @@ import (
 )
 
 var (
-	Server        = gin.Default()
-	KeyValuesDict []model.KeyValue
-	Laboratories  []model.Laboratory
+	Server       = gin.Default()
+	Laboratories []model.Laboratory
 )
 
 func CORSMiddleware() gin.HandlerFunc {
