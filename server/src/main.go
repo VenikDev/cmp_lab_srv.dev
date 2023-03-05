@@ -3,9 +3,9 @@ package main
 import (
 	"comparisonLaboratories/src/core"
 	"comparisonLaboratories/src/db"
+	"comparisonLaboratories/src/herr"
 	"comparisonLaboratories/src/transport"
 	"github.com/go-pg/pg/v10"
-	"log"
 	"os"
 )
 
@@ -21,18 +21,12 @@ func main() {
 		Database: os.Getenv("DATABASE"),
 	})
 
-	if err != nil {
-		log.Fatalln(err)
-	}
+	herr.HandlerError(err, "Fail connect to database")
 	defer func(Database *pg.DB) {
 		err := Database.Close()
-		if err != nil {
-			log.Fatalln(err)
-		}
+		herr.HandlerError(err, "Unable to close database connection")
+
 	}(db.Database)
 
-	err = core.Server.Run()
-	if err != nil {
-		log.Fatalln("Server did not start")
-	}
+	herr.HandlerError(core.Server.Run(), "Server did not start")
 }
