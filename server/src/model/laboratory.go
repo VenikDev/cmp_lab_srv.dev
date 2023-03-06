@@ -17,15 +17,6 @@ type ILaboratory interface {
 	GetParamForFind() string
 }
 
-type Laboratory struct {
-	// Название
-	Name string `json:"name"`
-	// url офф сайта
-	Url string `json:"url"`
-	// параметры запроса
-	ParamForFind string `json:"param_for_find"`
-}
-
 type LabSearchResults struct {
 	Name string
 	Data ListAnalyses
@@ -42,16 +33,4 @@ func GetAnalyzes(labName string, document *goquery.Document) ListAnalyses {
 	default:
 		return nil
 	}
-}
-
-func (lab *Laboratory) GetName() string {
-	return lab.Name
-}
-
-func (lab *Laboratory) GetUrl() string {
-	return lab.Url
-}
-
-func (lab *Laboratory) GetParamForFind() string {
-	return lab.ParamForFind
 }

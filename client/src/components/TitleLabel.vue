@@ -6,14 +6,14 @@ import { Translate } from "./common/translate.js"
 
 <template>
 
-<div class="my-10">
+<div id="title_bar" class="my-10 relative">
   <h1 class="text-center">
     <div class="title">
       Инвестируйте
     </div>
-    <div class="title mr-[-200px]">
+    <div class="title mr-[-200px] mt-4">
       <span class="text-red-500">
-        <b class="underline-offset-8 hover:underline-offset-4">в свое</b>
+        <p class="font-bold text-white bg-red-500 inline rounded-2xl px-4">в свое</p>
       </span>
     </div>
     <div class="title ml-[-200px]">
@@ -34,7 +34,6 @@ import { Translate } from "./common/translate.js"
             stroke-linecap="round"
             d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25" />
       </svg>
-
       <b>
         {{ Translate("label1") }}
       </b>
@@ -51,8 +50,8 @@ import { Translate } from "./common/translate.js"
   }
 
   .label_level_2 {
-    @apply text-black text-3xl text-center mt-[-30px]
-           inline-block;
+    @apply text-black text-3xl text-center mt-[-35px]
+           block w-[600px] ml-auto mr-10;
     font-family: 'Comfortaa', cursive;
   }
 

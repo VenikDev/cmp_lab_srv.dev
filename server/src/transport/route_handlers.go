@@ -2,7 +2,7 @@ package transport
 
 import (
 	"comparisonLaboratories/src/clog"
-	"comparisonLaboratories/src/core"
+	"comparisonLaboratories/src/global"
 	"comparisonLaboratories/src/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -30,5 +30,5 @@ func GetListAnalyses(context *gin.Context) {
 }
 
 func GetLabs(context *gin.Context) {
-	context.IndentedJSON(http.StatusOK, core.Laboratories)
+	context.IndentedJSON(http.StatusOK, global.Laboratories)
 }

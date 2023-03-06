@@ -10,6 +10,7 @@ import SearchField from "../components/SearchField.vue";
 import TitleLabel from "../components/TitleLabel.vue";
 import NavBar from "../components/NavBar.vue";
 import XYList from "../components/XYList.vue";
+import PopularItems from "../components/PopularItems/PopularItems.vue";
 
 // data
 let listAnalyses = ref({})
@@ -22,6 +23,8 @@ let listAnalyses = ref({})
     <nav-bar/>
     <!--  Заголовок  -->
     <title-label/>
+    <!--  Чаще всего ищут  -->
+<!--    <popular-items/>-->
     <!--  Поисковая строка и кнопка поиска  -->
     <search-field v-model="listAnalyses"/>
     <!--  Вывод всех анализов  -->
@@ -42,7 +45,8 @@ let listAnalyses = ref({})
 }
 
 .container_border {
-  @apply my-6 shadow-md p-4 border-2 p-4 border-red-500 rounded-xl;
+  @apply my-6 p-4 border-2 p-4
+  shadow-md border-red-500 rounded-xl;
 }
 
 .font_and_color {
