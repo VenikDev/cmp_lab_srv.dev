@@ -2,7 +2,7 @@
 import ScrollArea from "./ScrollArea.vue";
 import ListItem from "./ListItem.vue";
 
-const {} = defineProps({
+const { list } = defineProps({
   list: Object
 })
 

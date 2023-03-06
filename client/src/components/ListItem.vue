@@ -1,12 +1,12 @@
-<script setup>
+<script setup lang="ts">
 
 import {ref} from "vue";
 
-const { analysisData } = defineProps({
+const {analysisData} = defineProps({
   analysisData: Object
 })
 
-let dialogIsOpen = ref(false)
+let dialogIsOpen = ref<boolean>(false)
 
 </script>
 

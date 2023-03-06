@@ -1,5 +1,5 @@
-<script setup>
-import {computed, ref, watch} from "vue";
+<script setup lang="ts">
+import {ref, watch} from "vue";
 import axios from "axios";
 import {URL} from "./common/url.js";
 import {Translate} from "./common/translate.js";
@@ -14,7 +14,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const list = ref(props.modelValue);
+const list = ref<string>(props.modelValue);
 
 watch(list, (newValue) => {
   emit('update:modelValue', newValue);
@@ -63,7 +63,9 @@ const getResponse = async () => {
 
 <style scoped>
 .input {
-  @apply shadow appearance-none border rounded w-9/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none h-10 rounded-xl mr-2;
+  @apply shadow appearance-none border rounded w-9/12 py-2 px-3
+         text-gray-700 leading-tight focus:outline-none
+         h-10 rounded-xl mr-2;
   font-family: 'Comfortaa', cursive;
 }
 

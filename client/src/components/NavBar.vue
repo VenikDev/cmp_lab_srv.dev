@@ -6,13 +6,13 @@ import {Translate} from "./common/translate.js";
 
 <template>
   <div class="nav_bar">
+    <div class="name_firm">
+      ZдравRU
+    </div>
     <div>
       <button class="select_city_btn">
         {{ Translate("default_city") }}
       </button>
-    </div>
-    <div class="name_firm">
-      <b class="text-red-600">Z</b>драв<b class="text-red-600">RU</b>
     </div>
   </div>
 </template>
@@ -26,12 +26,13 @@ import {Translate} from "./common/translate.js";
 }
 
 .name_firm {
-  @apply text-right text-white text-3xl grow pl-2;
+  @apply text-left text-white text-3xl grow pl-2;
   font-family: 'Comfortaa', cursive;
 }
 
 .nav_bar {
-  @apply flex my-3 shadow-md p-4 bg-ChineseViolet rounded-xl;
+  @apply flex my-3 shadow-md p-4 bg-red-500 rounded-xl
+         shadow-xl shadow-red-300 hover:shadow-none duration-300;
 }
 
 </style>

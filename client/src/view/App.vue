@@ -42,7 +42,7 @@ let listAnalyses = ref({})
 }
 
 .container_border {
-  @apply my-6 shadow-md p-4 border-2 p-4 border-ChineseViolet rounded-xl;
+  @apply my-6 shadow-md p-4 border-2 p-4 border-red-500 rounded-xl;
 }
 
 .font_and_color {
