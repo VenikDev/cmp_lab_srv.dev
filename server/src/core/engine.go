@@ -2,15 +2,15 @@ package core
 
 import (
 	"comparisonLaboratories/src/clog"
+	"comparisonLaboratories/src/global"
 	"comparisonLaboratories/src/herr"
-	"comparisonLaboratories/src/model"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"net/http"
 )
 
-func CreateURLFrom(key string, lab model.Laboratory) string {
-	return fmt.Sprintf("%s?%s=%s", lab.GetUrl(), lab.GetParamForFind(), key)
+func CreateURLFrom(key string, lab global.Laboratory) string {
+	return fmt.Sprintf("%s%s?%s=%s", lab.GetUrl(), "/search", lab.GetParamForFind(), key)
 }
 
 func GetHtmlFrom(url string) *goquery.Document {

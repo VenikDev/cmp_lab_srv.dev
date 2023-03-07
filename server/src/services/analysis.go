@@ -3,6 +3,7 @@ package services
 import (
 	"comparisonLaboratories/src/clog"
 	"comparisonLaboratories/src/core"
+	"comparisonLaboratories/src/global"
 	"comparisonLaboratories/src/model"
 	"errors"
 	"github.com/PuerkitoBio/goquery"
@@ -32,12 +33,12 @@ func GetLaboratoryAnalyses(key string) (model.LabAndListAnalyses, error) {
 // после чего на основании содержимого массива labsAndListTests создаются анализы. После того, как все запросы
 // будут обработаны, выполнится метод Wait, который ожидает, пока не завершатся все задания из директивы Add.
 func fillMapAnalyses(labsAndListTests model.LabAndListAnalyses, key string) {
-	sizeLabs := len(core.Laboratories)
+	sizeLabs := len(global.Laboratories)
 
 	documentChannel := make(chan resultDocument, sizeLabs)
 	defer close(documentChannel)
 
-	for _, lab := range core.Laboratories {
+	for _, lab := range global.Laboratories {
 		url := core.CreateURLFrom(key, lab)
 		clog.Logger.Info("fillMapAnalyses: ", "Send request", url)
 

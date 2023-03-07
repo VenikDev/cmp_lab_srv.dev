@@ -1,15 +1,14 @@
-<script setup>
+<script setup lang="ts">
 
-import {ref} from "vue";
+import { onMounted, ref } from "vue";
 
-const { analysisData } = defineProps({
+const {analysisData} = defineProps({
   analysisData: Object
 })
 
-let dialogIsOpen = ref(false)
+let dialogIsOpen = ref<boolean>(false)
 
 </script>
-
 
 <template>
   <div
@@ -17,7 +16,17 @@ let dialogIsOpen = ref(false)
       @click="dialogIsOpen = !dialogIsOpen"
   >
     <div class="title">
-      <b> {{ analysisData.name }} </b>
+      <b>
+        <a
+          :href="analysisData.original_url"
+          target="_blank"
+        >
+          {{ analysisData.name }}
+        </a>
+      </b>
+    </div>
+    <div class="description">
+      {{ analysisData.description }}
     </div>
     <div class="price">
       Цена: <b> {{ analysisData.price }} </b> рублей
@@ -42,6 +51,10 @@ let dialogIsOpen = ref(false)
 
 .price {
   @apply text-black text-xl text-right
+}
+
+.description {
+  @apply text-black
 }
 
 </style>

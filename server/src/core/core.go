@@ -1,7 +1,7 @@
 package core
 
 import (
-	"comparisonLaboratories/src/model"
+	"comparisonLaboratories/src/global"
 	"comparisonLaboratories/src/services/parse"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -9,8 +9,7 @@ import (
 )
 
 var (
-	Server       = gin.Default()
-	Laboratories []model.Laboratory
+	Server = gin.Default()
 )
 
 func CORSMiddleware() gin.HandlerFunc {
@@ -32,7 +31,7 @@ func CORSMiddleware() gin.HandlerFunc {
 
 func InitConfig() {
 	//KeyValuesDict = parse.ParseKeyValues()
-	Laboratories = parse.ParseLabs()
+	global.Laboratories = parse.ParseLabs()
 }
 
 func InitServer(app *gin.Engine) {
