@@ -1,15 +1,19 @@
 package main
 
 import (
+	"comparisonLaboratories/src/clog"
 	"comparisonLaboratories/src/core"
 	"comparisonLaboratories/src/db"
 	"comparisonLaboratories/src/herr"
 	"comparisonLaboratories/src/transport"
 	"github.com/go-pg/pg/v10"
 	"os"
+	"runtime"
 )
 
 func main() {
+	clog.Logger.Info("Runtime", "Number of threads", runtime.GOMAXPROCS(runtime.NumCPU()-1))
+
 	core.InitEnv()
 	core.InitServer(core.Server)
 	core.InitConfig()
