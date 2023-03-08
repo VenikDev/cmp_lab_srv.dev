@@ -21,7 +21,7 @@ func findProfile(str string) bool {
 
 // GetAnalyzesCitilab
 func GetAnalyzesCitilab(document *goquery.Document) ListAnalyses {
-	result := make(ListAnalyses, 0)
+	listAnalysesResult := make(ListAnalyses, 0)
 	re := regexp.MustCompile("[0-9]+")
 
 	// The code uses the GoQuery library to parse a document and search for
@@ -30,7 +30,7 @@ func GetAnalyzesCitilab(document *goquery.Document) ListAnalyses {
 	// If the title is not an existing profile and is not an empty string,
 	// it proceeds to extract additional information such as a link to the analysis, a description, and the price,
 	// which it converts to an integer using the "strconv.Atoi" function. If the price is not empty,
-	// it creates an "Analysis" struct with the extracted information and adds it to the "result" array.
+	// it creates an "Analysis" struct with the extracted information and adds it to the "listAnalysesResult" array.
 	document.Find(".col-md-14 .row").Each(func(i int, selection *goquery.Selection) {
 		// For each item found, get the title
 		h2Tag := selection.Find("h2")
@@ -62,7 +62,7 @@ func GetAnalyzesCitilab(document *goquery.Document) ListAnalyses {
 						return false
 					})
 
-					result = append(result, Analysis{
+					listAnalysesResult = append(listAnalysesResult, Analysis{
 						Name:        title,
 						Price:       totalPrice,
 						Description: description,
@@ -72,5 +72,5 @@ func GetAnalyzesCitilab(document *goquery.Document) ListAnalyses {
 			}
 		}
 	})
-	return result
+	return listAnalysesResult
 }

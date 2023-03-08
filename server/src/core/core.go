@@ -2,6 +2,7 @@ package core
 
 import (
 	"comparisonLaboratories/src/global"
+	"comparisonLaboratories/src/herr"
 	"comparisonLaboratories/src/services/parse"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -46,9 +47,11 @@ func InitServer(app *gin.Engine) {
 	}
 }
 
+// InitEnv
+// This Go function called InitEnv loads environment variables from a .env file using the godotenv package.
+// If an error occurs during this process,
+// it uses errorHandler (herr) package to handle the error and terminate the program.
 func InitEnv() {
 	err := godotenv.Load()
-	if err != nil {
-		panic("Error loading .env file")
-	}
+	herr.HandlerFatal(err, "Error loading .env file")
 }
