@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import classes from './App.module.css'
-import {CButton} from '../component/ui/button/button'
-import {CInput} from "../component/ui/input/input";
+import {CButton} from '../ui/button/button'
+import {CInput} from "../ui/input/input";
 
 function App() {
 
