@@ -1,0 +1,3 @@
+.btn_component {
+   @apply p-4 bg-violet-700 text-white
+}
