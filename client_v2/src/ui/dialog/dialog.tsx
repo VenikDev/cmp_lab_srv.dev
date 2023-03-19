@@ -5,7 +5,7 @@ interface IDialog {
   id?: string
   open: boolean
   callbackClose: (value: boolean) => void
-  children: any
+  children: React.ReactNode
 }
 
 function Dialog(props: IDialog) {

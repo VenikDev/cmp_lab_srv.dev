@@ -32,3 +32,7 @@ func GetListAnalyses(context *gin.Context) {
 func GetLabs(context *gin.Context) {
 	context.IndentedJSON(http.StatusOK, global.Laboratories)
 }
+
+func GetLabsNames(context *gin.Context) {
+	context.IndentedJSON(http.StatusOK, services.GetNameLaboratories())
+}

@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import {IInputProps} from "./models";
 
-export function CInput(props: IInputProps) {
+function CInput(props: IInputProps) {
   const [value, setValue] = useState<string>("")
 
   // This code declares a constant `onInput` that is a function that takes an event of type
@@ -16,9 +16,12 @@ export function CInput(props: IInputProps) {
 
   return (
     <input
+      className="w-full p-2 border-red-500 border-2 rounded-md mt-3"
       placeholder={props.placeholder}
       value={value}
       onInput={onInput}
     />
   );
 }
+
+export default CInput

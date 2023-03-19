@@ -13,6 +13,7 @@ import (
 
 func main() {
 	clog.Logger.Info("Runtime", "Number of threads", runtime.GOMAXPROCS(runtime.NumCPU()-1))
+	clog.Logger.Info("Runtime", "OS", runtime.GOOS, "Arch", runtime.GOARCH)
 
 	core.InitEnv()
 	core.InitServer(core.Server)

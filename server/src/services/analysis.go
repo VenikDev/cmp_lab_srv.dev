@@ -84,3 +84,16 @@ func fillMapAnalyses(labsAndListTests model.LabAndListAnalyses, key string) {
 
 	wg.Wait()
 }
+
+// GetNameLaboratories
+// This function named "GetNameLaboratories" creates a new string slice of length 3, and then appends the names of all
+// the laboratories from a global variable named "global.Laboratories" to that slice. Finally, the function returns
+// the resulting string slice.
+func GetNameLaboratories() []string {
+	slice := make([]string, 3)
+	for idx, lab := range global.Laboratories {
+		slice[idx] = lab.Name
+	}
+
+	return slice
+}

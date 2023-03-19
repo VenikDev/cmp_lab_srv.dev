@@ -39,7 +39,7 @@ func InitServer(app *gin.Engine) {
 	app.Use(gin.Logger())
 	app.Use(CORSMiddleware())
 	app.StaticFS("/assets", http.Dir("../client/dist/assets"))
-	app.LoadHTMLGlob("../client/dist/*.html")
+	//app.LoadHTMLGlob("../client/dist/*.html")
 
 	err := app.SetTrustedProxies([]string{"192.168.1.2"})
 	if err != nil {
