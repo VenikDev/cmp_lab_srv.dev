@@ -4,4 +4,5 @@ export interface IButtonProps {
     placeholder?: string
     children?: ReactNode
     disabled?: boolean
+    className?: string
 }

@@ -1,3 +1,15 @@
-.nav-bar {
-    @apply w-full
+nav {
+    @apply bg-red-500 border rounded-md p-5;
+}
+
+ul {
+    @apply m-0 p-0 flex;
+}
+
+a {
+    @apply block decoration-0 ml-5;
+}
+
+a:hover {
+    @apply text-white;
 }

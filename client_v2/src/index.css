@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.comfortaa {
+    font-family: 'Comfortaa', cursive;
+}
+
+.m_plus_rounded {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}

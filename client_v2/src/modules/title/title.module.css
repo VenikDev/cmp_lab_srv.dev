@@ -1,0 +1,3 @@
+h2 {
+    @apply block font-bold text-3xl uppercase;
+}
