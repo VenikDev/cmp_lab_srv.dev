@@ -1,3 +1,7 @@
-h2 {
-    @apply block font-bold text-3xl uppercase;
+.title {
+    @apply block content-center font-bold text-3xl uppercase my-2;
+}
+
+.title_with_bg {
+    @apply bg-red-500 text-white inline-block p-2 rounded-md ml-10;
 }

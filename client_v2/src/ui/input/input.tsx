@@ -3,6 +3,7 @@ import React, {
   ChangeEvent
 } from 'react';
 import {IInputProps} from "./models";
+import classes from "./input.module.css"
 
 function CInput(props: IInputProps) {
   const [value, setValue] = useState<string>("")
@@ -16,7 +17,7 @@ function CInput(props: IInputProps) {
 
   return (
     <input
-      className="w-full p-2 border-red-500 border-2 rounded-md mt-3"
+      className={classes.input_field}
       placeholder={props.placeholder}
       value={value}
       onInput={onInput}

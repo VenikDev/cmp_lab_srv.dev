@@ -2,11 +2,12 @@ import React, {useEffect, useState} from 'react';
 import CDescription from "../../ui/description/description";
 import Dialog from "../../ui/dialog/dialog";
 import CInput from "../../ui/input/input";
-import {TfiClose} from "react-icons/all";
+import {AiOutlineSearch, TfiClose} from "react-icons/all";
 import ky from "ky";
 import {HOST_V1, TypeRequest} from "../config/variables";
 import CCheckPoint from "../../ui/radio-btn/radio-btn";
 import CAlertError from "../../ui/alerts/error/alert-error";
+import CRB from "../../ui/text/bold-red";
 
 function SearchBlock() {
   // Для открытия/закрытия диалогового окна
@@ -60,7 +61,7 @@ function SearchBlock() {
         />
         {/* Описание */}
         <CDescription>
-          Введите <b>ключевое слово</b>, по которому нужно найти интерсующий анализ
+          Введите <CRB>ключевое слово</CRB>, по которому нужно найти интерсующий анализ
         </CDescription>
         {/* Выбор лабораторий */}
         <div className="ml-2">
@@ -83,13 +84,14 @@ function SearchBlock() {
           }
         </div>
         <CDescription>
-          Выберите на <b>лаборатории</b>, которые вас интересуют
+          Выберите на <CRB>лаборатории</CRB>, которые вас интересуют
         </CDescription>
         {/* Отправка запроса для поиска по клоючевому слову */}
         <button
           onClick={() => sendReq()}
-          className="mx-auto mt-2 bg-red-500 text-white p-2 rounded-md block px-5"
+          className="mx-auto mt-2 bg-red-500 text-white p-2 rounded-md block px-5 flex"
         >
+          <AiOutlineSearch className="w-5 h-5 mr-2 my-auto"/>
           Найти
         </button>
       </Dialog>

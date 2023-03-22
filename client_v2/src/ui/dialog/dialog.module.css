@@ -1,5 +1,5 @@
 .dialog_model {
-    @apply w-full drop-shadow-2xl rounded-md;
+    @apply w-full drop-shadow-2xl rounded-md max-w-[500px];
 }
 
 .bg {

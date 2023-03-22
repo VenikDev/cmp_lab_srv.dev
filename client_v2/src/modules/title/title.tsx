@@ -1,18 +1,18 @@
 import React from 'react';
-import './title.module.css'
+import classes from './title.module.css'
 
 function Title() {
   return (
     <div className="mx-5">
-      <h2>
+      <div className={classes.title}>
         Инвестируй
-      </h2>
-      <h2 className="ml-5">
+      </div>
+      <div className={classes.title + " " + classes.title_with_bg}>
         в свое
-      </h2>
-      <h2>
+      </div>
+      <div className={classes.title}>
         устройство
-      </h2>
+      </div>
     </div>
   );
 }

@@ -90,7 +90,7 @@ func fillMapAnalyses(labsAndListTests model.LabAndListAnalyses, key string) {
 // the laboratories from a global variable named "global.Laboratories" to that slice. Finally, the function returns
 // the resulting string slice.
 func GetNameLaboratories() []string {
-	slice := make([]string, 3)
+	slice := make([]string, len(global.Laboratories))
 	for idx, lab := range global.Laboratories {
 		slice[idx] = lab.Name
 	}
