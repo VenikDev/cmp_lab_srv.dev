@@ -1,0 +1,5 @@
+package city
+
+func ParseCities() {
+
+}

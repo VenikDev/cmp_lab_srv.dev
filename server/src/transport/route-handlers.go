@@ -36,3 +36,13 @@ func GetLabs(context *gin.Context) {
 func GetLabsNames(context *gin.Context) {
 	context.IndentedJSON(http.StatusOK, services.GetNameLaboratories())
 }
+
+// GetDefaultCity
+// TODO for now default "Нижний Тагил"
+func GetDefaultCity(context *gin.Context) {
+	context.IndentedJSON(http.StatusOK, "Нижний Тагил")
+}
+
+func GetListCities(context *gin.Context) {
+
+}

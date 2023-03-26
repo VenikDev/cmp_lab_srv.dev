@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import classes from './style.module.css';
 import Dialog from "../../ui/dialog/dialog";
+import CRB from "../../ui/text/bold-red";
+import CDescription from "../../ui/description/description";
 import CInput from "../../ui/input/input";
 
 function NavBar() {
@@ -34,10 +36,19 @@ function NavBar() {
         open={stateDialog}
         callbackClose={setStateDialog}
         title="Выбрать город"
-        className="max-h-24"
       >
         <div>
+          <CInput
+            value={city}
+            placeholder="Введите название города"
+            disabled={false}
+          />
+          <CDescription>
+            Выберите <CRB>город</CRB>, в котором нужно искать анализы
+          </CDescription>
+          <div>
 
+          </div>
         </div>
       </Dialog>
     </>
