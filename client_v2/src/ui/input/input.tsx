@@ -21,7 +21,7 @@ function CInput(props: IInputProps) {
       placeholder={props.placeholder}
       value={value}
       onInput={onInput}
-      disabled={props.disabled ? props.disabled : true}
+      disabled={props.disabled ? props.disabled : false}
     />
   );
 }

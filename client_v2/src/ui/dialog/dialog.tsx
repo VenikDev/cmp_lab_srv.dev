@@ -1,15 +1,9 @@
 import React from 'react';
 import classes from './dialog.module.css'
 import {TfiClose} from "react-icons/all";
+import {IDialog} from "./model";
 
-interface IDialog {
-  id?: string
-  open: boolean
-  callbackClose: (value: boolean) => void
-  children: React.ReactNode
-  title?: string
-  className?: string
-}
+
 
 function Dialog(props: IDialog) {
   return (
@@ -23,12 +17,16 @@ function Dialog(props: IDialog) {
           <h1 className="block font-bold grow">
             { props.title }
           </h1>
-          <button
-            className="cursor-pointer"
-            onClick={() => props.callbackClose(false)}
-          >
-            <TfiClose/>
-          </button>
+          {
+            props.canBeClosed && props.callbackClose != undefined ?
+              <button
+                className="cursor-pointer"
+                onClick={() => props.callbackClose(false)}
+              >
+                <TfiClose/>
+              </button>
+            : ""
+          }
         </div>
         <hr className="my-2"/>
         {props.children}

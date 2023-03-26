@@ -9,11 +9,13 @@ import CCheckBox from "../../ui/radio-btn/radio-btn";
 import CAlertError from "../../ui/alerts/error/alert-error";
 import CRB from "../../ui/text/bold-red";
 import {Key} from "../../common/keys";
+import {useAnalysis} from "../../stores/analysis-store";
 
 function SearchBlock() {
   // Для открытия/закрытия диалогового окна
   const [visibleDialog, setVisibleDialog] = useState(false)
   const [labs, setLabs] = useState<string[]>()
+  const analysisStore = useAnalysis()
 
   // get names of labs
   useEffect(() => {
@@ -32,10 +34,12 @@ function SearchBlock() {
   // when sending a request
   const sendReq = async () => {
     setVisibleDialog(false)
+
+    analysisStore.changeStateLoading()
   }
 
   // listen "Esc" button
-  const escFunction = (event: any) => {
+  const keyTest = async (event: any) => {
     switch (event.key) {
       case Key.ESCAPE: {
         setVisibleDialog(false)
@@ -43,18 +47,20 @@ function SearchBlock() {
       }
       case Key.ENTER: {
         setVisibleDialog(false)
+        await sendReq()
+
         break
       }
     }
   };
 
   useEffect(() => {
-    document.addEventListener("keydown", escFunction, false);
+    document.addEventListener("keydown", keyTest, false);
 
     return () => {
-      document.removeEventListener("keydown", escFunction, false);
+      document.removeEventListener("keydown", keyTest, false);
     };
-  }, [escFunction]);
+  }, [keyTest]);
 
   // create component
   return (
