@@ -68,19 +68,8 @@ function SearchBlock() {
       <Dialog
         open={visibleDialog}
         callbackClose={setVisibleDialog}
+        title="Поиск"
       >
-        <div className="flex justify-around">
-          <h1 className="block font-bold grow">
-            Поиск
-          </h1>
-          <button
-            className="cursor-pointer"
-            onClick={() => setVisibleDialog(false)}
-          >
-            <TfiClose/>
-          </button>
-        </div>
-        <hr className="my-2"/>
         {/* Для воода ключевого слова */}
         <CInput
           placeholder="Поиск анализа"

@@ -1,11 +1,14 @@
 import React from 'react';
 import classes from './dialog.module.css'
+import {TfiClose} from "react-icons/all";
 
 interface IDialog {
   id?: string
   open: boolean
   callbackClose: (value: boolean) => void
   children: React.ReactNode
+  title?: string
+  className?: string
 }
 
 function Dialog(props: IDialog) {
@@ -14,8 +17,20 @@ function Dialog(props: IDialog) {
       <dialog
         open={props.open}
         id={props.id}
-        className={classes.dialog_model}
+        className={`${classes.dialog_model} ${props.className}`}
       >
+        <div className="flex justify-around">
+          <h1 className="block font-bold grow">
+            { props.title }
+          </h1>
+          <button
+            className="cursor-pointer"
+            onClick={() => props.callbackClose(false)}
+          >
+            <TfiClose/>
+          </button>
+        </div>
+        <hr className="my-2"/>
         {props.children}
       </dialog>
     </div>
