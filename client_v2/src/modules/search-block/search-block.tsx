@@ -5,15 +5,17 @@ import CInput from "../../ui/input/input";
 import {AiOutlineSearch, TfiClose} from "react-icons/all";
 import ky from "ky";
 import {HOST_V1, TypeRequest} from "../config/variables";
-import CCheckPoint from "../../ui/radio-btn/radio-btn";
+import CCheckBox from "../../ui/radio-btn/radio-btn";
 import CAlertError from "../../ui/alerts/error/alert-error";
 import CRB from "../../ui/text/bold-red";
+import {Key} from "../../common/keys";
 
 function SearchBlock() {
   // Для открытия/закрытия диалогового окна
   const [visibleDialog, setVisibleDialog] = useState(false)
   const [labs, setLabs] = useState<string[]>()
 
+  // get names of labs
   useEffect(() => {
     const getLabs = async () => {
       const options = {
@@ -27,10 +29,34 @@ function SearchBlock() {
     getLabs()
   }, [])
 
+  // when sending a request
   const sendReq = async () => {
     setVisibleDialog(false)
   }
 
+  // listen "Esc" button
+  const escFunction = (event: any) => {
+    switch (event.key) {
+      case Key.ESCAPE: {
+        setVisibleDialog(false)
+        break
+      }
+      case Key.ENTER: {
+        setVisibleDialog(false)
+        break
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, [escFunction]);
+
+  // create component
   return (
     <>
       <button
@@ -66,10 +92,10 @@ function SearchBlock() {
         {/* Выбор лабораторий */}
         <div className="ml-2">
           {
-            labs != undefined && labs.length != 0 ?
+            labs && labs.length != 0 ?
               labs?.map((lab, idx) =>
                 <>
-                  <CCheckPoint
+                  <CCheckBox
                     key={idx}
                     value={lab}
                     id={`${lab}-${idx}`}
@@ -84,7 +110,7 @@ function SearchBlock() {
           }
         </div>
         <CDescription>
-          Выберите на <CRB>лаборатории</CRB>, которые вас интересуют
+          Выберите <CRB>лаборатории</CRB>, которые вас интересуют
         </CDescription>
         {/* Отправка запроса для поиска по клоючевому слову */}
         <button

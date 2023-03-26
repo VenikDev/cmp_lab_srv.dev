@@ -7,7 +7,7 @@ interface ICheckPoint {
   label: string
 }
 
-function CCheckPoint(props: ICheckPoint) {
+function CCheckBox(props: ICheckPoint) {
   return (
     <div className="block my-1">
       <input
@@ -16,6 +16,7 @@ function CCheckPoint(props: ICheckPoint) {
         id={props.id}
         name={props.name}
         value={props.value}
+        // checked={true}
       />
       <label
         className="ml-2"
@@ -27,4 +28,4 @@ function CCheckPoint(props: ICheckPoint) {
   );
 }
 
-export default CCheckPoint;
+export default CCheckBox;
