@@ -1,6 +1,6 @@
 import React from 'react';
-import {useAnalysis} from './store'
-import CAlertError from "../../ui/alerts/error/alert-error";
+import {useAnalysis} from '../../stores/analysis-store'
+import CInfoAlert from "../../ui/alerts/info/info-alert";
 
 interface ICarousel {
 
@@ -15,11 +15,11 @@ function Carousel(props: ICarousel) {
   return (
     <>
       { !analysisIsLoading ?
-        <CAlertError
-          className="mt-10"
+        <CInfoAlert
+          className="mt-10 max-w-2xl p-5 mx-auto"
         >
           Пока здесь ничего нет
-        </CAlertError> : ""
+        </CInfoAlert> : ""
       }
     </>
   );
