@@ -15,10 +15,13 @@ func GetIndexHtml(context *gin.Context) {
 
 func GetListAnalyses(context *gin.Context) {
 	key := context.Query("key")
+	city := context.Query("city")
+
 	strings.Trim(key, " ")
 	clog.Logger.Info("InitRouters", "key word", key)
+	clog.Logger.Info("InitRouters", "city", city)
 
-	if key != "" {
+	if key != "" || city != "" {
 		result, err := services.GetLaboratoryAnalyses(key)
 		if err == nil {
 			context.IndentedJSON(http.StatusOK, result)

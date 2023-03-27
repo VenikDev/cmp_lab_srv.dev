@@ -33,8 +33,10 @@ function SearchBlock() {
 
   // when sending a request
   const sendReq = async () => {
+    // hide dialog with input field
     setVisibleDialog(false)
 
+    // show loader
     analysisStore.changeStateLoading()
   }
 

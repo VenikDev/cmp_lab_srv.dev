@@ -1,5 +1,7 @@
 export interface IAnalysis {
-
+  name: string
+  description: string
+  price: number
 }
 
 export interface IListAnalysis {
@@ -12,4 +14,5 @@ export interface IListAnalysis {
 export interface IFavoriteAnalysis {
   list: IAnalysis[]
   length: number
+  addToFavorite: (analysis: IAnalysis) => void
 }
