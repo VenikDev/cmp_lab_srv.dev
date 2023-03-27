@@ -18,6 +18,9 @@ function App() {
 
           {/* about */}
           <Route path="/about"/>
+
+          {/* favorite */}
+          <Route path="/favorite"/>
         </Routes>
         <Footer/>
         <PageLoading/>

@@ -38,7 +38,7 @@ function PageLoading() {
         <div
           className="mt-4"
         >
-          <CRB>Ждем ответа {dots}</CRB>
+          <CRB>Ждем ответа{dots}</CRB>
         </div>
       </Dialog>
     </>

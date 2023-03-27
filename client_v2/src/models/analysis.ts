@@ -10,5 +10,6 @@ export interface IListAnalysis {
 }
 
 export interface IFavoriteAnalysis {
-
+  list: IAnalysis[]
+  length: number
 }

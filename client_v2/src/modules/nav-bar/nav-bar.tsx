@@ -5,6 +5,7 @@ import CRB from "../../ui/text/bold-red";
 import CDescription from "../../ui/description/description";
 import CInput from "../../ui/input/input";
 import {MdFavoriteBorder} from "react-icons/all";
+import {Link} from "react-router-dom";
 
 function NavBar() {
   const [city, setCity] = useState("Нижний Тагил")
@@ -29,16 +30,19 @@ function NavBar() {
                 onClick={() => openCloseDialog()}
                 className={classes.btn_select_city}
               >
-                { city }
+                {city}
               </button>
               {/* open page fot visible selected analysis */}
-              <button
-                className={classes.btn_selected}
-              >
-                <MdFavoriteBorder
-                  className="w-5 h-5"
-                />
-              </button>
+              <Link to="/favorite">
+                <button
+                  className={classes.btn_selected}
+                >
+                  Изб
+                  <MdFavoriteBorder
+                    className="w-5 h-5 ml-1"
+                  />
+                </button>
+              </Link>
             </div>
           </li>
         </ul>
