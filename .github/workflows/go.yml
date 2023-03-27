@@ -24,7 +24,7 @@ jobs:
 
     # install dependencies
     - name: Install dependencies
-      run: cd ./server && go get .
+      run: cd ./server && go get -u -v ./...
 
     # test build
     - name: Build
