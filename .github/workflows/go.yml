@@ -1,7 +1,4 @@
-# This workflow will build a golang project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
-
-name: Go
+name: Golang
 
 on:
   push:
@@ -24,12 +21,12 @@ jobs:
 
     # install dependencies
     - name: Install dependencies
-      run: cd ./server && go get -u -v ./...
+      run: cd ./server && go get -u -v .
 
     # test build
     - name: Build
-      run: cd ./server && go build -v ./...
+      run: cd ./server && go build -v .
 
     # run unit tests
     - name: Test
-      run: cd ./server && go test -v ./...
+      run: cd ./server && go test -v .
