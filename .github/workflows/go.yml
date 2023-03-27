@@ -23,7 +23,7 @@ jobs:
         go-version: 1.19
 
     - name: Go to server folder
-      run: cd server
+      run: cd ./server
 
     - name: Get current path
       run: pwd
