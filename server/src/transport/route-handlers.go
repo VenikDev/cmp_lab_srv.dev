@@ -40,9 +40,14 @@ func GetLabsNames(context *gin.Context) {
 // GetDefaultCity
 // TODO for now default "Нижний Тагил"
 func GetDefaultCity(context *gin.Context) {
+	clog.Logger.Info("get default city")
 	context.IndentedJSON(http.StatusOK, "Нижний Тагил")
 }
 
+// GetListCities
+// TODO change on regis in future
 func GetListCities(context *gin.Context) {
+	clog.Logger.Info("get list of cities")
+	context.IndentedJSON(http.StatusOK, global.Cities)
 
 }

@@ -4,7 +4,7 @@ import Dialog from "../../ui/dialog/dialog";
 import CInput from "../../ui/input/input";
 import {AiOutlineSearch, TfiClose} from "react-icons/all";
 import ky from "ky";
-import {HOST_V1, TypeRequest} from "../config/variables";
+import {HOST_V1, TypeRequest} from "../../common/net";
 import CCheckBox from "../../ui/radio-btn/radio-btn";
 import CAlertError from "../../ui/alerts/error/alert-error";
 import CRB from "../../ui/text/bold-red";

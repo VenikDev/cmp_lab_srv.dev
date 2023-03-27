@@ -1,5 +1,7 @@
 package global
 
+import "comparisonLaboratories/src/model/city"
+
 type Laboratory struct {
 	// Название
 	Name string `json:"name"`
@@ -23,4 +25,5 @@ func (lab *Laboratory) GetParamForFind() string {
 
 var (
 	Laboratories []Laboratory
+	Cities       []city.City
 )
