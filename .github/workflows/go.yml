@@ -22,17 +22,20 @@ jobs:
       with:
         go-version: 1.19
 
-    - name: Go to server folder
-      run: cd ./server
-
-    - name: Get current path
-      run: pwd
-
+    # install dependencies
     - name: Install dependencies
+      with:
+        path: ./server
       run: go get .
 
+    # test build
     - name: Build
+      with:
+        path: ./server
       run: go build -v ./...
 
+    # run unit tests
     - name: Test
+      with:
+        path: ./server
       run: go test -v ./...
