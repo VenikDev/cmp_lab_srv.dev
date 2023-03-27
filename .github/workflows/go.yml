@@ -25,6 +25,7 @@ jobs:
     - name: go to folder server
       with:
         path: ./server
+        run: cd ./server
 
     # install dependencies
     - name: Install dependencies
