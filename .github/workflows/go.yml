@@ -22,14 +22,18 @@ jobs:
       with:
         go-version: 1.19
 
+    - name: go to folder server
+      with:
+        path: ./server
+
     # install dependencies
     - name: Install dependencies
-      run: cd ./server && go get -u -v ./...
+      run: go get -u -v ./...
 
     # test build
     - name: Build
-      run: cd ./server && go build -v ./...
+      run: go build -v ./...
 
     # run unit tests
     - name: Test
-      run: cd ./server && go test -v ./...
+      run: go test -v ./...
