@@ -1,32 +1,33 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Dialog from "../../ui/dialog/dialog";
 import {useAnalysis} from "../../stores/analysis-store";
 import waitingGif from "../../assets/waiting.gif"
+import CRB from "../../ui/text/bold-red";
 
 function PageLoading() {
   const analysisStore = useAnalysis()
   const [dots, setDots] = useState("")
-  const timeout = 2000
+  const timeout = 1000
 
-  useEffect(() => {
-    setInterval(() => {
-      if (!analysisStore.isLoading) {
-        return
-      }
-      if (dots.length > 5) {
-        setDots("")
-        return
-      }
+  setInterval(() => {
+    if (!analysisStore.isLoading) {
+      return
+    }
 
-      setDots(dots + ".")
-    }, timeout)
-  }, [])
+    if (dots.length > 5) {
+      setDots("")
+      return
+    }
+
+    setDots(dots + ".")
+  }, timeout)
 
   return (
     <>
       <Dialog
         open={analysisStore.isLoading}
         title="Отправляем запрос на сервер"
+        canBeClosed={false}
       >
         <img
           width="640"
@@ -37,7 +38,7 @@ function PageLoading() {
         <div
           className="mt-4"
         >
-          Ждем ответа {dots}
+          <CRB>Ждем ответа {dots}</CRB>
         </div>
       </Dialog>
     </>

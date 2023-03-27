@@ -3,8 +3,6 @@ import classes from './dialog.module.css'
 import {TfiClose} from "react-icons/all";
 import {IDialog} from "./model";
 
-
-
 function Dialog(props: IDialog) {
   return (
     <div className={props.open ? classes.bg : ""}>
@@ -18,7 +16,7 @@ function Dialog(props: IDialog) {
             { props.title }
           </h1>
           {
-            props.canBeClosed && props.callbackClose != undefined ?
+            props.canBeClosed || props.canBeClosed == undefined ?
               <button
                 className="cursor-pointer"
                 onClick={() => props.callbackClose(false)}

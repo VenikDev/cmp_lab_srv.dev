@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface IBoldRed {
-  children: string
+  children: React.ReactNode
 }
 
 function CBoldRed(props: IBoldRed) {
