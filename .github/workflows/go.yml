@@ -33,7 +33,7 @@ jobs:
 
     # test build
     - name: Build
-      working-directory: ./server
+      working-directory: ./server/src
       run: |
         go build -v ./...
 
