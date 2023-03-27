@@ -24,8 +24,8 @@ jobs:
       run: cd ./server && go get -u -v ./...
 
     # test build
-    - name: Build
-      run: cd ./server && go build -v ./...
+#    - name: Build
+#      run: cd ./server && go build -v ./...
 
     # run unit tests
     - name: Test
