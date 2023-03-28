@@ -3,6 +3,7 @@ package transport
 import (
 	"comparisonLaboratories/src/clog"
 	"comparisonLaboratories/src/global"
+	"comparisonLaboratories/src/redis"
 	"comparisonLaboratories/src/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -22,6 +23,10 @@ func GetListAnalyses(context *gin.Context) {
 	clog.Logger.Info("InitRouters", "city", city)
 
 	if key != "" || city != "" {
+		err := redis.AddKeyToRedis(key)
+		if err != nil {
+			clog.Logger.Error("GetListAnalyses", "Couldn't save", key)
+		}
 		result, err := services.GetLaboratoryAnalyses(key)
 		if err == nil {
 			context.IndentedJSON(http.StatusOK, result)
@@ -52,5 +57,12 @@ func GetDefaultCity(context *gin.Context) {
 func GetListCities(context *gin.Context) {
 	clog.Logger.Info("get list of cities")
 	context.IndentedJSON(http.StatusOK, global.Cities)
+}
 
+func GetFavorite(context *gin.Context) {
+	favorite, err := redis.GetFavorite()
+	if err != nil {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"error": err})
+	}
+	context.IndentedJSON(http.StatusOK, favorite)
 }

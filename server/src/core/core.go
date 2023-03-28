@@ -33,7 +33,6 @@ func CORSMiddleware() gin.HandlerFunc {
 }
 
 func InitConfig() {
-	//KeyValuesDict = parse.ParseKeyValues()
 	global.Laboratories = labs.ParseLabs()
 
 	var err error

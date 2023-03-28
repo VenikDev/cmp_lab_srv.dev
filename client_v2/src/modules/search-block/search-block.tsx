@@ -3,13 +3,12 @@ import CDescription from "../../ui/description/description";
 import Dialog from "../../ui/dialog/dialog";
 import CInput from "../../ui/input/input";
 import {AiOutlineSearch, TfiClose} from "react-icons/all";
-import ky from "ky";
-import {HOST_V1, TypeRequest} from "../../common/net";
 import CCheckBox from "../../ui/radio-btn/radio-btn";
 import CAlertError from "../../ui/alerts/error/alert-error";
 import CRB from "../../ui/text/bold-red";
 import {Key} from "../../common/keys";
 import {useAnalysis} from "../../stores/analysis-store";
+import {api} from "../../net/ky";
 
 function SearchBlock() {
   // Для открытия/закрытия диалогового окна
@@ -20,10 +19,7 @@ function SearchBlock() {
   // get names of labs
   useEffect(() => {
     const getLabs = async () => {
-      const options = {
-        method: TypeRequest.GET,
-      };
-      await ky(`${HOST_V1}get_names_labs`, options)
+      await api(`/get_names_labs`)
         .json<string[]>().then(value => {
           setLabs(value)
         });
