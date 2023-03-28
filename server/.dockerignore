@@ -2,3 +2,5 @@
 ./requests
 .env.example
 .gitignore
+Dockerfile
+.idea
