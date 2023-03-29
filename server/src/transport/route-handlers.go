@@ -23,7 +23,8 @@ func GetListAnalyses(context *gin.Context) {
 	clog.Logger.Info("InitRouters", "city", city)
 
 	if key != "" || city != "" {
-		err := redis.AddKeyToRedis(key)
+		// add to redis for statistics
+		err := redis.AddToPopular(key)
 		if err != nil {
 			clog.Logger.Error("GetListAnalyses", "Couldn't save", key)
 		}
@@ -59,7 +60,7 @@ func GetListCities(context *gin.Context) {
 	context.IndentedJSON(http.StatusOK, global.Cities)
 }
 
-func GetFavorite(context *gin.Context) {
+func GetPopular(context *gin.Context) {
 	favorite, err := redis.GetFavorite()
 	if err != nil {
 		context.IndentedJSON(http.StatusNotFound, gin.H{"error": err})

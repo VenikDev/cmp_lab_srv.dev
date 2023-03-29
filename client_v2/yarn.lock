@@ -210,6 +210,11 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@brainhubeu/react-carousel@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@brainhubeu/react-carousel/-/react-carousel-2.0.4.tgz#9b3d3e9699fca1617530e4cd242d6ef99a671917"
+  integrity sha512-FeN4IL0xg2Ld2YC7zk2asnIbECfsaV9ryiHE3KaDRy3VRPKhAdwAcsrUR4u0lzFMghzGIwtrnIfMnYjczwjAdg==
+
 "@esbuild/android-arm64@0.16.17":
   version "0.16.17"
   resolved "https://registry.yarnpkg.com/@esbuild/android-arm64/-/android-arm64-0.16.17.tgz#cf91e86df127aa3d141744edafcba0abdc577d23"
@@ -385,6 +390,13 @@
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.4.0.tgz#74935d538e4df8893e47831a7aea362f295bcd39"
   integrity sha512-BJ9SxXux8zAg991UmT8slpwpsd31K1dHHbD3Ba4VzD+liLQ4WAMSxQp2d2ZPRPfN0jN2NPRowcSSoM7lCaF08Q==
+
+"@types/brainhubeu__react-carousel@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@types/brainhubeu__react-carousel/-/brainhubeu__react-carousel-2.0.5.tgz#1ae3ee5b8feab4d92a5cb4a4ee03ed286d6bf3ef"
+  integrity sha512-8YzD/lTSzIwnxUOWzFOjtDyvlvKHp52vqtX5t+YkNsSSg3kQOccJFrOI2mv7HyFA24ALYDakXohdsj/+9hFrQA==
+  dependencies:
+    "@types/react" "*"
 
 "@types/prop-types@*":
   version "15.7.5"

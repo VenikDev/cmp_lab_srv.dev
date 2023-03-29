@@ -8,7 +8,8 @@ import CAlertError from "../../ui/alerts/error/alert-error";
 import CRB from "../../ui/text/bold-red";
 import {Key} from "../../common/keys";
 import {useAnalysis} from "../../stores/analysis-store";
-import {api} from "../../net/ky";
+import ky from "ky";
+import {HOST_V1} from "../../net/consts";
 
 function SearchBlock() {
   // Для открытия/закрытия диалогового окна
@@ -19,7 +20,7 @@ function SearchBlock() {
   // get names of labs
   useEffect(() => {
     const getLabs = async () => {
-      await api(`/get_names_labs`)
+      await ky(HOST_V1+`/get_names_labs`)
         .json<string[]>().then(value => {
           setLabs(value)
         });
@@ -87,7 +88,7 @@ function SearchBlock() {
           {
             labs && labs.length != 0 ?
               labs?.map((lab, idx) =>
-                <>
+                <div key={idx}>
                   <CCheckBox
                     key={idx}
                     value={lab}
@@ -95,7 +96,7 @@ function SearchBlock() {
                     name="labs"
                     label={lab}
                   />
-                </>
+                </div>
               )
               : <CAlertError>
                 Ошибка: не возможно найти список лабораторий

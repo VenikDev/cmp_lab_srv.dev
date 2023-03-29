@@ -6,7 +6,7 @@ interface ICarousel {
 
 }
 
-function Carousel(props: ICarousel) {
+function CCarousel(props: ICarousel) {
   const analysisIsLoading = useAnalysis(state => {
     console.log(state)
     return state.isLoading
@@ -25,4 +25,4 @@ function Carousel(props: ICarousel) {
   );
 }
 
-export default Carousel;
+export default CCarousel;

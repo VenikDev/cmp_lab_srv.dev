@@ -1,5 +1,5 @@
 package redis
 
 const (
-	RKW_FAVORITE = "favorite:"
+	RKW_POPULAR = "popular:"
 )

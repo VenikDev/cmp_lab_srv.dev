@@ -43,12 +43,22 @@ func InitRedis() {
 	}
 }
 
-func AddKeyToRedis(key string) error {
+// AddToPopular
+// This code adds a key-value pair to a Redis database.
+// The key is given as an argument to the function `AddToPopular`. If the key is empty,
+// the function will return an error with the message "key is empty".
+// The edited key is created by adding a prefix `RKW_POPULAR` to the given key. Then,
+// the function checks if the value exists in the Redis database using the `Get` method. If the value does not exist,
+// the function creates a new key-value pair with the given key and a value of 1 that expires after 24 hours.
+// If the value already exists, the function increments the value associated with the key by 1 using a pipeline,
+// and logs the edited key and the new value. Finally,
+// the function returns nil if successful or an error if there was an issue executing the Redis commands.
+func AddToPopular(key string) error {
 	if key == "" {
 		return errors.New("key is empty")
 	}
 
-	editedKey := RKW_FAVORITE + key
+	editedKey := RKW_POPULAR + key
 	// check if value is not exists
 	if valueOfKey := redisClient.Get(ctx, editedKey); valueOfKey.Err() != nil {
 		// save new value in redis on one day
@@ -69,10 +79,18 @@ func AddKeyToRedis(key string) error {
 	return nil
 }
 
+// GetFavorite
+// This code defines a function called `GetFavorite` that returns a slice of `favorite.
+// Favorite` structs and an error. The function scans a Redis database using a wildcard key pattern,
+// iterating over all keys that match the pattern. For each matching key, it retrieves the corresponding value,
+// which is assumed to be an integer count. It then creates a new `favorite.
+// Favorite` struct with the key name as the `Name` field and the count as the `Count` field,
+// and appends it to the result slice. Finally,
+// it returns the result slice and any errors encountered during scanning or parsing.
 func GetFavorite() ([]favorite.Favorite, error) {
 	var result []favorite.Favorite
 	// key for parsing
-	keyWord := RKW_FAVORITE + "*"
+	keyWord := RKW_POPULAR + "*"
 	// get iterator
 	iter := redisClient.Scan(ctx, 0, keyWord, 0).Iterator()
 
