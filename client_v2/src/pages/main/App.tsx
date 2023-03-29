@@ -17,13 +17,22 @@ function App() {
         <NavBar/>
         <Routes>
           {/* main */}
-          <Route path="/" element={ <Home/> }/>
+          <Route
+            path="/"
+            element={ <Home/> }
+          />
 
           {/* about */}
-          <Route path="/about" element={ <About/> }/>
+          <Route
+            path="/about"
+            element={ <About/> }
+          />
 
           {/* favorite */}
-          <Route path="/favorite" element={ <Favorite/> }/>
+          <Route
+            path="/favorite"
+            element={ <Favorite/> }
+          />
         </Routes>
         <Footer/>
         <PageLoading/>

@@ -13,6 +13,7 @@ function Popular() {
 
   useEffect(() => {
     const getPopular = async () => {
+      // get popular analysis from redis
       await ky(HOST_V1+"/get_popular")
         .json<IPopular[]>()
         .then(value => setPopular(value))
