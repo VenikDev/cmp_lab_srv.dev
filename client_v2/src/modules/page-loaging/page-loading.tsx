@@ -6,21 +6,6 @@ import CRB from "../../ui/text/bold-red";
 
 function PageLoading() {
   const analysisStore = useAnalysis()
-  const [dots, setDots] = useState("")
-  const timeout = 1000
-
-  setInterval(() => {
-    if (!analysisStore.isLoading) {
-      return
-    }
-
-    if (dots.length > 5) {
-      setDots("")
-      return
-    }
-
-    setDots(dots + ".")
-  }, timeout)
 
   return (
     <>
@@ -38,7 +23,7 @@ function PageLoading() {
         <div
           className="mt-4"
         >
-          <CRB>Ждем ответа{dots}</CRB>
+          <CRB>Ждем ответа</CRB>
         </div>
       </Dialog>
     </>

@@ -7,6 +7,7 @@ import '@brainhubeu/react-carousel/lib/style.css';
 import classes from "./popular.module.css"
 import CDescription from "../../ui/description/description";
 import CRB from "../../ui/text/bold-red";
+import {getAnalysis} from "../../net/requests";
 
 function Popular() {
   const [popular, setPopular] = useState<IPopular[]>()
@@ -20,7 +21,7 @@ function Popular() {
     }
 
     getPopular()
-  }, [])
+  }, [setPopular])
 
   return (
     <div
@@ -47,6 +48,7 @@ function Popular() {
               {/* name */}
               <div
                 className="text-center"
+                onClick={() => getAnalysis(item.name, "")}
               >
                 <CRB>{ item.name }</CRB>
               </div>

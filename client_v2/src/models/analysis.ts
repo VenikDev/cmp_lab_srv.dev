@@ -1,7 +1,10 @@
+export type LabAndAnalysis = Map<string, IAnalysis[]>
+
 export interface IAnalysis {
   name: string
   description: string
   price: number
+  original_url: string
 }
 
 export interface IListAnalysis {

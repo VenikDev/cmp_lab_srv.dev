@@ -7,14 +7,11 @@ interface ICarousel {
 }
 
 function CCarousel(props: ICarousel) {
-  const analysisIsLoading = useAnalysis(state => {
-    console.log(state)
-    return state.isLoading
-  })
+  const analysisIsLoading = useAnalysis()
 
   return (
     <>
-      { !analysisIsLoading ?
+      { !analysisIsLoading.isLoading ?
         <CInfoAlert
           className="mt-10 max-w-2xl p-5 mx-auto"
         >
