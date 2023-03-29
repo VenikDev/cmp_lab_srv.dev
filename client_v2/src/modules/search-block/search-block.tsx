@@ -1,29 +1,35 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import CDescription from "../../ui/description/description";
 import Dialog from "../../ui/dialog/dialog";
 import CInput from "../../ui/input/input";
 import {AiOutlineSearch, TfiClose} from "react-icons/all";
-import ky from "ky";
-import {HOST_V1, TypeRequest} from "../../common/net";
 import CCheckBox from "../../ui/radio-btn/radio-btn";
 import CAlertError from "../../ui/alerts/error/alert-error";
 import CRB from "../../ui/text/bold-red";
 import {Key} from "../../common/keys";
+import ky from "ky";
+import {HOST_V1} from "../../net/consts";
+import {getAnalysis} from "../../net/requests";
+import {useCityStore} from "../../stores/city-store";
 import {useAnalysis} from "../../stores/analysis-store";
+import {LabAndAnalysis} from "../../models/analysis";
 
 function SearchBlock() {
   // Для открытия/закрытия диалогового окна
   const [visibleDialog, setVisibleDialog] = useState(false)
+  // Для поисковой тсроки
+  const [nameAna, setNameAna] = useState<string>()
+  // название лабораторий
   const [labs, setLabs] = useState<string[]>()
+
+  // stores
+  const cityStore = useCityStore()
   const analysisStore = useAnalysis()
 
   // get names of labs
   useEffect(() => {
     const getLabs = async () => {
-      const options = {
-        method: TypeRequest.GET,
-      };
-      await ky(`${HOST_V1}get_names_labs`, options)
+      await ky(HOST_V1+`/get_names_labs`)
         .json<string[]>().then(value => {
           setLabs(value)
         });
@@ -31,16 +37,21 @@ function SearchBlock() {
     getLabs()
   }, [])
 
-  // when sending a request
   const sendReq = async () => {
-    // hide dialog with input field
-    setVisibleDialog(false)
+    analysisStore.changeStateLoading()
 
-    // show loader
+    // let result = new Map<string, IAnalysis[]>()
+    const analysis = await getAnalysis<LabAndAnalysis>(nameAna!!, cityStore.city)
+    console.log(analysis)
+
     analysisStore.changeStateLoading()
   }
 
-  // listen "Esc" button
+  // This is a function named "keyTest" that takes an event as input.
+  // It uses a switch statement to check the value of the "key" property of the event.
+  // If the key is "ESCAPE", it sets the variable "setVisibleDialog" to false.
+  // If the key is "ENTER", it sets "setVisibleDialog" to false and waits for the "sendReq" function to finish before continuing.
+  // The "Key" in "case Key.ENTER" is likely an enumeration with predefined values for different types of keys.
   const keyTest = async (event: any) => {
     switch (event.key) {
       case Key.ESCAPE: {
@@ -50,7 +61,6 @@ function SearchBlock() {
       case Key.ENTER: {
         setVisibleDialog(false)
         await sendReq()
-
         break
       }
     }
@@ -80,6 +90,7 @@ function SearchBlock() {
       >
         {/* Для воода ключевого слова */}
         <CInput
+          onInput={(event) => setNameAna(event.target.value) }
           placeholder="Поиск анализа"
         />
         {/* Описание */}
@@ -87,31 +98,35 @@ function SearchBlock() {
           Введите <CRB>ключевое слово</CRB>, по которому нужно найти интерсующий анализ
         </CDescription>
         {/* Выбор лабораторий */}
-        <div className="ml-2">
-          {
-            labs && labs.length != 0 ?
-              labs?.map((lab, idx) =>
-                <>
-                  <CCheckBox
-                    key={idx}
-                    value={lab}
-                    id={`${lab}-${idx}`}
-                    name="labs"
-                    label={lab}
-                  />
-                </>
-              )
-              : <CAlertError>
-                Ошибка: не возможно найти список лабораторий
-              </CAlertError>
-          }
-        </div>
-        <CDescription>
-          Выберите <CRB>лаборатории</CRB>, которые вас интересуют
-        </CDescription>
+        {/*<div className="ml-2">*/}
+        {/*  {*/}
+        {/*    labs && labs.length != 0 ?*/}
+        {/*      labs?.map((lab, idx) =>*/}
+        {/*        <div key={idx}>*/}
+        {/*          <CCheckBox*/}
+        {/*            key={idx}*/}
+        {/*            value={lab}*/}
+        {/*            id={`${lab}-${idx}`}*/}
+        {/*            name="labs"*/}
+        {/*            label={lab}*/}
+        {/*          />*/}
+        {/*        </div>*/}
+        {/*      )*/}
+        {/*      : <CAlertError>*/}
+        {/*        Ошибка: не возможно найти список лабораторий*/}
+        {/*      </CAlertError>*/}
+        {/*  }*/}
+        {/*</div>*/}
+        {/*<CDescription>*/}
+        {/*  Выберите <CRB>лаборатории</CRB>, которые вас интересуют*/}
+        {/*</CDescription>*/}
         {/* Отправка запроса для поиска по клоючевому слову */}
         <button
-          onClick={() => sendReq()}
+          onClick={async () => {
+            setVisibleDialog(false)
+            await sendReq()
+
+          }}
           className="mx-auto mt-2 bg-red-500 text-white p-2 rounded-md block px-5 flex"
         >
           <AiOutlineSearch className="w-5 h-5 mr-2 my-auto"/>

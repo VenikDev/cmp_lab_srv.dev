@@ -6,7 +6,7 @@ export const useAnalysis = create<IListAnalysis>(set => ({
   isLoading: false,
   addAnalysis: (newAnalysis: IAnalysis[]) => set(
     state => ({
-      analysis: [...state.analysis, ...newAnalysis]
+      analysis: [...newAnalysis],
     })
   ),
   changeStateLoading: () => {

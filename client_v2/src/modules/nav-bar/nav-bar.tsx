@@ -22,7 +22,11 @@ function NavBar() {
     <>
       <nav>
         <ul className="flex justify-between">
-          <li className={classes.name}>{ nameSite }</li>
+          <li className={classes.name}>
+            <Link to="/">
+              { nameSite }
+            </Link>
+          </li>
           <li className={classes.area_visible_city}>
             <div className="flex">
               {/* open dialog for select city */}

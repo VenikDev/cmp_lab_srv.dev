@@ -2,15 +2,19 @@ package redis
 
 import (
 	"comparisonLaboratories/src/clog"
+	"comparisonLaboratories/src/model/favorite"
 	"context"
+	"errors"
 	"github.com/redis/go-redis/v9"
 	"os"
 	"strconv"
+	"time"
 )
 
 var (
 	// redis client
 	redisClient *redis.Client
+	ctx         = context.Background()
 )
 
 // InitRedis
@@ -25,16 +29,89 @@ func InitRedis() {
 		clog.Logger.Fatal("Redis...", "No parse number dbNumber", "OK")
 	}
 
-	redisClient := redis.NewClient(&redis.Options{
+	redisClient = redis.NewClient(&redis.Options{
 		Addr:     os.Getenv("REDIS_HOST"),     // Redis server address and port
 		Password: os.Getenv("REDIS_PASSWORD"), // Redis server password, if any
 		DB:       dbNumber,                    // Redis database number to use (0-15)
 	})
 
 	_, err = redisClient.Ping(context.Background()).Result()
-	if err != nil {
+	if err != nil && redisClient == nil {
 		clog.Logger.Fatal("Redis...", "Can't connect to redis...", "FAIL")
 	} else {
 		clog.Logger.Info("Redis...", "Connected to Redis", "OK")
 	}
+}
+
+// AddToPopular
+// This code adds a key-value pair to a Redis database.
+// The key is given as an argument to the function `AddToPopular`. If the key is empty,
+// the function will return an error with the message "key is empty".
+// The edited key is created by adding a prefix `RKW_POPULAR` to the given key. Then,
+// the function checks if the value exists in the Redis database using the `Get` method. If the value does not exist,
+// the function creates a new key-value pair with the given key and a value of 1 that expires after 24 hours.
+// If the value already exists, the function increments the value associated with the key by 1 using a pipeline,
+// and logs the edited key and the new value. Finally,
+// the function returns nil if successful or an error if there was an issue executing the Redis commands.
+func AddToPopular(key string) error {
+	if key == "" {
+		return errors.New("key is empty")
+	}
+
+	editedKey := RKW_POPULAR + key
+	// check if value is not exists
+	if valueOfKey := redisClient.Get(ctx, editedKey); valueOfKey.Err() != nil {
+		// save new value in redis on one day
+		redisClient.Set(ctx, editedKey, 1, time.Hour*24)
+
+		clog.Logger.Info("Redis", "create value", editedKey)
+	} else {
+		pipe := redisClient.Pipeline()
+		incr := pipe.Incr(ctx, editedKey)
+
+		if _, err := pipe.Exec(ctx); err != nil {
+			return err
+		}
+
+		clog.Logger.Info("Redis", editedKey, incr.Val())
+	}
+
+	return nil
+}
+
+// GetFavorite
+// This code defines a function called `GetFavorite` that returns a slice of `favorite.
+// Favorite` structs and an error. The function scans a Redis database using a wildcard key pattern,
+// iterating over all keys that match the pattern. For each matching key, it retrieves the corresponding value,
+// which is assumed to be an integer count. It then creates a new `favorite.
+// Favorite` struct with the key name as the `Name` field and the count as the `Count` field,
+// and appends it to the result slice. Finally,
+// it returns the result slice and any errors encountered during scanning or parsing.
+func GetFavorite() ([]favorite.Favorite, error) {
+	var result []favorite.Favorite
+	// key for parsing
+	keyWord := RKW_POPULAR + "*"
+	// get iterator
+	iter := redisClient.Scan(ctx, 0, keyWord, 0).Iterator()
+
+	// send error
+	if iter.Err() != nil {
+		return nil, iter.Err()
+	}
+
+	// for each of keyword
+	for iter.Next(ctx) {
+		if getter := redisClient.Get(ctx, iter.Val()); getter.Err() == nil {
+			// parse
+			if count, err := getter.Int64(); err == nil {
+				// add
+				result = append(result, favorite.Favorite{
+					Name:  iter.Val()[len(keyWord)-1:],
+					Count: count,
+				})
+			}
+		}
+
+	}
+	return result, nil
 }

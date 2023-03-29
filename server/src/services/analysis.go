@@ -7,6 +7,7 @@ import (
 	"comparisonLaboratories/src/model"
 	"errors"
 	"github.com/PuerkitoBio/goquery"
+	"strings"
 	"sync"
 )
 
@@ -66,6 +67,7 @@ func fillMapAnalyses(labsAndListTests model.LabAndListAnalyses, key string) {
 
 	documentChannel := make(chan resultDocument, sizeLabs)
 
+	key = strings.ReplaceAll(key, " ", "+")
 	SendRequests(documentChannel, key)
 
 	for idx := 0; idx < sizeLabs; idx++ {

@@ -6,15 +6,12 @@ interface ICarousel {
 
 }
 
-function Carousel(props: ICarousel) {
-  const analysisIsLoading = useAnalysis(state => {
-    console.log(state)
-    return state.isLoading
-  })
+function CCarousel(props: ICarousel) {
+  const analysisIsLoading = useAnalysis()
 
   return (
     <>
-      { !analysisIsLoading ?
+      { !analysisIsLoading.isLoading ?
         <CInfoAlert
           className="mt-10 max-w-2xl p-5 mx-auto"
         >
@@ -25,4 +22,4 @@ function Carousel(props: ICarousel) {
   );
 }
 
-export default Carousel;
+export default CCarousel;
