@@ -8,9 +8,9 @@ export interface IAnalysis {
 }
 
 export interface IListAnalysis {
-  analysis: IAnalysis[],
+  analysis: LabAndAnalysis | null,
   isLoading: boolean,
-  addAnalysis: (analysis: IAnalysis[]) => void
+  addAnalysis: (newAnalysis: LabAndAnalysis) => void
   changeStateLoading: () => void
 }
 

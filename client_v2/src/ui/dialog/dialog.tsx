@@ -19,7 +19,7 @@ function Dialog(props: IDialog) {
             props.canBeClosed || props.canBeClosed == undefined ?
               <button
                 className="cursor-pointer"
-                onClick={() => props.callbackClose(false)}
+                // onClick={() => props.callbackClose(false)}
               >
                 <TfiClose/>
               </button>

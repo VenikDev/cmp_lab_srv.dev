@@ -12,7 +12,7 @@ function CInput(props: IInputProps) {
       className={`${classes.input_field} ${props.className}`}
       placeholder={props.placeholder}
       value={props.value}
-      onInput={props.onInput}
+      onChange={props.onInput}
       disabled={props.disabled ? props.disabled : false}
     />
   );

@@ -1,12 +1,12 @@
 import {create} from "zustand";
-import {IAnalysis, IListAnalysis} from "../models/analysis";
+import {IAnalysis, IListAnalysis, LabAndAnalysis} from "../models/analysis";
 
 export const useAnalysis = create<IListAnalysis>(set => ({
-  analysis: [],
+  analysis: null,
   isLoading: false,
-  addAnalysis: (newAnalysis: IAnalysis[]) => set(
+  addAnalysis: (newAnalysis: LabAndAnalysis) => set(
     state => ({
-      analysis: [...newAnalysis],
+      analysis: newAnalysis,
     })
   ),
   changeStateLoading: () => {

@@ -42,8 +42,8 @@ function SearchBlock() {
 
     // let result = new Map<string, IAnalysis[]>()
     const analysis = await getAnalysis<LabAndAnalysis>(nameAna!!, cityStore.city)
+    analysisStore.addAnalysis(analysis)
     console.log(analysis)
-
     analysisStore.changeStateLoading()
   }
 
