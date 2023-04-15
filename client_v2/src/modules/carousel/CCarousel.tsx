@@ -5,13 +5,25 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination} from "swiper";
 import Description from "../../ui/description/description";
 import {truncate} from "../../common/truncate";
+import {useSelectAnalysis} from "../../stores/select-analysis-store";
+import {IAnalysis} from "../../models/analysis";
+import Dialog from "../../ui/dialog/dialog";
+import CRB from "../../ui/text/bold-red";
 
 // css
 import "swiper/css";
 import "swiper/css/pagination";
 
+
 function CCarousel() {
+  // stores
   const analysisStore = useAnalysis()
+  const selectAnalysisStore = useSelectAnalysis()
+
+  function openSelectAnalysis(value: IAnalysis) {
+    selectAnalysisStore.changeAnalysis(value)
+    selectAnalysisStore.changeState()
+  }
 
   return (
     <div>
@@ -45,11 +57,13 @@ function CCarousel() {
         {analysisStore.analysis ?
           <div>
             <SwiperSlide>
-              <h1>Citilab</h1>
+              <h1 className={classes.name_lab}>
+                Citilab
+              </h1>
 
               {analysisStore.analysis.citilab?.map((value, index) =>
                 <div
-                  // onClick={}
+                  onClick={() => openSelectAnalysis(value)}
                   className={classes.card}
                   key={index}
                 >
@@ -70,11 +84,13 @@ function CCarousel() {
               )}
             </SwiperSlide>
             <SwiperSlide>
-              <h1>Gemotest</h1>
+              <h1 className={classes.name_lab}>
+                Gemotest
+              </h1>
 
               {analysisStore.analysis.gemotest?.map((value, index) =>
                 <div
-                  // onClick={}
+                  onClick={() => openSelectAnalysis(value)}
                   className={classes.card}
                   key={index}
                 >
@@ -95,11 +111,13 @@ function CCarousel() {
               )}
             </SwiperSlide>
             <SwiperSlide>
-              <h1>Invitro</h1>
+              <h1 className={classes.name_lab}>
+                Invitro
+              </h1>
 
               {analysisStore.analysis.invitro?.map((value, index) =>
                 <div
-                  // onClick={}
+                  onClick={() => openSelectAnalysis(value)}
                   className={classes.card}
                   key={index}
                 >
@@ -122,6 +140,34 @@ function CCarousel() {
           </div> : ""
         }
       </Swiper>
+
+      <Dialog
+        open={selectAnalysisStore.isOpen}
+        title="Подробности анализа"
+        callbackClose={selectAnalysisStore.changeState}
+      >
+        <h1>
+          <CRB>
+            {selectAnalysisStore.analysis?.name}
+          </CRB>
+        </h1>
+        <h3>
+          {selectAnalysisStore.analysis?.description}
+        </h3>
+        <div
+          className="text-right mt-2"
+        >
+          <CRB>
+            Цена: {selectAnalysisStore.analysis?.price}
+          </CRB>
+        </div>
+        <a
+          className="text-red-500 text-center hover:text-red-900 duration-200 font-bold mt-4"
+          href={selectAnalysisStore.analysis?.original_url}
+        >
+          Перейти на сайт лаборатории
+        </a>
+      </Dialog>
     </div>
   );
 }

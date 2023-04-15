@@ -1,11 +1,15 @@
 .card {
-    @apply block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-4 cursor-pointer;
+    @apply block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-4 cursor-pointer z-0;
 }
 
 .title {
-    @apply mb-2 text-2xl font-bold tracking-tight text-red-500;
+    @apply mb-2 text-xl font-bold tracking-tight text-red-500;
 }
 
 .description {
     @apply font-normal text-gray-700 dark:text-gray-400;
+}
+
+.name_lab {
+    @apply border-red-500 border-2 rounded-md text-red-500 p-2 text-center font-bold text-xl mb-4;
 }

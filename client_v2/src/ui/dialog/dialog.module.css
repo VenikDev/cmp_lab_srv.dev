@@ -1,8 +1,8 @@
 .dialog_model {
-    @apply w-full drop-shadow-2xl rounded-md max-w-[500px];
+    @apply w-full drop-shadow-2xl rounded-md max-w-[500px] z-20;
 }
 
 .bg {
-    @apply w-full h-full fixed top-0 left-0 flex justify-center items-center;
+    @apply w-full h-full fixed top-0 left-0 flex justify-center items-center z-10;
     background-color: rgb(0, 0, 0, 0.5);
 }
