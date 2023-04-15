@@ -167,6 +167,7 @@ function CCarousel() {
         >
           Перейти на сайт лаборатории
         </a>
+        <br/>
       </Dialog>
     </div>
   );
