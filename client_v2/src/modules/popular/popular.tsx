@@ -7,6 +7,7 @@ import CRB from "../../ui/text/bold-red";
 import {getAnalysis} from "../../net/requests";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination} from "swiper";
+import {useCityStore} from "../../stores/city-store";
 
 // css
 import classes from "./popular.module.css"
@@ -14,6 +15,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 function Popular() {
+  const cityStore = useCityStore()
+
   const [popular, setPopular] = useState<IPopular[]>()
 
   useEffect(() => {
@@ -66,7 +69,7 @@ function Popular() {
             >
               <div
                 className="cursor-pointer"
-                onClick={() => getAnalysis(item.name, "")}
+                onClick={() => getAnalysis(item.name, cityStore.city)}
               >
                 <CRB>{item.name}</CRB>
                 {/* count */}

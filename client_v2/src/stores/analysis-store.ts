@@ -2,7 +2,7 @@ import {create} from "zustand";
 import {IAnalysis, IListAnalysis, LabAndAnalysis} from "../models/analysis";
 
 export const useAnalysis = create<IListAnalysis>(set => ({
-  analysis: null,
+  analysis: undefined,
   isLoading: false,
   addAnalysis: (newAnalysis: LabAndAnalysis) => set(
     state => ({

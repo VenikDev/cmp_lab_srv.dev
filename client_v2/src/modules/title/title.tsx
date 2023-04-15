@@ -11,7 +11,7 @@ function Title() {
         в свое
       </div>
       <div className={classes.title}>
-        устройство
+        здоровье
       </div>
     </div>
   );

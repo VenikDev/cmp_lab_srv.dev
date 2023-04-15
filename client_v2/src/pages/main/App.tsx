@@ -34,7 +34,7 @@ function App() {
             element={ <Favorite/> }
           />
         </Routes>
-        <Footer/>
+        {/*<Footer/>*/}
         <PageLoading/>
       </BrowserRouter>
     </div>

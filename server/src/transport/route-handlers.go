@@ -22,7 +22,7 @@ func GetListAnalyses(context *gin.Context) {
 	clog.Logger.Info("InitRouters", "key word", key)
 	clog.Logger.Info("InitRouters", "city", city)
 
-	if key != "" || city != "" {
+	if key != "" && city != "" {
 		// add to redis for statistics
 		err := redis.AddToPopular(key)
 		if err != nil {
@@ -35,7 +35,7 @@ func GetListAnalyses(context *gin.Context) {
 		}
 	}
 
-	context.IndentedJSON(http.StatusNotFound, http.StatusText(http.StatusNotFound))
+	context.IndentedJSON(http.StatusNotFound, "Key or City isn't installed")
 }
 
 func GetLabs(context *gin.Context) {
