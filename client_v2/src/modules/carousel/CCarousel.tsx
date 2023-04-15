@@ -1,15 +1,14 @@
 import React from 'react';
 import {useAnalysis} from '../../stores/analysis-store'
 import classes from "./modulr.module.css";
-import {IAnalysis} from "../../models/analysis";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination} from "swiper";
+import Description from "../../ui/description/description";
+import {truncate} from "../../common/truncate";
 
 // css
 import "swiper/css";
 import "swiper/css/pagination";
-import Description from "../../ui/description/description";
-import {truncate} from "../../common/truncate";
 
 function CCarousel() {
   const analysisStore = useAnalysis()
@@ -51,13 +50,15 @@ function CCarousel() {
               {analysisStore.analysis.citilab?.map((value, index) =>
                 <div
                   // onClick={}
-                  className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-4 cursor-pointer"
+                  className={classes.card}
                   key={index}
                 >
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-red-500">
+                  <h5
+                    className={classes.title}
+                  >
                     {value.name}
                   </h5>
-                  <p className="font-normal text-gray-700 dark:text-gray-400">
+                  <p className={classes.description}>
                     {truncate(value.description)}
                   </p>
                   <Description
@@ -74,13 +75,15 @@ function CCarousel() {
               {analysisStore.analysis.gemotest?.map((value, index) =>
                 <div
                   // onClick={}
-                  className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-4 cursor-pointer"
+                  className={classes.card}
                   key={index}
                 >
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-red-500">
+                  <h5
+                    className={classes.title}
+                  >
                     {value.name}
                   </h5>
-                  <p className="font-normal text-gray-700 dark:text-gray-400">
+                  <p className={classes.description}>
                     {truncate(value.description)}
                   </p>
                   <Description
@@ -97,13 +100,15 @@ function CCarousel() {
               {analysisStore.analysis.invitro?.map((value, index) =>
                 <div
                   // onClick={}
-                  className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-4 cursor-pointer"
+                  className={classes.card}
                   key={index}
                 >
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-red-500">
+                  <h5
+                    className={classes.title}
+                  >
                     {value.name}
                   </h5>
-                  <p className="font-normal text-gray-700 dark:text-gray-400">
+                  <p className={classes.description}>
                     {truncate(value.description)}
                   </p>
                   <Description

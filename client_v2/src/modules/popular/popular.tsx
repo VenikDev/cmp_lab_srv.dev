@@ -8,14 +8,18 @@ import {getAnalysis} from "../../net/requests";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination} from "swiper";
 import {useCityStore} from "../../stores/city-store";
+import {LabAndAnalysis} from "../../models/analysis";
+import {useAnalysis} from "../../stores/analysis-store";
 
 // css
 import classes from "./popular.module.css"
 import "swiper/css";
 import "swiper/css/pagination";
 
+
 function Popular() {
   const cityStore = useCityStore()
+  const analysisStore = useAnalysis()
 
   const [popular, setPopular] = useState<IPopular[]>()
 
@@ -69,7 +73,15 @@ function Popular() {
             >
               <div
                 className="cursor-pointer"
-                onClick={() => getAnalysis(item.name, cityStore.city)}
+                onClick={async () => {
+                  analysisStore.changeStateLoading()
+
+                  // let result = new Map<string, IAnalysis[]>()
+                  const analysis = await getAnalysis<LabAndAnalysis>(item.name, cityStore.city)
+                  analysisStore.addAnalysis(analysis)
+                  console.log(analysis)
+                  analysisStore.changeStateLoading()
+                }}
               >
                 <CRB>{item.name}</CRB>
                 {/* count */}

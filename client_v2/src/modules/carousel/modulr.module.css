@@ -1,3 +1,11 @@
 .card {
-    @apply border-2 border-red-500 rounded-md mb-4 p-4
+    @apply block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-4 cursor-pointer;
+}
+
+.title {
+    @apply mb-2 text-2xl font-bold tracking-tight text-red-500;
+}
+
+.description {
+    @apply font-normal text-gray-700 dark:text-gray-400;
 }

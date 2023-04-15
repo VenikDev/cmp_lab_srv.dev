@@ -1,8 +1,10 @@
 package transport
 
 import (
+	"comparisonLaboratories/src/algorithm"
 	"comparisonLaboratories/src/clog"
 	"comparisonLaboratories/src/global"
+	"comparisonLaboratories/src/model/favorite"
 	"comparisonLaboratories/src/redis"
 	"comparisonLaboratories/src/services"
 	"github.com/gin-gonic/gin"
@@ -61,9 +63,16 @@ func GetListCities(context *gin.Context) {
 }
 
 func GetPopular(context *gin.Context) {
-	favorite, err := redis.GetFavorite()
+	allFavorite, err := redis.GetFavorite()
+
+	result := algorithm.QuickSort(
+		allFavorite,
+		func(left favorite.Favorite, right favorite.Favorite) bool {
+			return left.Count > right.Count
+		},
+	)
 	if err != nil {
 		context.IndentedJSON(http.StatusNotFound, gin.H{"error": err})
 	}
-	context.IndentedJSON(http.StatusOK, favorite)
+	context.IndentedJSON(http.StatusOK, result[:5])
 }
