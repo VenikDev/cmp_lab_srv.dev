@@ -13,7 +13,7 @@ import (
 
 var (
 	// redis client
-	redisClient *redis.Client
+	RedisClient *redis.Client
 	ctx         = context.Background()
 )
 
@@ -29,14 +29,14 @@ func InitRedis() {
 		clog.Logger.Fatal("Redis...", "No parse number dbNumber", "OK")
 	}
 
-	redisClient = redis.NewClient(&redis.Options{
+	RedisClient = redis.NewClient(&redis.Options{
 		Addr:     os.Getenv("REDIS_HOST"),     // Redis server address and port
 		Password: os.Getenv("REDIS_PASSWORD"), // Redis server password, if any
 		DB:       dbNumber,                    // Redis database number to use (0-15)
 	})
 
-	_, err = redisClient.Ping(context.Background()).Result()
-	if err != nil && redisClient == nil {
+	_, err = RedisClient.Ping(context.Background()).Result()
+	if err != nil && RedisClient == nil {
 		clog.Logger.Fatal("Redis...", "Can't connect to redis...", "FAIL")
 	} else {
 		clog.Logger.Info("Redis...", "Connected to Redis", "OK")
@@ -60,13 +60,13 @@ func AddToPopular(key string) error {
 
 	editedKey := RKW_POPULAR + key
 	// check if value is not exists
-	if valueOfKey := redisClient.Get(ctx, editedKey); valueOfKey.Err() != nil {
+	if valueOfKey := RedisClient.Get(ctx, editedKey); valueOfKey.Err() != nil {
 		// save new value in redis on one day
-		redisClient.Set(ctx, editedKey, 1, time.Hour*24)
+		RedisClient.Set(ctx, editedKey, 1, time.Hour*24)
 
 		clog.Logger.Info("Redis", "create value", editedKey)
 	} else {
-		pipe := redisClient.Pipeline()
+		pipe := RedisClient.Pipeline()
 		incr := pipe.Incr(ctx, editedKey)
 
 		if _, err := pipe.Exec(ctx); err != nil {
@@ -92,7 +92,7 @@ func GetFavorite() ([]favorite.Favorite, error) {
 	// key for parsing
 	keyWord := RKW_POPULAR + "*"
 	// get iterator
-	iter := redisClient.Scan(ctx, 0, keyWord, 0).Iterator()
+	iter := RedisClient.Scan(ctx, 0, keyWord, 0).Iterator()
 
 	// send error
 	if iter.Err() != nil {
@@ -101,7 +101,7 @@ func GetFavorite() ([]favorite.Favorite, error) {
 
 	// for each of keyword
 	for iter.Next(ctx) {
-		if getter := redisClient.Get(ctx, iter.Val()); getter.Err() == nil {
+		if getter := RedisClient.Get(ctx, iter.Val()); getter.Err() == nil {
 			// parse
 			if count, err := getter.Int64(); err == nil {
 				// add

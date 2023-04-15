@@ -19,7 +19,7 @@ function Home() {
       >
         Потяните <CRB>влево</CRB> или <CRB>вправо</CRB>, чтоб посмотреть еще
       </CDescription>
-      <CCarousel/>
+      {/*<CCarousel/>*/}
     </>
   );
 }
