@@ -5,3 +5,11 @@
 .item_carousel > * {
     @apply cursor-pointer;
 }
+
+.slide {
+    @apply border-2 border-red-500 rounded-md text-center;
+}
+
+.description {
+    @apply text-xs text-center;
+}

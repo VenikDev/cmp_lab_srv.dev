@@ -10,27 +10,29 @@ function CCarousel() {
   const analysisStore = useAnalysis()
   const result: React.ReactNode[] = []
 
-  // if (analysisStore.analysis)
-  // {
-  //   for (const [key, value] of analysisStore.analysis) {
-  //     result.push(
-  //       value.map((item, key) =>
-  //         <div key={key}>
-  //           <h2>
-  //             <a href={item.original_url}>
-  //               { item.name }
-  //             </a>
-  //           </h2>
-  //         </div>
-  //       )
-  //     )
-  //   }
-  // }
+  if (analysisStore.analysis)
+  {
+    for (const [key, value] of analysisStore.analysis) {
+      result.push(
+        value.map((item, key) =>
+          <div key={key}>
+            <h2>
+              <a href={item.original_url}>
+                { item.name }
+              </a>
+            </h2>
+          </div>
+        )
+      )
+    }
+  }
 
 
   return (
     <div>
-      { result }
+      {
+        result
+      }
     </div>
   );
 }

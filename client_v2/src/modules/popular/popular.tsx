@@ -25,7 +25,6 @@ function Popular() {
     }
 
     getPopular()
-    console.log(popular)
   }, [])
 
   return (
@@ -63,7 +62,7 @@ function Popular() {
           popular && popular.map((item, id) =>
             <SwiperSlide
               key={id}
-              className="border-2 border-red-500 rounded-md text-center"
+              className={classes.slide}
             >
               <div
                 className="cursor-pointer"
@@ -78,7 +77,7 @@ function Popular() {
                 </div>
 
                 <CDescription
-                  className="text-xs text-center"
+                  className={classes.description}
                 >
                   Нажните, чтобы искать
                 </CDescription>

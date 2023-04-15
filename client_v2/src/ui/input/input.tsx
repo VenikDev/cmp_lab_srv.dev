@@ -11,7 +11,7 @@ function CInput(props: IInputProps) {
     <input
       className={`${classes.input_field} ${props.className}`}
       placeholder={props.placeholder}
-      value={props.value}
+      defaultValue={props.value}
       onChange={props.onInput}
       disabled={props.disabled ? props.disabled : false}
     />
