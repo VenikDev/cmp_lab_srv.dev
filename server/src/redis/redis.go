@@ -2,9 +2,11 @@ package redis
 
 import (
 	"comparisonLaboratories/src/clog"
+	"comparisonLaboratories/src/model"
 	"comparisonLaboratories/src/model/favorite"
 	"context"
 	"errors"
+	"github.com/goccy/go-json"
 	"github.com/redis/go-redis/v9"
 	"os"
 	"strconv"
@@ -114,4 +116,28 @@ func GetFavorite() ([]favorite.Favorite, error) {
 
 	}
 	return result, nil
+}
+
+// GetAnalysisByCity
+func GetAnalysisByCity(city string) (string, error) {
+	jsonData, err := RedisClient.Get(ctx, city).Result()
+	if err != nil {
+		return "", err
+	}
+	return jsonData, nil
+}
+
+// AddAnalysisByCity
+func AddAnalysisByCity(city string, analysis model.LabAndListAnalyses) error {
+	jsonData, err := json.Marshal(analysis)
+	if err != nil {
+		return err
+	}
+
+	errSet := RedisClient.Set(ctx, city, jsonData, time.Hour*24)
+	if errSet != nil {
+		return err
+	}
+
+	return nil
 }
