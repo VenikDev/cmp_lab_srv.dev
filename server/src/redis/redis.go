@@ -64,7 +64,8 @@ func AddToPopular(key string) error {
 	// check if value is not exists
 	if valueOfKey := RedisClient.Get(ctx, editedKey); valueOfKey.Err() != nil {
 		// save new value in redis on one day
-		RedisClient.Set(ctx, editedKey, 1, time.Hour*24)
+		oneDay := time.Hour * 24
+		RedisClient.Set(ctx, editedKey, 1, oneDay)
 
 		clog.Logger.Info("Redis", "create value", editedKey)
 	} else {

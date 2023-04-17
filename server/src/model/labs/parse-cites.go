@@ -1,6 +1,7 @@
-package cites
+package labs
 
 import (
+	"bufio"
 	"comparisonLaboratories/src/clog"
 	"comparisonLaboratories/src/model/city"
 	"comparisonLaboratories/src/model/paths"
@@ -27,7 +28,8 @@ func parseCities() error {
 	}
 	defer file.Close()
 
-	decoder := json.NewDecoder(file)
+	reader := bufio.NewReader(file)
+	decoder := json.NewDecoder(reader)
 	if err = decoder.Decode(&Cities); err != nil {
 		return fmt.Errorf("failed to parse JSON: %v", err)
 	}

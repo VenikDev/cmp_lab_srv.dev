@@ -4,14 +4,15 @@ import (
 	"comparisonLaboratories/src/algorithm"
 	"comparisonLaboratories/src/clog"
 	"comparisonLaboratories/src/global"
-	"comparisonLaboratories/src/global/cites"
 	"comparisonLaboratories/src/model"
 	"comparisonLaboratories/src/model/favorite"
+	"comparisonLaboratories/src/model/labs"
 	"comparisonLaboratories/src/redis"
 	"comparisonLaboratories/src/services"
 	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-json"
 	"net/http"
+	"strings"
 )
 
 func GetIndexHtml(context *gin.Context) {
@@ -34,8 +35,8 @@ func GetIndexHtml(context *gin.Context) {
 // the function provides a simple RESTful API endpoint for retrieving laboratory analyses that is backed by an
 // external service and cache.
 func GetListAnalyses(context *gin.Context) {
-	key := context.Query("key")
-	city := context.Query("city")
+	key := strings.ToLower(context.Query("key"))
+	city := strings.ToLower(context.Query("city"))
 
 	if city == "" {
 		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "City is not provided"})
@@ -98,15 +99,13 @@ func GetLabsNames(context *gin.Context) {
 // GetDefaultCity
 // TODO for now default "Нижний Тагил"
 func GetDefaultCity(context *gin.Context) {
-	clog.Logger.Info("get default city")
 	context.IndentedJSON(http.StatusOK, "Нижний Тагил")
 }
 
 // GetListCities
 // TODO change on regis in future
 func GetListCities(context *gin.Context) {
-	clog.Logger.Info("get list of cities")
-	context.IndentedJSON(http.StatusOK, cites.Cities)
+	context.IndentedJSON(http.StatusOK, labs.Cities)
 }
 
 func GetPopular(context *gin.Context) {
