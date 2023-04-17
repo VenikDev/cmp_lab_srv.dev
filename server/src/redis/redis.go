@@ -64,7 +64,8 @@ func AddToPopular(key string) error {
 	// check if value is not exists
 	if valueOfKey := RedisClient.Get(ctx, editedKey); valueOfKey.Err() != nil {
 		// save new value in redis on one day
-		RedisClient.Set(ctx, editedKey, 1, time.Hour*24)
+		oneDay := time.Hour * 24
+		RedisClient.Set(ctx, editedKey, 1, oneDay)
 
 		clog.Logger.Info("Redis", "create value", editedKey)
 	} else {
@@ -90,31 +91,38 @@ func AddToPopular(key string) error {
 // and appends it to the result slice. Finally,
 // it returns the result slice and any errors encountered during scanning or parsing.
 func GetFavorite() ([]favorite.Favorite, error) {
-	var result []favorite.Favorite
+	// pre-allocate a slice with a sufficient capacity
+	result := make([]favorite.Favorite, 0, 100)
+
 	// key for parsing
 	keyWord := RKW_POPULAR + "*"
+
 	// get iterator
 	iter := RedisClient.Scan(ctx, 0, keyWord, 0).Iterator()
 
 	// send error
-	if iter.Err() != nil {
-		return nil, iter.Err()
+	if err := iter.Err(); err != nil {
+		return nil, err
 	}
 
 	// for each of keyword
 	for iter.Next(ctx) {
-		if getter := RedisClient.Get(ctx, iter.Val()); getter.Err() == nil {
-			// parse
+		val := iter.Val()
+		name := val[len(keyWord)-1:]
+
+		// parse
+		getter := RedisClient.Get(ctx, val)
+		if getter.Err() == nil {
+			// add
 			if count, err := getter.Int64(); err == nil {
-				// add
 				result = append(result, favorite.Favorite{
-					Name:  iter.Val()[len(keyWord)-1:],
+					Name:  name,
 					Count: count,
 				})
 			}
 		}
-
 	}
+
 	return result, nil
 }
 

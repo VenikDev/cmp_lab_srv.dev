@@ -4,6 +4,7 @@ import (
 	"comparisonLaboratories/src/clog"
 	"comparisonLaboratories/src/core"
 	"comparisonLaboratories/src/herr"
+	"comparisonLaboratories/src/model/labs"
 	"comparisonLaboratories/src/redis"
 	"comparisonLaboratories/src/transport"
 	"runtime"
@@ -14,6 +15,7 @@ func main() {
 	clog.Logger.Info("Runtime", "OS", runtime.GOOS, "Arch", runtime.GOARCH)
 
 	core.InitEnv()
+	labs.InitCities()
 	core.InitServer(core.Server)
 	core.InitConfig()
 	redis.InitRedis()

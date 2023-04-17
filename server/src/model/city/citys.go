@@ -1,9 +1,14 @@
 package city
 
+type Coords struct {
+	Lat string `json:"lat"`
+	Lon string `json:"lon"`
+}
+
 type City struct {
-	Coords     map[string]string `json:"coords"`
-	District   string            `json:"district"`
-	Name       string            `json:"name"`
-	Population int               `json:"population"`
-	Subject    string            `json:"subject"`
+	Coords     Coords `json:"coords"`
+	District   string `json:"district"`
+	Name       string `json:"name"`
+	Population uint64 `json:"population"`
+	Subject    string `json:"subject"`
 }
