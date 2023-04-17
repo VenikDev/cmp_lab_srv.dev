@@ -1,10 +1,8 @@
 package core
 
 import (
-	"comparisonLaboratories/src/clog"
 	"comparisonLaboratories/src/global"
 	"comparisonLaboratories/src/herr"
-	"comparisonLaboratories/src/model/city"
 	"comparisonLaboratories/src/model/labs"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -34,12 +32,6 @@ func CORSMiddleware() gin.HandlerFunc {
 
 func InitConfig() {
 	global.Laboratories = labs.ParseLabs()
-
-	var err error
-	global.Cities, err = city.ParseCities()
-	if err != nil {
-		clog.Logger.Fatal("ParseCities")
-	}
 }
 
 func InitServer(app *gin.Engine) {
