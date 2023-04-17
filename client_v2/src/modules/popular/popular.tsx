@@ -7,9 +7,9 @@ import CRB from "../../ui/text/bold-red";
 import {getAnalysis} from "../../net/requests";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination} from "swiper";
-import {useCityStore} from "../../stores/city-store";
 import {LabAndAnalysis} from "../../models/analysis";
 import {useAnalysis} from "../../stores/analysis-store";
+import {useGlobalProperties} from "../../stores/global-properties-store";
 
 // css
 import classes from "./popular.module.css"
@@ -18,7 +18,7 @@ import "swiper/css/pagination";
 
 
 function Popular() {
-  const cityStore = useCityStore()
+  const globalPropertiesStore = useGlobalProperties()
   const analysisStore = useAnalysis()
 
   const [popular, setPopular] = useState<IPopular[]>()
@@ -77,7 +77,7 @@ function Popular() {
                   analysisStore.changeStateLoading()
 
                   // let result = new Map<string, IAnalysis[]>()
-                  const analysis = await getAnalysis<LabAndAnalysis>(item.name, cityStore.city)
+                  const analysis = await getAnalysis<LabAndAnalysis>(item.name, globalPropertiesStore.selectCity)
                   analysisStore.addAnalysis(analysis)
                   console.log(analysis)
                   analysisStore.changeStateLoading()
