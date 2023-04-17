@@ -10,9 +10,9 @@ import {Key} from "../../common/keys";
 import ky from "ky";
 import {HOST_V1} from "../../net/consts";
 import {getAnalysis} from "../../net/requests";
-import {useCityStore} from "../../stores/city-store";
 import {useAnalysis} from "../../stores/analysis-store";
 import {LabAndAnalysis} from "../../models/analysis";
+import {useGlobalProperties} from "../../stores/global-properties-store";
 
 function SearchBlock() {
   // Для открытия/закрытия диалогового окна
@@ -23,7 +23,7 @@ function SearchBlock() {
   const [labs, setLabs] = useState<string[]>()
 
   // stores
-  const cityStore = useCityStore()
+  const globalPropertiesStore = useGlobalProperties()
   const analysisStore = useAnalysis()
 
   // get names of labs
@@ -41,7 +41,7 @@ function SearchBlock() {
     analysisStore.changeStateLoading()
 
     // let result = new Map<string, IAnalysis[]>()
-    const analysis = await getAnalysis<LabAndAnalysis>(nameAna!!, cityStore.city)
+    const analysis = await getAnalysis<LabAndAnalysis>(nameAna!!, globalPropertiesStore.selectCity)
     analysisStore.addAnalysis(analysis)
     console.log(analysis)
     analysisStore.changeStateLoading()
@@ -93,30 +93,6 @@ function SearchBlock() {
           onInput={(event) => setNameAna(event.target.value) }
           placeholder="Поиск анализа"
         />
-        {/* Описание */}
-        {/*<CDescription>*/}
-        {/*  Введите <CRB>ключевое слово</CRB>, по которому нужно найти интерсующий анализ*/}
-        {/*</CDescription>*/}
-        {/* Выбор лабораторий*/}
-        {/*<div className="ml-2">*/}
-        {/*  {*/}
-        {/*    labs && labs.length != 0 ?*/}
-        {/*      labs?.map((lab, idx) =>*/}
-        {/*        <label className="relative inline-flex items-center cursor-pointer">*/}
-        {/*          <input type="checkbox" value="" className="sr-only peer"/>*/}
-        {/*            <div*/}
-        {/*              className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>*/}
-        {/*            <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Toggle me</span>*/}
-        {/*        </label>*/}
-        {/*      )*/}
-        {/*      : <CAlertError>*/}
-        {/*        Ошибка: не возможно найти список лабораторий*/}
-        {/*      </CAlertError>*/}
-        {/*  }*/}
-        {/*</div>*/}
-        {/*<CDescription>*/}
-        {/*  Выберите <CRB>лаборатории</CRB>, которые вас интересуют*/}
-        {/*</CDescription>*/}
          Отправка запроса для поиска по клоючевому слову
         <button
           onClick={async () => {

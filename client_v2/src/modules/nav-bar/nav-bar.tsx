@@ -6,9 +6,12 @@ import CDescription from "../../ui/description/description";
 import CInput from "../../ui/input/input";
 import {MdFavoriteBorder} from "react-icons/all";
 import {Link} from "react-router-dom";
+import SelectCityDialog from "../select-city/select-city-dialog";
+import {useGlobalProperties} from "../../stores/global-properties-store";
 
 function NavBar() {
-  const [city, setCity] = useState("Нижний Тагил")
+  const globalPropertiesStore = useGlobalProperties()
+
   const [stateDialog, setStateDialog] = useState(false)
   const nameSite = "ZдравRU"
 
@@ -24,7 +27,7 @@ function NavBar() {
         <ul className="flex justify-between">
           <li className={classes.name}>
             <Link to="/">
-              { nameSite }
+              {nameSite}
             </Link>
           </li>
           <li className={classes.area_visible_city}>
@@ -34,46 +37,28 @@ function NavBar() {
                 onClick={() => openCloseDialog()}
                 className={classes.btn_select_city}
               >
-                {city}
+                {globalPropertiesStore.selectCity}
               </button>
               {/* open page fot visible selected analysis */}
-              <Link to="/favorite">
-                <button
-                  className={classes.btn_selected}
-                >
-                  Изб
-                  <MdFavoriteBorder
-                    className="w-5 h-5 ml-1"
-                  />
-                </button>
-              </Link>
+              {/*<Link to="/favorite">*/}
+              {/*  <button*/}
+              {/*    className={classes.btn_selected}*/}
+              {/*  >*/}
+              {/*    Изб*/}
+              {/*    <MdFavoriteBorder*/}
+              {/*      className="w-5 h-5 ml-1"*/}
+              {/*    />*/}
+              {/*  </button>*/}
+              {/*</Link>*/}
             </div>
           </li>
         </ul>
       </nav>
 
-      {/* select city */}
-      <Dialog
-        open={stateDialog}
-        callbackClose={setStateDialog}
-        title="Выбрать город"
-      >
-        <div>
-          <CInput
-            value={city}
-            placeholder="Введите название города"
-            disabled={false}
-          />
-          <CDescription>
-            Выберите <CRB>город</CRB>, в котором нужно искать анализы
-          </CDescription>
-          <div>
-
-          </div>
-        </div>
-      </Dialog>
-
-      {/* selected analyzes */}
+      <SelectCityDialog
+        isOpen={stateDialog}
+        callbackClose={openCloseDialog}
+      />
 
     </>
   );

@@ -1,0 +1,18 @@
+.list {
+    @apply overflow-y-auto max-h-[500px];
+}
+
+.list_item {
+    @apply border-2 border-gray-400 rounded-md py-2 my-2;
+    @apply cursor-pointer;
+    @apply duration-200 hover:border-red-500 shadow-red-500;
+    @apply flex;
+}
+
+.list_item_text {
+    @apply ml-2 grow;
+}
+
+.is_select {
+    @apply text-red-500 font-bold text-right mr-2;
+}
