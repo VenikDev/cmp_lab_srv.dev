@@ -65,8 +65,12 @@ func GetListAnalyses(context *gin.Context) {
 			return
 		}
 
+		if err := redis.AddToPopular(key); err != nil {
+			clog.Logger.Error("GetListAnalyses", "Couldn't save", key)
+		}
+
 		if err := redis.AddAnalysisByCity(query, result); err != nil {
-			clog.Logger.Info("InitRouters", "No added data to redis")
+			clog.Logger.Error("InitRouters", "No added data to redis")
 		}
 
 		context.JSON(http.StatusOK, result)
@@ -75,8 +79,6 @@ func GetListAnalyses(context *gin.Context) {
 
 	if err := redis.AddToPopular(key); err != nil {
 		clog.Logger.Error("GetListAnalyses", "Couldn't save", key)
-		context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Failed to add data to redis"})
-		return
 	}
 
 	var analysis model.LabAndListAnalyses

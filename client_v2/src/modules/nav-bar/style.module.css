@@ -19,7 +19,7 @@ a:hover {
 }
 
 .btn_select_city {
-    @apply block underline-offset-2 underline cursor-pointer text-white;
+    @apply block cursor-pointer text-white;
 }
 
 .area_visible_city {

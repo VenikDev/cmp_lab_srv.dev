@@ -23,7 +23,6 @@ function SelectCityDialog(props: ISelectCityDialog) {
       await ky(HOST_V1+`/get_list_of_cities`)
         .json<ICity[]>().then(value => {
           setCities(value)
-          console.log(value)
         });
     })()
   }, [])

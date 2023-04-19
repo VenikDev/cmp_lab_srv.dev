@@ -4,7 +4,7 @@ package model
 type ListAnalyses []Analysis
 
 // LabAndListAnalyses which is a map where the keys are strings and the values are ListAnalyses objects
-type LabAndListAnalyses map[string]ListAnalyses
+type LabAndListAnalyses []LaboratoryAnalyzes
 
 // AnalysesResponse which is a slice of LabAndListAnalyses objects.
 type AnalysesResponse []LabAndListAnalyses
@@ -20,4 +20,9 @@ type Analysis struct {
 	Price       int    `json:"price"`
 	Description string `json:"description"`
 	OriginalURL string `json:"original_url"`
+}
+
+type LaboratoryAnalyzes struct {
+	NameLab string     `json:"name_lab"`
+	List    []Analysis `json:"list"`
 }

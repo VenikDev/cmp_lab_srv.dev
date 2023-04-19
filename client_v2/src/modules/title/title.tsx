@@ -3,7 +3,7 @@ import classes from './title.module.css'
 
 function Title() {
   return (
-    <div className="mx-5">
+    <div className={classes.block_with_titles}>
       <div className={classes.title}>
         Инвестируй
       </div>

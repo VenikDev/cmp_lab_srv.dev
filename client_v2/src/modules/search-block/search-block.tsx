@@ -13,38 +13,48 @@ import {getAnalysis} from "../../net/requests";
 import {useAnalysis} from "../../stores/analysis-store";
 import {LabAndAnalysis} from "../../models/analysis";
 import {useGlobalProperties} from "../../stores/global-properties-store";
+import {Logger} from "../../common/logger";
+import AlertError from "../../ui/alerts/error/alert-error";
+import Description from "../../ui/description/description";
 
 function SearchBlock() {
   // Для открытия/закрытия диалогового окна
   const [visibleDialog, setVisibleDialog] = useState(false)
   // Для поисковой тсроки
-  const [nameAna, setNameAna] = useState<string>()
+  const [nameAnalysis, setNameAnalysis] = useState<string>()
   // название лабораторий
   const [labs, setLabs] = useState<string[]>()
 
+  const [error, setError] = useState<string>()
   // stores
   const globalPropertiesStore = useGlobalProperties()
   const analysisStore = useAnalysis()
 
   // get names of labs
   useEffect(() => {
-    const getLabs = async () => {
+    (async () => {
       await ky(HOST_V1+`/get_names_labs`)
         .json<string[]>().then(value => {
           setLabs(value)
         });
-    }
-    getLabs()
+    })()
   }, [])
 
   const sendReq = async () => {
+    if (!nameAnalysis || nameAnalysis.length == 0) {
+      setError("Поле для запроса пустое")
+      return false
+    }
+    else {
+      setError(undefined)
+    }
+
+    analysisStore.changeStateLoading()
+    const analysis = await getAnalysis<LabAndAnalysis[]>(nameAnalysis, globalPropertiesStore.selectCity)
+    analysisStore.addAnalysis(analysis)
     analysisStore.changeStateLoading()
 
-    // let result = new Map<string, IAnalysis[]>()
-    const analysis = await getAnalysis<LabAndAnalysis>(nameAna!!, globalPropertiesStore.selectCity)
-    analysisStore.addAnalysis(analysis)
-    console.log(analysis)
-    analysisStore.changeStateLoading()
+    return true
   }
 
   // This is a function named "keyTest" that takes an event as input.
@@ -90,17 +100,26 @@ function SearchBlock() {
       >
         {/* Для воода ключевого слова */}
         <CInput
-          onInput={(event) => setNameAna(event.target.value) }
+          onInput={(event) => setNameAnalysis(event.target.value) }
           placeholder="Поиск анализа"
         />
-         Отправка запроса для поиска по клоючевому слову
+        {/* alert for error */}
+        {
+          error && <AlertError className="my-2">{error}</AlertError>
+        }
+        {/* description */}
+        <Description>
+          Отправка запроса для поиска по <CRB> ключевому слову </CRB>
+        </Description>
+        {/* send request */}
         <button
           onClick={async () => {
-            setVisibleDialog(false)
-            await sendReq()
-
+            const isSuccess = await sendReq()
+            if (isSuccess) {
+              setVisibleDialog(false)
+            }
           }}
-          className="mx-auto mt-2 bg-red-500 text-white p-2 rounded-md block px-5 flex"
+          className="mx-auto mt-2 bg-red-500 text-white p-2 rounded-md px-5 flex"
         >
           <AiOutlineSearch className="w-5 h-5 mr-2 my-auto"/>
           Найти

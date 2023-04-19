@@ -10,11 +10,13 @@ import {Pagination} from "swiper";
 import {LabAndAnalysis} from "../../models/analysis";
 import {useAnalysis} from "../../stores/analysis-store";
 import {useGlobalProperties} from "../../stores/global-properties-store";
+import Description from "../../ui/description/description";
 
 // css
 import classes from "./popular.module.css"
 import "swiper/css";
 import "swiper/css/pagination";
+import {Logger} from "../../common/logger";
 
 
 function Popular() {
@@ -23,17 +25,31 @@ function Popular() {
 
   const [popular, setPopular] = useState<IPopular[]>()
 
+  // To check if the variable popular is null or undefined.
+  // If popular is not null or undefined, then it checks the length of the array using the length
+  // property and returns a boolean value indicating whether the length is equal to zero or not.
+  function popularEmpty() {
+    return popular?.length == 0
+  }
+
+  // await ky(HOST_V1 + "/get_popular"): This line sends a GET request to a Redis server at the "/get_popular"
+  // endpoint using the ky library. HOST_V1 is a constant that represents the base URL of the Redis service.
+  //
+  // .json<IPopular[]>(): This line parses the response as JSON and casts it as an array of IPopular
+  // objects (as defined elsewhere in the code).
+  //
+  // .then(value => setPopular(value)): This line sets the state of the component to the array
+  // of IPopular objects returned by the Redis server. This will trigger a re-render of the component.
   useEffect(() => {
-    const getPopular = async () => {
+    (async () => {
       // get popular analysis from redis
       await ky(HOST_V1 + "/get_popular")
         .json<IPopular[]>()
         .then(value => setPopular(value))
-    }
-
-    getPopular()
+    })()
   }, [])
 
+  // render component
   return (
     <div
       className="w-full my-4"
@@ -75,11 +91,8 @@ function Popular() {
                 className="cursor-pointer"
                 onClick={async () => {
                   analysisStore.changeStateLoading()
-
-                  // let result = new Map<string, IAnalysis[]>()
-                  const analysis = await getAnalysis<LabAndAnalysis>(item.name, globalPropertiesStore.selectCity)
+                  const analysis = await getAnalysis<LabAndAnalysis[]>(item.name, globalPropertiesStore.selectCity)
                   analysisStore.addAnalysis(analysis)
-                  console.log(analysis)
                   analysisStore.changeStateLoading()
                 }}
               >
@@ -101,6 +114,19 @@ function Popular() {
           )
         }
       </Swiper>
+      {
+        !popularEmpty() ?
+          <CDescription
+              className="text-center"
+          >
+              Потяните <CRB>влево</CRB> или <CRB>вправо</CRB>, чтоб посмотреть еще
+          </CDescription> :
+          <Description
+            className="text-center"
+          >
+            Список <CRB>популярного</CRB> пуст
+          </Description>
+      }
     </div>
   );
 }
