@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@2gis/mapgl": "^1.35.1",
     "ky": "^0.33.3",
     "leaflet": "^1.9.3",
     "postcss-cli": "^10.1.0",

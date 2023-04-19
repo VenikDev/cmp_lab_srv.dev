@@ -49,7 +49,7 @@ func SendRequests(documentChannel chan resultDocument, key string) {
 		go func(nameLab string, url string) {
 			documentChannel <- resultDocument{
 				Name: nameLab,
-				Data: core.GetHtmlFrom(url),
+				Data: core.GetHtmlFrom(url, lab),
 			}
 
 		}(lab.Name, url)
