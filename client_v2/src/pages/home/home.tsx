@@ -14,11 +14,6 @@ function Home() {
       <SearchBlock/>
       {/* Для часто искомого */}
       <Popular/>
-      <CDescription
-        className="text-center"
-      >
-        Потяните <CRB>влево</CRB> или <CRB>вправо</CRB>, чтоб посмотреть еще
-      </CDescription>
       <CCarousel/>
     </>
   );

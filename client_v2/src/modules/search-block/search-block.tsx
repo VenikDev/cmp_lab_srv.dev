@@ -28,13 +28,12 @@ function SearchBlock() {
 
   // get names of labs
   useEffect(() => {
-    const getLabs = async () => {
+    (async () => {
       await ky(HOST_V1+`/get_names_labs`)
         .json<string[]>().then(value => {
           setLabs(value)
         });
-    }
-    getLabs()
+    })()
   }, [])
 
   const sendReq = async () => {

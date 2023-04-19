@@ -1,7 +1,17 @@
+.block_with_titles {
+    margin-top: 3vw;
+    margin-bottom: 3vw;
+    @apply flex flex-col;
+}
+
 .title {
-    @apply block content-center font-bold text-3xl uppercase my-2;
+    @apply block content-center font-bold text-3xl uppercase my-2 text-center;
+    font-size: 8vw;
+    margin-top: 3vw;
+    margin-bottom: 3vw;
 }
 
 .title_with_bg {
-    @apply bg-red-500 text-white inline-block p-2 rounded-md ml-10;
+    @apply font-bold text-red-500 p-4 underline underline-offset-8;
+    margin-left: 4vw;
 }
