@@ -1,8 +1,13 @@
 // export type LabAndAnalysis = Map<string, IAnalysis[]>
-export type LabAndAnalysis = {
-  "citilab": IAnalysis[]
-  "gemotest": IAnalysis[]
-  "invitro": IAnalysis[]
+
+interface NameAndListAnalysis {
+  nameLab: string
+  list: IAnalysis[]
+}
+
+export interface LabAndAnalysis {
+  name_lab: string
+  list: IAnalysis[]
 }
 
 export interface IAnalysis {
@@ -13,9 +18,9 @@ export interface IAnalysis {
 }
 
 export interface IListAnalysis {
-  analysis: LabAndAnalysis | undefined,
+  analysis: LabAndAnalysis[],
   isLoading: boolean,
-  addAnalysis: (newAnalysis: LabAndAnalysis) => void
+  addAnalysis: (newAnalysis: LabAndAnalysis[]) => void
   changeStateLoading: () => void
 }
 

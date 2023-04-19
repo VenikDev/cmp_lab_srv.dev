@@ -33,11 +33,15 @@ function NavBar() {
           <li className={classes.area_visible_city}>
             <div className="flex">
               {/* open dialog for select city */}
+
               <button
                 onClick={() => openCloseDialog()}
                 className={classes.btn_select_city}
               >
-                {globalPropertiesStore.selectCity}
+                Город:&nbsp;
+                <b className="underline-offset-2 underline">
+                  {globalPropertiesStore.selectCity}
+                </b>
               </button>
               {/* open page fot visible selected analysis */}
               {/*<Link to="/favorite">*/}

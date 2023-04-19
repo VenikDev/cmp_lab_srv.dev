@@ -13,6 +13,7 @@ import {getAnalysis} from "../../net/requests";
 import {useAnalysis} from "../../stores/analysis-store";
 import {LabAndAnalysis} from "../../models/analysis";
 import {useGlobalProperties} from "../../stores/global-properties-store";
+import {Logger} from "../../common/logger";
 
 function SearchBlock() {
   // Для открытия/закрытия диалогового окна
@@ -38,11 +39,8 @@ function SearchBlock() {
 
   const sendReq = async () => {
     analysisStore.changeStateLoading()
-
-    // let result = new Map<string, IAnalysis[]>()
-    const analysis = await getAnalysis<LabAndAnalysis>(nameAna!!, globalPropertiesStore.selectCity)
+    const analysis = await getAnalysis<LabAndAnalysis[]>(nameAna!!, globalPropertiesStore.selectCity)
     analysisStore.addAnalysis(analysis)
-    console.log(analysis)
     analysisStore.changeStateLoading()
   }
 

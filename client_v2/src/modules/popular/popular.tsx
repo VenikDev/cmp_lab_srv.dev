@@ -16,6 +16,7 @@ import Description from "../../ui/description/description";
 import classes from "./popular.module.css"
 import "swiper/css";
 import "swiper/css/pagination";
+import {Logger} from "../../common/logger";
 
 
 function Popular() {
@@ -90,10 +91,8 @@ function Popular() {
                 className="cursor-pointer"
                 onClick={async () => {
                   analysisStore.changeStateLoading()
-
-                  const analysis = await getAnalysis<LabAndAnalysis>(item.name, globalPropertiesStore.selectCity)
+                  const analysis = await getAnalysis<LabAndAnalysis[]>(item.name, globalPropertiesStore.selectCity)
                   analysisStore.addAnalysis(analysis)
-                  console.log(analysis)
                   analysisStore.changeStateLoading()
                 }}
               >

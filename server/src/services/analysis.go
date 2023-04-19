@@ -20,7 +20,7 @@ type resultDocument struct {
 // GetLaboratoryAnalyses
 // Получить список анализов для каждой лаборатории
 func GetLaboratoryAnalyses(key string) (model.LabAndListAnalyses, error) {
-	labsAndListTests := make(model.LabAndListAnalyses)
+	labsAndListTests := make(model.LabAndListAnalyses, 3)
 	fillMapAnalyses(labsAndListTests, key)
 
 	// если нашли хоть бы для обной лаборатории
@@ -73,15 +73,18 @@ func fillMapAnalyses(labsAndListTests model.LabAndListAnalyses, key string) {
 	for idx := 0; idx < sizeLabs; idx++ {
 		wg.Add(1)
 
-		go func() {
+		go func(idx int) {
 			defer wg.Done()
 			foundData := <-documentChannel
 
 			clog.Logger.Info("fillMapAnalyses: ", "Received a list of analyzes from", foundData.Name)
 
 			foundLaboratories := model.GetAnalyzes(foundData.Name, foundData.Data)
-			labsAndListTests[foundData.Name] = foundLaboratories
-		}()
+			labsAndListTests[idx] = model.LaboratoryAnalyzes{
+				NameLab: foundData.Name,
+				List:    foundLaboratories,
+			}
+		}(idx)
 	}
 
 	wg.Wait()
