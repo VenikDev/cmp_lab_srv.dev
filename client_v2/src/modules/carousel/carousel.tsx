@@ -7,6 +7,7 @@ import {useSelectAnalysis} from "../../stores/select-analysis-store";
 import {IAnalysis, LabAndAnalysis} from "../../models/analysis";
 import CardAnalysis from "./card-analysis";
 import DialogSelectAnalysis from "./dialog-select-analysis";
+import {assert_msg} from "../../common/assert_msg";
 
 // css
 import "swiper/css";
@@ -23,7 +24,9 @@ function Carousel() {
   }
 
   function analysisEmpty() {
-    return analysisStore.analysis.length == 0;
+    const condition = analysisStore.analysis.length == 0
+    assert_msg(condition, analysisStore.analysis)
+    return analysisStore.analysis.length == 0
   }
 
   function RenderSwipe(listLaboratoryTests: LabAndAnalysis, idx: number) {
