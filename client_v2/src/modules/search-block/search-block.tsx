@@ -50,7 +50,7 @@ function SearchBlock() {
     }
 
     analysisStore.changeStateLoading()
-    const analysis = await getAnalysis<LabAndAnalysis[]>(nameAnalysis, globalPropertiesStore.selectCity)
+    const analysis = await getAnalysis<LabAndAnalysis[]>(nameAnalysis, globalPropertiesStore.selectCity?.name!!)
     analysisStore.addAnalysis(analysis)
     analysisStore.changeStateLoading()
 

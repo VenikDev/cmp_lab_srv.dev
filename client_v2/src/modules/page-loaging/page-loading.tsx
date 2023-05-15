@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Dialog from "../../ui/dialog/dialog";
 import {useAnalysis} from "../../stores/analysis-store";
-import waitingGif from "../../assets/waiting.gif"
+import waitingGif1 from "../../assets/waiting.gif"
 import CRB from "../../ui/text/bold-red";
 
 function PageLoading() {
@@ -17,8 +17,9 @@ function PageLoading() {
         <img
           width="640"
           height="358"
-          src={waitingGif}
+          src={waitingGif1}
           alt="Не могу прогрузить веселую гифку"
+          className="justify-content-center"
         />
         <div
           className="mt-4"

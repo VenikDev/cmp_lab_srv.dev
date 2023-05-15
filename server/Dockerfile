@@ -1,16 +1,19 @@
-FROM golang:1.20
+FROM golang:latest
 
-WORKDIR server_compare_labs
+RUN go version
 
-COPY go.mod ./
-COPY go.sum ./
+WORKDIR /server
 
-RUN go mod download
-
-COPY *.go ./
+COPY . .
 
 EXPOSE 8080
 
-RUN go build main.go
+ENV GIN_MODE=release \
+    HOST="http://localhost" \
+    PORT=8080
 
-CMD [ "./main" ]
+RUN go get -d -v ./...
+RUN go install -v ./...
+RUN go build -v -o server src/main.go
+
+CMD ["server"]

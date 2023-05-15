@@ -22,5 +22,5 @@ func GetWorkDir() (wordDir string) {
 // file. The function calls another function called "GetWorkDir(
 // )" to get the current working directory and concatenates it with the string constant "CONFIG_FOR_SEARCH".
 func PathToConfig() string {
-	return GetWorkDir() + CONFIG_FOR_SEARCH
+	return GetWorkDir() + `\..\` + CONFIG_FOR_SEARCH
 }

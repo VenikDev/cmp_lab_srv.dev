@@ -91,7 +91,7 @@ function Popular() {
                 className="cursor-pointer"
                 onClick={async () => {
                   analysisStore.changeStateLoading()
-                  const analysis = await getAnalysis<LabAndAnalysis[]>(item.name, globalPropertiesStore.selectCity)
+                  const analysis = await getAnalysis<LabAndAnalysis[]>(item.name, globalPropertiesStore.selectCity?.name!!)
                   analysisStore.addAnalysis(analysis)
                   analysisStore.changeStateLoading()
                 }}
