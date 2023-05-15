@@ -39,13 +39,13 @@ func InitConfig() {
 func InitServer(app *gin.Engine) {
 	var pathToStaticFiles strings.Builder
 	pathToStaticFiles.WriteString(paths.GetWorkDir())
-	pathToStaticFiles.WriteString(`\..\static\`)
+	pathToStaticFiles.WriteString(`/static/`)
 
 	app.Use(gin.Logger())
 	app.Use(CORSMiddleware())
 
 	// static files
-	app.StaticFS("/assets", http.Dir(pathToStaticFiles.String()+"/assets"))
+	app.StaticFS("/assets", http.Dir(pathToStaticFiles.String()+"assets"))
 	app.LoadHTMLGlob(pathToStaticFiles.String() + "*.html")
 
 	err := app.SetTrustedProxies([]string{"192.168.1.2"})
@@ -59,6 +59,6 @@ func InitServer(app *gin.Engine) {
 // If an error occurs during this process,
 // it uses errorHandler (herr) package to handle the error and terminate the program.
 func InitEnv() {
-	err := godotenv.Load(paths.GetWorkDir() + `\..\.env`)
-	herr.HandlerFatal(err, "Error loading .env file")
+	err := godotenv.Load(paths.GetWorkDir() + `/.env`)
+	herr.HandlerError(err, "Error loading .env file")
 }

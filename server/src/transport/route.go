@@ -6,7 +6,7 @@ import (
 
 func InitRouters(app *gin.Engine) {
 	//groupApiV1 := app.Group(API_V1)
-	app.GET(API_V1+"/", GetIndexHtml)
+	app.GET("/", GetIndexHtml)
 	app.GET(API_V1+"/get_labs", GetLabs)
 	app.GET(API_V1+"/get_names_labs", GetLabsNames)
 	app.GET(API_V1+"/analysis", GetListAnalyses)

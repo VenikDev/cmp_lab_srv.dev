@@ -17,7 +17,7 @@ import (
 )
 
 func GetIndexHtml(context *gin.Context) {
-	context.HTML(http.StatusOK, "index.html", nil)
+	context.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
 // GetListAnalyses
@@ -44,7 +44,7 @@ func GetListAnalyses(context *gin.Context) {
 		return
 	}
 
-	clog.Logger.Info("InitRouters", "city", city)
+	clog.Logger.Info("router/init_routers", "city", city)
 	query := city + ":" + key
 
 	jsonData, err := redis.GetAnalysisByCity(query)
