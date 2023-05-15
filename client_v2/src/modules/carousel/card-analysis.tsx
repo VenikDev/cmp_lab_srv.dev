@@ -7,6 +7,7 @@ import Description from "../../ui/description/description";
 interface ICardAnalysis {
   openSelectCallback: (value: IAnalysis) => void,
   analysis: IAnalysis,
+  colorLab: string
 }
 
 function CardAnalysis(props: ICardAnalysis) {

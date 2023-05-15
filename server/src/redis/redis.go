@@ -28,7 +28,8 @@ var (
 func InitRedis() {
 	dbNumber, err := strconv.Atoi(os.Getenv("REDIS_DB"))
 	if err != nil {
-		clog.Logger.Fatal("Redis...", "No parse number dbNumber", "OK")
+		clog.Logger.Error("Redis...", "No parse number dbNumber", "OK")
+		dbNumber = 0
 	}
 
 	RedisClient = redis.NewClient(&redis.Options{
@@ -38,8 +39,8 @@ func InitRedis() {
 	})
 
 	_, err = RedisClient.Ping(context.Background()).Result()
-	if err != nil && RedisClient == nil {
-		clog.Logger.Fatal("Redis...", "Can't connect to redis...", "FAIL")
+	if err != nil {
+		clog.Logger.Fatal("Redis...", "Can't connect to redis...", err.Error())
 	} else {
 		clog.Logger.Info("Redis...", "Connected to Redis", "OK")
 	}
@@ -65,9 +66,10 @@ func AddToPopular(key string) error {
 	if valueOfKey := RedisClient.Get(ctx, editedKey); valueOfKey.Err() != nil {
 		// save new value in redis on one day
 		oneDay := time.Hour * 24
-		RedisClient.Set(ctx, editedKey, 1, oneDay)
+		statusCms := RedisClient.Set(ctx, editedKey, 1, oneDay)
+		clog.Logger.Info("[add/redis]", statusCms)
 
-		clog.Logger.Info("Redis", "create value", editedKey)
+		clog.Logger.Info("[add/redis]", "create value", editedKey)
 	} else {
 		pipe := RedisClient.Pipeline()
 		incr := pipe.Incr(ctx, editedKey)
@@ -76,7 +78,7 @@ func AddToPopular(key string) error {
 			return err
 		}
 
-		clog.Logger.Info("Redis", editedKey, incr.Val())
+		clog.Logger.Info("[add/redis]", editedKey, incr.Val())
 	}
 
 	return nil

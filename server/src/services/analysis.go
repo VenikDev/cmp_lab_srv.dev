@@ -44,12 +44,12 @@ func GetLaboratoryAnalyses(key string) (model.LabAndListAnalyses, error) {
 func SendRequests(documentChannel chan resultDocument, key string) {
 	for _, lab := range global.Laboratories {
 		url := core.CreateURLFrom(key, lab)
-		clog.Logger.Info("fillMapAnalyses: ", "Send request", url)
+		clog.Logger.Info("[req/fill_map_analyses]", "Send request", url)
 
 		go func(nameLab string, url string) {
 			documentChannel <- resultDocument{
 				Name: nameLab,
-				Data: core.GetHtmlFrom(url),
+				Data: core.GetHtmlFrom(url, lab),
 			}
 
 		}(lab.Name, url)
@@ -77,7 +77,7 @@ func fillMapAnalyses(labsAndListTests model.LabAndListAnalyses, key string) {
 			defer wg.Done()
 			foundData := <-documentChannel
 
-			clog.Logger.Info("fillMapAnalyses: ", "Received a list of analyzes from", foundData.Name)
+			clog.Logger.Info("[req/list_analysis]", "Received a list of analyzes from", foundData.Name)
 
 			foundLaboratories := model.GetAnalyzes(foundData.Name, foundData.Data)
 			labsAndListTests[idx] = model.LaboratoryAnalyzes{

@@ -5,6 +5,7 @@ import (
 	"comparisonLaboratories/src/clog"
 	"comparisonLaboratories/src/global"
 	"comparisonLaboratories/src/model"
+	"comparisonLaboratories/src/model/city"
 	"comparisonLaboratories/src/model/favorite"
 	"comparisonLaboratories/src/model/labs"
 	"comparisonLaboratories/src/redis"
@@ -16,7 +17,7 @@ import (
 )
 
 func GetIndexHtml(context *gin.Context) {
-	context.HTML(http.StatusOK, "index.html", nil)
+	context.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
 // GetListAnalyses
@@ -43,7 +44,7 @@ func GetListAnalyses(context *gin.Context) {
 		return
 	}
 
-	clog.Logger.Info("InitRouters", "city", city)
+	clog.Logger.Info("router/init_routers", "city", city)
 	query := city + ":" + key
 
 	jsonData, err := redis.GetAnalysisByCity(query)
@@ -101,7 +102,10 @@ func GetLabsNames(context *gin.Context) {
 // GetDefaultCity
 // TODO for now default "Нижний Тагил"
 func GetDefaultCity(context *gin.Context) {
-	context.IndentedJSON(http.StatusOK, "Нижний Тагил")
+	idx := algorithm.LinearSearch(labs.Cities, func(city city.City) bool {
+		return city.Name == "Нижний Тагил"
+	})
+	context.IndentedJSON(http.StatusOK, labs.Cities[idx])
 }
 
 // GetListCities
@@ -128,4 +132,41 @@ func GetPopular(context *gin.Context) {
 		result = result[:5]
 	}
 	context.IndentedJSON(http.StatusOK, result)
+}
+
+// GetCityInfo
+// handles an HTTP GET request for city information.
+// The function first retrieves the value of the city query parameter from the HTTP request using the Query method of
+// the gin.Context object.
+// If the city parameter is empty, the function calls a callback function callbackNotFound()
+// and returns an error response with status code 404 and an error message ({ "error": "<city> not found" }).
+// If the city parameter is not empty, the function searches for the corresponding city in an array called labs.
+// Cities using linear search algorithm. If the city is not found, the function again calls callbackNotFound()
+// and returns an error response.
+// Finally, if the city is found,
+// the function returns the city information as a JSON response with status code 200 using the IndentedJSON method of
+// the gin.Context object.
+func GetCityInfo(context *gin.Context) {
+	cityForFound := context.Query("city")
+	callbackNotFound := func() {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"error": cityForFound + " not found"})
+	}
+
+	// check
+	if cityForFound == "" {
+		callbackNotFound()
+		return
+	}
+
+	// find
+	idx := algorithm.LinearSearch(labs.Cities, func(city city.City) bool {
+		return city.Name == cityForFound
+	})
+
+	if idx == -1 {
+		callbackNotFound()
+		return
+	}
+
+	context.IndentedJSON(http.StatusOK, labs.Cities[idx])
 }

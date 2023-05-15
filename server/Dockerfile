@@ -1,16 +1,21 @@
 FROM golang:1.20
 
-WORKDIR server_compare_labs
+ENV GIN_MODE=release
+ENV HOST=http://localhost
+ENV PORT=8080
+ENV CGO_ENABLED 0
+ENV GOOS linux
+ENV REDIS_HOST=redis:6379
+ENV REDIS_DB=0
 
-COPY go.mod ./
-COPY go.sum ./
+WORKDIR /usr/src/app
 
-RUN go mod download
+# pre-copy/cache go.mod for pre-downloading dependencies and only redownloading them in subsequent builds if they change
+COPY go.mod go.sum ./
+RUN go mod download && go mod verify
 
-COPY *.go ./
+COPY . .
+RUN go build -v -o /usr/local/bin/app ./src/main.go
 
 EXPOSE 8080
-
-RUN go build main.go
-
-CMD [ "./main" ]
+CMD ["app"]

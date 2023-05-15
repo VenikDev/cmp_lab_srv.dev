@@ -3,6 +3,7 @@ import CRB from "../../ui/text/bold-red";
 import classes from "./style.module.css";
 import Dialog from "../../ui/dialog/dialog";
 import {useSelectAnalysis} from "../../stores/select-analysis-store";
+import MapWrapper from "../map/map-wrapper";
 
 function DialogSelectAnalysis() {
   const selectAnalysisStore = useSelectAnalysis()
@@ -40,6 +41,7 @@ function DialogSelectAnalysis() {
         Перейти на сайт лаборатории
       </a>
       <br/>
+      {/*<MapWrapper/>*/}
     </Dialog>
   );
 }

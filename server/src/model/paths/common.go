@@ -24,3 +24,5 @@ func GetWorkDir() (wordDir string) {
 func PathToConfig() string {
 	return GetWorkDir() + CONFIG_FOR_SEARCH
 }
+
+// /usr/src/app\config_for_search\cities-to-use.json

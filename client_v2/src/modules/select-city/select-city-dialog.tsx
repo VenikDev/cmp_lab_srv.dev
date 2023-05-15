@@ -27,8 +27,8 @@ function SelectCityDialog(props: ISelectCityDialog) {
     })()
   }, [])
 
-  function changeSelectCity(name: string) {
-    globalPropertiesStore.setNewSelectCity(name)
+  function changeSelectCity(city: ICity) {
+    globalPropertiesStore.setNewSelectCity(city)
     props.callbackClose()
   }
 
@@ -53,7 +53,7 @@ function SelectCityDialog(props: ISelectCityDialog) {
               <div
                 className={classes.list_item}
                 key={city.coords.lat}
-                onClick={() => changeSelectCity(city.name)}
+                onClick={() => changeSelectCity(city)}
               >
                 <h1
                   className={classes.list_item_text}
@@ -61,7 +61,7 @@ function SelectCityDialog(props: ISelectCityDialog) {
                   {city.name}
                 </h1>
                 {
-                  city.name == globalPropertiesStore.selectCity &&
+                  city.name == globalPropertiesStore.selectCity?.name &&
                     <h1
                       className={classes.is_select}
                     >

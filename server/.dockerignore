@@ -1,5 +1,5 @@
-./build
-./requests
+build
+requests
 .env.example
 .gitignore
 Dockerfile

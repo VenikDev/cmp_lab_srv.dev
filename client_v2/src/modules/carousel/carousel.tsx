@@ -7,6 +7,8 @@ import {useSelectAnalysis} from "../../stores/select-analysis-store";
 import {IAnalysis, LabAndAnalysis} from "../../models/analysis";
 import CardAnalysis from "./card-analysis";
 import DialogSelectAnalysis from "./dialog-select-analysis";
+import {AssertMsg} from "../../common/assert_msg";
+import {Logger} from "../../common/logger";
 
 // css
 import "swiper/css";
@@ -23,15 +25,35 @@ function Carousel() {
   }
 
   function analysisEmpty() {
-    return analysisStore.analysis.length == 0;
+    const condition = analysisStore.analysis.length == 0
+    AssertMsg(condition, "carousel", analysisStore.analysis)
+
+    return analysisStore.analysis.length == 0
+  }
+
+  function getStyleByNameLab(name: string, tag: string): string | undefined {
+    switch (name) {
+      case "gemotest": {
+        return tag+"-gemotest"
+      }
+      case "citilab": {
+        return tag+"-citilab"
+      }
+      case "invitro": {
+        return tag+"-invitro"
+      }
+    }
   }
 
   function RenderSwipe(listLaboratoryTests: LabAndAnalysis, idx: number) {
+    const color = getStyleByNameLab(listLaboratoryTests.name_lab, "text")!!
+    Logger.Info("color", color)
+
     return (
       <SwiperSlide
         key={idx}
       >
-        <h1 className={classes.name_lab}>
+        <h1 className={classes.name_lab + " " + color}>
           {listLaboratoryTests.name_lab}
         </h1>
         {
@@ -40,6 +62,7 @@ function Carousel() {
               openSelectCallback={openSelectAnalysis}
               analysis={analysis}
               key={idxAnalysis}
+              colorLab={color}
             />
           )
         }
