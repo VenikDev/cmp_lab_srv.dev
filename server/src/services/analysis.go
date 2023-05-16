@@ -46,13 +46,15 @@ func SendRequests(documentChannel chan resultDocument, key string) {
 		url := core.CreateURLFrom(key, lab)
 		clog.Logger.Info("[req/fill_map_analyses]", "Send request", url)
 
-		go func(nameLab string, url string) {
-			documentChannel <- resultDocument{
-				Name: nameLab,
-				Data: core.GetHtmlFrom(url, lab),
+		go func(lab global.Laboratory, url string) {
+			data := core.GetHtmlFrom(url, lab)
+			if data != nil {
+				documentChannel <- resultDocument{
+					Name: lab.Name,
+					Data: data,
+				}
 			}
-
-		}(lab.Name, url)
+		}(lab, url)
 	}
 }
 

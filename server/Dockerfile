@@ -13,7 +13,10 @@ COPY . .
 RUN go mod download && go mod verify
 RUN go build -a -installsuffix -v -o cmp_lab_srv ./src/main.go
 
-FROM scratch
+#FROM scratch
+FROM alpine
+
+RUN apk --no-cache add ca-certificates
 
 WORKDIR /app
 

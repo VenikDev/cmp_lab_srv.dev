@@ -37,25 +37,32 @@ func GetIndexHtml(context *gin.Context) {
 // external service and cache.
 func GetListAnalyses(context *gin.Context) {
 	key := strings.ToLower(context.Query("key"))
-	city := strings.ToLower(context.Query("city"))
+	cityForSearch := strings.ToLower(context.Query("city"))
 
-	if city == "" {
+	if key == "" {
+		clog.Logger.Error("[router/get_list_ana]", "message", "Key is not provided")
+		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "Key is not provided"})
+		return
+	}
+
+	if cityForSearch == "" {
+		clog.Logger.Error("[router/get_list_ana]", "message", "City is not provided")
 		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "City is not provided"})
 		return
 	}
 
-	clog.Logger.Info("router/init_routers", "city", city)
-	query := city + ":" + key
+	clog.Logger.Info("[router/get_list_ana]", "cityForSearch", cityForSearch)
+	query := cityForSearch + ":" + key
 
 	jsonData, err := redis.GetAnalysisByCity(query)
 	if err != nil {
 		if key == "" {
-			context.AbortWithStatusJSON(http.StatusNotFound, gin.H{"message": "Data not found for the given city"})
+			context.AbortWithStatusJSON(http.StatusNotFound, gin.H{"message": "Data not found for the given cityForSearch"})
 			return
 		}
 
 		if err := redis.AddToPopular(key); err != nil {
-			clog.Logger.Error("GetListAnalyses", "Couldn't save", key)
+			clog.Logger.Error("[router/get_list_ana]", "Couldn't save", key)
 			context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Failed to add data to redis"})
 			return
 		}
@@ -67,11 +74,11 @@ func GetListAnalyses(context *gin.Context) {
 		}
 
 		if err := redis.AddToPopular(key); err != nil {
-			clog.Logger.Error("GetListAnalyses", "Couldn't save", key)
+			clog.Logger.Error("[router/get_list_ana]", "Couldn't save", key)
 		}
 
 		if err := redis.AddAnalysisByCity(query, result); err != nil {
-			clog.Logger.Error("InitRouters", "No added data to redis")
+			clog.Logger.Error("[router/get_list_ana]", "No added data to redis")
 		}
 
 		context.JSON(http.StatusOK, result)
@@ -79,11 +86,12 @@ func GetListAnalyses(context *gin.Context) {
 	}
 
 	if err := redis.AddToPopular(key); err != nil {
-		clog.Logger.Error("GetListAnalyses", "Couldn't save", key)
+		clog.Logger.Error("[router/get_list_ana]", "Couldn't save", key)
 	}
 
 	var analysis model.LabAndListAnalyses
 	if err := json.Unmarshal([]byte(jsonData), &analysis); err != nil {
+		clog.Logger.Error("[router/get_list_ana]", "message", "Failed to unmarshal data")
 		context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Failed to unmarshal data"})
 		return
 	}
