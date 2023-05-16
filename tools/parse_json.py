@@ -15,7 +15,7 @@ result = []
 
 def main():
     # Открываем файл и загружаем данные
-    with open('../config_for_search/russian-cities.json', 'r', encoding="utf8") as f:
+    with open('../server/config_for_search/russian-cities.json', 'r', encoding="utf8") as f:
         data = json.load(f)
 
     # Перебираем элементы массива и выводим информацию
@@ -23,7 +23,7 @@ def main():
         if city["subject"] == subject and city["name"] in topLargestCity:
             result.append(city)
 
-    with open('../config_for_search/cities-to-use.json', 'w', encoding="utf8") as f:
+    with open('../server/config_for_search/cities-to-use.json', 'w', encoding="utf8") as f:
         json.dump(result, f)
         print("Done")
 
