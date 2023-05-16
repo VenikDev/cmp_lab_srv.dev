@@ -56,17 +56,6 @@ func GetListAnalyses(context *gin.Context) {
 
 	jsonData, err := redis.GetAnalysisByCity(query)
 	if err != nil {
-		if key == "" {
-			context.AbortWithStatusJSON(http.StatusNotFound, gin.H{"message": "Data not found for the given cityForSearch"})
-			return
-		}
-
-		if err := redis.AddToPopular(key); err != nil {
-			clog.Logger.Error("[router/get_list_ana]", "Couldn't save", key)
-			context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Failed to add data to redis"})
-			return
-		}
-
 		result, err := services.GetLaboratoryAnalyses(key)
 		if err != nil {
 			context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Failed to fetch analyses from service"})
