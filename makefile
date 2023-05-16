@@ -10,10 +10,7 @@ del:
 # remove all cintainers
 	docker compose rm
 # remove all images
-	docker rmi comparison_lab-service-1
-	docker rmi comparison_lab-service-2
-	docker rmi comparison_lab-nginx
-	docker rmi comparison_lab-redis
+	docker-compose down --rmi all
 
 deploy: del
 	docker-compose up
