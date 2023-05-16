@@ -40,9 +40,9 @@ func InitRedis() {
 
 	_, err = RedisClient.Ping(context.Background()).Result()
 	if err != nil {
-		clog.Logger.Fatal("Redis...", "Can't connect to redis...", err.Error())
+		clog.Logger.Fatal("[init/redis]", "Can't connect to redis...", err.Error())
 	} else {
-		clog.Logger.Info("Redis...", "Connected to Redis", "OK")
+		clog.Logger.Info("[init/redis]", "Connected to Redis", "OK")
 	}
 }
 

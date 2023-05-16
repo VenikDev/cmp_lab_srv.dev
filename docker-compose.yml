@@ -5,16 +5,27 @@ services:
 #    build: ./redis
     ports:
       - '6379:6379'
-  service:
+  service1:
     restart: on-failure
     build: ./server
+    environment:
+      PORT: 8881
     ports:
-      - '8080:8080'
+      - '8881:8881'
+    links:
+      - redis
+  service2:
+    restart: on-failure
+    build: ./server
+    environment:
+      PORT: 8882
+    ports:
+      - '8882:8882'
     links:
       - redis
 #  nginx:
 #    build: ./nginx
 #    ports:
-#      - '80:80'
+#      - '8080:80'
 #    depends_on:
 #      - server_compare_labs
