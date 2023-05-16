@@ -2,6 +2,7 @@ version: '3.9'
 services:
   redis:
     container_name: cmp-lab-redis
+    restart: on-failure
     build: ./redis
     ports:
       - '6379:6379'
@@ -25,6 +26,7 @@ services:
       - redis
   nginx:
     container_name: nginx-reverse-proxy
+    restart: on-failure
     build: ./nginx
     ports:
       - "80:80"
