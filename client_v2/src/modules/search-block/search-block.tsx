@@ -1,11 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
-import CDescription from "../../ui/description/description";
 import Dialog from "../../ui/dialog/dialog";
 import CInput from "../../ui/input/input";
-import {AiOutlineSearch, TfiClose} from "react-icons/all";
-import CCheckBox from "../../ui/radio-btn/radio-btn";
-import CAlertError from "../../ui/alerts/error/alert-error";
-import CRB from "../../ui/text/bold-red";
+import {AiOutlineSearch} from "react-icons/all";
 import {Key} from "../../common/keys";
 import ky from "ky";
 import {HOST_V1} from "../../net/consts";
@@ -13,9 +9,11 @@ import {getAnalysis} from "../../net/requests";
 import {useAnalysis} from "../../stores/analysis-store";
 import {LabAndAnalysis} from "../../models/analysis";
 import {useGlobalProperties} from "../../stores/global-properties-store";
-import {Logger} from "../../common/logger";
 import AlertError from "../../ui/alerts/error/alert-error";
 import Description from "../../ui/description/description";
+import classes from "./search-block.module.css"
+import StrongBold from "../../ui/text/strong_bold";
+import CDescription from "../../ui/description/description";
 
 function SearchBlock() {
   // Для открытия/закрытия диалогового окна
@@ -88,11 +86,14 @@ function SearchBlock() {
   return (
     <>
       <button
-        className="w-full bg-red-500 text-white rounded-md p-2"
+        className={classes.search_btn}
         onClick={() => setVisibleDialog(true)}
       >
         Открыть поиск
       </button>
+      <CDescription>
+        Найми, чтоб открыть окно для <StrongBold>ввода запроса</StrongBold>
+      </CDescription>
       <Dialog
         open={visibleDialog}
         callbackClose={setVisibleDialog}
@@ -109,7 +110,7 @@ function SearchBlock() {
         }
         {/* description */}
         <Description>
-          Отправка запроса для поиска по <CRB> ключевому слову </CRB>
+          Отправка запроса для поиска по <StrongBold> ключевому слову </StrongBold>
         </Description>
         {/* send request */}
         <button
@@ -119,7 +120,7 @@ function SearchBlock() {
               setVisibleDialog(false)
             }
           }}
-          className="mx-auto mt-2 bg-red-500 text-white p-2 rounded-md px-5 flex"
+          className={classes.find_tests}
         >
           <AiOutlineSearch className="w-5 h-5 mr-2 my-auto"/>
           Найти

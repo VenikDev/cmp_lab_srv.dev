@@ -1,5 +1,5 @@
 import React from 'react';
-import CRB from "../../ui/text/bold-red";
+import CRB from "../../ui/text/strong_bold";
 import classes from "./style.module.css";
 import Dialog from "../../ui/dialog/dialog";
 import {useSelectAnalysis} from "../../stores/select-analysis-store";

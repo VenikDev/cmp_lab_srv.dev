@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 * {
-    font-family: 'Comfortaa', cursive;
+    /*font-family: 'Comfortaa', cursive;*/
+    font-family: 'Bellota Text', cursive;
+    /*font-family: 'Poiret One', cursive;*/
 }
 
 .comfortaa {

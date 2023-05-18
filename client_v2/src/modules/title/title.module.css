@@ -1,7 +1,7 @@
 .block_with_titles {
     margin-top: 3vw;
     margin-bottom: 3vw;
-    @apply flex flex-col;
+    @apply flex flex-col p-4 border-l-2 border-b-2 border-main-border;
 }
 
 .title {
@@ -12,6 +12,6 @@
 }
 
 .title_with_bg {
-    @apply font-bold text-red-500 p-4 underline underline-offset-8;
+    @apply font-bold p-4 underline underline-offset-8;
     margin-left: 4vw;
 }

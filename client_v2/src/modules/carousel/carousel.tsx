@@ -53,7 +53,7 @@ function Carousel() {
       <SwiperSlide
         key={idx}
       >
-        <h1 className={classes.name_lab + " " + color}>
+        <h1 className={`${classes.name_lab} ${color}`}>
           {listLaboratoryTests.name_lab}
         </h1>
         {

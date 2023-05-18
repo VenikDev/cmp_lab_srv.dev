@@ -8,7 +8,11 @@ function Title() {
         Инвестируй
       </div>
       <div className={classes.title + " " + classes.title_with_bg}>
-        в свое
+        <span
+          className="px-2 bg-black text-white rounded-xl"
+        >
+          в свое
+        </span>
       </div>
       <div className={classes.title}>
         здоровье

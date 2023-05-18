@@ -1,5 +1,5 @@
 nav {
-    @apply bg-red-500 border rounded-md p-5;
+    @apply border-main-border border-2 rounded-md p-5;
 }
 
 ul {
@@ -15,11 +15,11 @@ a:hover {
 }
 
 .name {
-    @apply text-white font-bold text-2xl;
+    @apply text-main-text font-bold text-2xl;
 }
 
 .btn_select_city {
-    @apply block cursor-pointer text-white;
+    @apply block cursor-pointer text-main-text;
 }
 
 .area_visible_city {

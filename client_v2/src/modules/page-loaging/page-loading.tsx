@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Dialog from "../../ui/dialog/dialog";
 import {useAnalysis} from "../../stores/analysis-store";
 import waitingGif1 from "../../assets/waiting.gif"
-import CRB from "../../ui/text/bold-red";
+import CRB from "../../ui/text/strong_bold";
 
 function PageLoading() {
   const analysisStore = useAnalysis()

@@ -3,8 +3,7 @@ import Title from "../../modules/title/title";
 import SearchBlock from "../../modules/search-block/search-block";
 import Carousel from "../../modules/carousel/carousel";
 import Popular from "../../modules/popular/popular";
-import CDescription from "../../ui/description/description";
-import CRB from "../../ui/text/bold-red";
+import Filter from "../../modules/filter/filter";
 
 function Home() {
   return (
@@ -14,6 +13,7 @@ function Home() {
       <SearchBlock/>
       {/* Для часто искомого */}
       <Popular/>
+      <Filter/>
       <Carousel/>
     </>
   );

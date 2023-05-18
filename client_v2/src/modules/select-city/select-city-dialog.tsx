@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Dialog from "../../ui/dialog/dialog";
 import CDescription from "../../ui/description/description";
-import CRB from "../../ui/text/bold-red";
+import CRB from "../../ui/text/strong_bold";
 import {useGlobalProperties} from "../../stores/global-properties-store";
 import ky from "ky";
 import {HOST_V1} from "../../net/consts";

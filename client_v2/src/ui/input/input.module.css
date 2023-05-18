@@ -1,3 +1,3 @@
 .input_field {
-    @apply w-full p-2 border-red-500 border-2 rounded-md mt-3;
+    @apply w-full p-2 border-main-border border-2 rounded-md mt-3 shadow-black shadow-2xl;
 }

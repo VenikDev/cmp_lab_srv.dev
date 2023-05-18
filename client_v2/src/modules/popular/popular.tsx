@@ -3,7 +3,7 @@ import {IPopular} from "./model";
 import ky from "ky";
 import {HOST_V1} from "../../net/consts";
 import CDescription from "../../ui/description/description";
-import CRB from "../../ui/text/bold-red";
+import CRB from "../../ui/text/strong_bold";
 import {getAnalysis} from "../../net/requests";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination} from "swiper";
@@ -51,7 +51,7 @@ function Popular() {
 
   // render component
   return (
-    <div
+    popularEmpty() ? <div
       className="w-full my-4"
     >
       <Swiper
@@ -115,19 +115,13 @@ function Popular() {
         }
       </Swiper>
       {
-        !popularEmpty() ?
-          <CDescription
-              className="text-center"
-          >
-              Потяните <CRB>влево</CRB> или <CRB>вправо</CRB>, чтоб посмотреть еще
-          </CDescription> :
-          <Description
+        <CDescription
             className="text-center"
-          >
-            Список <CRB>популярного</CRB> пуст
-          </Description>
+        >
+            Потяните <CRB>влево</CRB> или <CRB>вправо</CRB>, чтоб посмотреть еще
+        </CDescription>
       }
-    </div>
+    </div> : ""
   );
 }
 

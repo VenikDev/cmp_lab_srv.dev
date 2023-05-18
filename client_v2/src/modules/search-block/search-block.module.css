@@ -1,3 +1,11 @@
 .search-block {
     @apply flex my-4;
 }
+
+.search_btn {
+    @apply w-full bg-black text-white rounded-md p-2 shadow-black shadow-md drop-shadow-2xl;
+}
+
+.find_tests {
+    @apply mx-auto mt-2 bg-white border-main-border rounded-md border-2 text-main-text p-2 px-5 flex shadow-black shadow-2xl;
+}

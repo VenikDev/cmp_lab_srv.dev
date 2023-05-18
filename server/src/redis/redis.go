@@ -5,8 +5,8 @@ import (
 	"comparisonLaboratories/src/model"
 	"comparisonLaboratories/src/model/favorite"
 	"context"
+	"encoding/json"
 	"errors"
-	"github.com/goccy/go-json"
 	"github.com/redis/go-redis/v9"
 	"os"
 	"strconv"
@@ -18,6 +18,26 @@ var (
 	RedisClient *redis.Client
 	ctx         = context.Background()
 )
+
+func connectToRedis(host, password string, dbNumber int) (val string, error error) {
+	RedisClient = redis.NewClient(&redis.Options{
+		Addr:     host,     // Redis server address and port
+		Password: password, // Redis server password, if any
+		DB:       dbNumber, // Redis database number to use (0-15)
+	})
+
+	return RedisClient.Ping(context.Background()).Result()
+}
+
+func connectToRedisIsSuccess(err error) bool {
+	if err != nil {
+		clog.Logger.Error("[init/redis]", "Can't connect to redis...", err.Error())
+		return false
+	}
+
+	clog.Logger.Info("[init/redis]", "Connected to Redis", "OK")
+	return true
+}
 
 // InitRedis
 // The code initializes a Redis client using the `go-redis/redis` package. It sets the Redis server address and port,
@@ -32,17 +52,11 @@ func InitRedis() {
 		dbNumber = 0
 	}
 
-	RedisClient = redis.NewClient(&redis.Options{
-		Addr:     os.Getenv("REDIS_HOST"),     // Redis server address and port
-		Password: os.Getenv("REDIS_PASSWORD"), // Redis server password, if any
-		DB:       dbNumber,                    // Redis database number to use (0-15)
-	})
-
-	_, err = RedisClient.Ping(context.Background()).Result()
-	if err != nil {
-		clog.Logger.Fatal("[init/redis]", "Can't connect to redis...", err.Error())
-	} else {
-		clog.Logger.Info("[init/redis]", "Connected to Redis", "OK")
+	_, err = connectToRedis(os.Getenv("REDIS_HOST"), os.Getenv("REDIS_PASSWORD"), dbNumber)
+	if !connectToRedisIsSuccess(err) {
+		// for testing
+		host := "http://localhost:6379"
+		_, err = connectToRedis(host, os.Getenv("REDIS_PASSWORD"), dbNumber)
 	}
 }
 
@@ -128,7 +142,6 @@ func GetFavorite() ([]favorite.Favorite, error) {
 	return result, nil
 }
 
-// GetAnalysisByCity
 func GetAnalysisByCity(city string) (string, error) {
 	jsonData, err := RedisClient.Get(ctx, city).Result()
 	if err != nil {
@@ -137,7 +150,6 @@ func GetAnalysisByCity(city string) (string, error) {
 	return jsonData, nil
 }
 
-// AddAnalysisByCity
 func AddAnalysisByCity(city string, analysis model.LabAndListAnalyses) error {
 	jsonData, err := json.Marshal(analysis)
 	if err != nil {

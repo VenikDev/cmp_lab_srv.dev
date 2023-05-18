@@ -1,9 +1,18 @@
 .card {
-    @apply block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mb-4 cursor-pointer z-0;
+    @apply block p-6 mb-4 cursor-pointer z-0;
+    /* border */
+    @apply rounded-lg border-main-border border-2;
+    /* shadow */
+    @apply shadow-black;
+    /* bg */
+    /*@apply bg-soft-peach;*/
+    /* hover */
+    @apply hover:shadow-2xl hover:bg-gray-200 duration-200;
 }
 
 .title {
-    @apply mb-2 text-xl font-bold tracking-tight text-red-500;
+    @apply mb-2 text-xl font-bold tracking-tight text-main-text;
+
 }
 
 .description {
@@ -11,7 +20,9 @@
 }
 
 .name_lab {
-    @apply border-2 rounded-md p-2 text-center font-bold text-xl mb-4 text-red-500;
+    @apply border-2 rounded-md border-main-border p-2 text-center text-xl mb-4 text-main-text;
+    /*  shadow  */
+    @apply shadow-xl;
 }
 
 .link_to_lab {
