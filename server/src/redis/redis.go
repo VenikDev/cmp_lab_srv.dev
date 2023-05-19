@@ -48,11 +48,17 @@ func connectToRedisIsSuccess(err error) bool {
 func InitRedis() {
 	dbNumber, err := strconv.Atoi(os.Getenv("REDIS_DB"))
 	if err != nil {
-		clog.Logger.Error("Redis...", "No parse number dbNumber", "OK")
+		clog.Logger.Error("[init/redis]", "No parse number dbNumber", "OK")
 		dbNumber = 0
 	}
 
-	_, err = connectToRedis(os.Getenv("REDIS_HOST"), os.Getenv("REDIS_PASSWORD"), dbNumber)
+	redisHost := os.Getenv("REDIS_HOST")
+	clog.Logger.Info("[init/redis]", "REDIS_HOST", redisHost)
+
+	redisPassword := os.Getenv("REDIS_PASSWORD")
+	clog.Logger.Info("[init/redis]", "REDIS_PASSWORD", redisPassword)
+
+	_, err = connectToRedis(redisHost, redisPassword, dbNumber)
 	if !connectToRedisIsSuccess(err) {
 		// for testing
 		host := "http://localhost:6379"
