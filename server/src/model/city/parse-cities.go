@@ -1,7 +1,7 @@
 package city
 
 import (
-	"comparisonLaboratories/src/model/paths"
+	"cmp_lab/src/model/paths"
 	"github.com/goccy/go-json"
 	"io"
 	"os"

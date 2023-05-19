@@ -1,9 +1,9 @@
 package model
 
 import (
-	"comparisonLaboratories/src/algorithm"
-	"comparisonLaboratories/src/global"
-	"comparisonLaboratories/src/herr"
+	"cmp_lab/src/algorithm"
+	"cmp_lab/src/global"
+	"cmp_lab/src/herr"
 	"github.com/PuerkitoBio/goquery"
 	"regexp"
 	"strconv"

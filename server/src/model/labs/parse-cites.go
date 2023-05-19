@@ -2,9 +2,9 @@ package labs
 
 import (
 	"bufio"
-	"comparisonLaboratories/src/clog"
-	"comparisonLaboratories/src/model/city"
-	"comparisonLaboratories/src/model/paths"
+	"cmp_lab/src/clog"
+	"cmp_lab/src/model/city"
+	"cmp_lab/src/model/paths"
 	"fmt"
 	"github.com/goccy/go-json"
 	"os"

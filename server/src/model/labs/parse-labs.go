@@ -1,8 +1,8 @@
 package labs
 
 import (
-	"comparisonLaboratories/src/global"
-	"comparisonLaboratories/src/model/paths"
+	"cmp_lab/src/global"
+	"cmp_lab/src/model/paths"
 	"github.com/goccy/go-json"
 	"io"
 	"os"

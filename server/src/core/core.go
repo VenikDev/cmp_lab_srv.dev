@@ -1,10 +1,10 @@
 package core
 
 import (
-	"comparisonLaboratories/src/global"
-	"comparisonLaboratories/src/herr"
-	"comparisonLaboratories/src/model/labs"
-	"comparisonLaboratories/src/model/paths"
+	"cmp_lab/src/global"
+	"cmp_lab/src/herr"
+	"cmp_lab/src/model/labs"
+	"cmp_lab/src/model/paths"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"net/http"

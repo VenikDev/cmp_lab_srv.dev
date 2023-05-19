@@ -1,9 +1,9 @@
 package redis
 
 import (
-	"comparisonLaboratories/src/clog"
-	"comparisonLaboratories/src/model"
-	"comparisonLaboratories/src/model/favorite"
+	"cmp_lab/src/clog"
+	"cmp_lab/src/model"
+	"cmp_lab/src/model/favorite"
 	"context"
 	"encoding/json"
 	"errors"

@@ -1,10 +1,10 @@
 package services
 
 import (
-	"comparisonLaboratories/src/clog"
-	"comparisonLaboratories/src/core"
-	"comparisonLaboratories/src/global"
-	"comparisonLaboratories/src/model"
+	"cmp_lab/src/clog"
+	"cmp_lab/src/core"
+	"cmp_lab/src/global"
+	"cmp_lab/src/model"
 	"errors"
 	"github.com/PuerkitoBio/goquery"
 	"strings"

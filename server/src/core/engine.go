@@ -1,9 +1,9 @@
 package core
 
 import (
-	"comparisonLaboratories/src/clog"
-	"comparisonLaboratories/src/global"
-	"comparisonLaboratories/src/model"
+	"cmp_lab/src/clog"
+	"cmp_lab/src/global"
+	"cmp_lab/src/model"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"net/http"

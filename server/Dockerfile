@@ -32,3 +32,6 @@ ENV GIN_MODE=release \
     REDIS_DB=0
 
 CMD ["./cmp_lab_srv"]
+
+
+

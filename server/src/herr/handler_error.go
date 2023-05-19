@@ -1,6 +1,6 @@
 package herr
 
-import "comparisonLaboratories/src/clog"
+import "cmp_lab/src/clog"
 
 // HandlerError
 // The code defines a function named `HandlerError` that takes two arguments: `err` of type `error` and `msg` of type

@@ -1,12 +1,12 @@
 package main
 
 import (
-	"comparisonLaboratories/src/clog"
-	"comparisonLaboratories/src/core"
-	"comparisonLaboratories/src/herr"
-	"comparisonLaboratories/src/model/labs"
-	"comparisonLaboratories/src/redis"
-	"comparisonLaboratories/src/transport"
+	"cmp_lab/src/clog"
+	"cmp_lab/src/core"
+	"cmp_lab/src/herr"
+	"cmp_lab/src/model/labs"
+	"cmp_lab/src/redis"
+	"cmp_lab/src/transport"
 	"os"
 	"runtime"
 )
