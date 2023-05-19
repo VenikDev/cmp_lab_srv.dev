@@ -7,6 +7,7 @@ import (
 	"cmp_lab/src/model"
 	"cmp_lab/src/model/city"
 	"cmp_lab/src/model/favorite"
+	"cmp_lab/src/model/labs"
 	"cmp_lab/src/redis"
 	"cmp_lab/src/services"
 	"github.com/gin-gonic/gin"
@@ -50,41 +51,53 @@ func GetListAnalyses(context *gin.Context) {
 		return
 	}
 
+	addToPopular := func(key string) {
+		if err := redis.AddToPopular(key); err != nil {
+			clog.Logger.Error("[router/get_list_ana]", "Couldn't save", key)
+		}
+	}
+
 	clog.Logger.Info("[router/get_list_ana]", "cityForSearch", cityForSearch)
 	query := cityForSearch + ":" + key
 
 	jsonData, err := redis.GetAnalysisByCity(query)
+	// if there isn't a redis, then
 	if err != nil {
 		result, err := services.GetLaboratoryAnalyses(key)
 		if err != nil {
-			context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Failed to fetch analyses from service"})
+			headers := gin.H{
+				"message": "Failed to fetch analyses from service",
+				"error":   err.Error(),
+			}
+
+			context.AbortWithStatusJSON(http.StatusInternalServerError, headers)
 			return
 		}
 
-		if err := redis.AddToPopular(key); err != nil {
-			clog.Logger.Error("[router/get_list_ana]", "Couldn't save", key)
-		}
+		addToPopular(key)
 
 		if err := redis.AddAnalysisByCity(query, result); err != nil {
 			clog.Logger.Error("[router/get_list_ana]", "No added data to redis")
 		}
 
 		context.JSON(http.StatusOK, result)
-		return
-	}
+	} else {
+		addToPopular(key)
 
-	if err := redis.AddToPopular(key); err != nil {
-		clog.Logger.Error("[router/get_list_ana]", "Couldn't save", key)
-	}
+		var analysis model.LabAndListAnalyses
+		if err := json.Unmarshal([]byte(jsonData), &analysis); err != nil {
+			clog.Logger.Error("[router/get_list_ana]", "message", "Failed to unmarshal data")
 
-	var analysis model.LabAndListAnalyses
-	if err := json.Unmarshal([]byte(jsonData), &analysis); err != nil {
-		clog.Logger.Error("[router/get_list_ana]", "message", "Failed to unmarshal data")
-		context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Failed to unmarshal data"})
-		return
-	}
+			headers := gin.H{
+				"message": "Failed to unmarshal data",
+				"error":   err.Error(),
+			}
+			context.AbortWithStatusJSON(http.StatusInternalServerError, headers)
+			return
+		}
 
-	context.JSON(http.StatusOK, analysis)
+		context.JSON(http.StatusOK, analysis)
+	}
 }
 
 func GetLabs(context *gin.Context) {

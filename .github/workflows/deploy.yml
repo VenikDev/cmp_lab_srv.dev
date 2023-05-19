@@ -1,4 +1,4 @@
-name: cmp-lab-srv
+name: build cmp-lab-srv
 
 on:
   push:

@@ -1,1 +1,1 @@
-# comparison_lab
+# cmp-lab-srv

@@ -2,7 +2,6 @@ package model
 
 import (
 	"cmp_lab/src/algorithm"
-	"cmp_lab/src/common/models"
 	"cmp_lab/src/global"
 	"cmp_lab/src/herr"
 	"github.com/PuerkitoBio/goquery"
@@ -52,11 +51,11 @@ func GetAnalyzesCitilab(document *goquery.Document) ListAnalyses {
 				totalPrice, err := strconv.Atoi(re.FindString(price))
 				herr.HandlerError(err, "Not parse price")
 				if err == nil {
-					// In this case, the function checks if the name of the `parse` parameter is equal to the constant
+					// In this case, the function checks if the name of the `lab` parameter is equal to the constant
 					// `CITILAB`. If it is, the function returns `true`,
 					// which means that the linear search will stop and the index of the found element will be
 					// returned in `idx`. Otherwise, the function returns `false`.
-					idx := algorithm.LinearSearch(global.Laboratories, func(lab models.Laboratory) bool {
+					idx := algorithm.LinearSearch(global.Laboratories, func(lab global.Laboratory) bool {
 						if lab.Name == CITILAB {
 							return true
 						}

@@ -3,7 +3,8 @@ package city
 import (
 	"bufio"
 	"cmp_lab/src/clog"
-	"cmp_lab/src/common/paths"
+	"cmp_lab/src/model/city"
+	"cmp_lab/src/model/paths"
 	"fmt"
 	"github.com/goccy/go-json"
 	"os"

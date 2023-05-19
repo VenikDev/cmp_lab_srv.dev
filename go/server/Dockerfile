@@ -31,4 +31,9 @@ ENV GIN_MODE=release \
     REDIS_HOST=redis:6379 \
     REDIS_DB=0
 
+EXPOSE 8080
+
 CMD ["./cmp_lab_srv"]
+
+
+

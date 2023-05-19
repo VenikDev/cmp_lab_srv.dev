@@ -2,7 +2,7 @@ package core
 
 import (
 	"cmp_lab/src/clog"
-	"cmp_lab/src/common/models"
+	"cmp_lab/src/global"
 	"cmp_lab/src/model"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"

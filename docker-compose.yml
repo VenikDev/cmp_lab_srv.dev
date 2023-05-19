@@ -1,33 +1,29 @@
 version: '3.9'
 services:
   redis:
-    container_name: cmp-parse-redis
+    container_name: cmp-lab-redis
     restart: on-failure
-    build: ./redis
+    build: redis
     ports:
       - '6379:6379'
   service-1:
     restart: on-failure
-    build: go/server
-    environment:
-      PORT: 8881
+    build: server
     ports:
-      - '8881:8881'
+      - '8881:8080'
     links:
       - redis
   service-2:
     restart: on-failure
-    build: go/server
-    environment:
-      PORT: 8882
+    build: server
     ports:
-      - '8882:8882'
+      - '8882:8080'
     links:
       - redis
   nginx:
     container_name: nginx-reverse-proxy
     restart: on-failure
-    build: ./nginx
+    build: nginx
     ports:
       - "80:80"
       - "443:443"

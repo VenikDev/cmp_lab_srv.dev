@@ -2,7 +2,6 @@ package services
 
 import (
 	"cmp_lab/src/clog"
-	"cmp_lab/src/common/models"
 	"cmp_lab/src/core"
 	"cmp_lab/src/global"
 	"cmp_lab/src/model"
@@ -36,10 +35,10 @@ func GetLaboratoryAnalyses(key string) (model.LabAndListAnalyses, error) {
 // This code defines a function named "SendRequests" that sends requests to multiple APIs to get data for a given
 // "key". It receives a channel of "resultDocument" type and "key" as an input parameter. It returns nothing (void).
 // Inside the function, a loop is initiated to iterate over a slice of "Laboratories" belonging to the "global
-// " variable. For each parse in the loop, a URL is created using the "CreateURLFrom" function from the "core" package.
+// " variable. For each lab in the loop, a URL is created using the "CreateURLFrom" function from the "core" package.
 // Then, an asynchronous goroutine is started using the "go" statement.
 // Within this goroutine, a "resultDocument" type is created with the "Name" property set to the name of the current
-// parse, and the "Data" property set to the HTML string returned by the "GetHtmlFrom" function from the "core" package
+// lab, and the "Data" property set to the HTML string returned by the "GetHtmlFrom" function from the "core" package
 // using the URL. This "resultDocument" object then sent to the channel provided as an input parameter of the function.
 // The code also includes a deferred close statement to close the channel when all requests have been sent.
 func SendRequests(documentChannel chan resultDocument, key string) {
@@ -47,8 +46,8 @@ func SendRequests(documentChannel chan resultDocument, key string) {
 		url := core.CreateURLFrom(key, lab)
 		clog.Logger.Info("[req/fill_map_analyses]", "Send request", url)
 
-		go func(lab models.Laboratory, url string) {
-			data := core.GetHtmlFrom(url)
+		go func(lab global.Laboratory, url string) {
+			data := core.GetHtmlFrom(url, lab)
 			if data != nil {
 				documentChannel <- resultDocument{
 					Name: lab.Name,

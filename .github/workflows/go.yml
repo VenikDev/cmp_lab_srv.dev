@@ -1,4 +1,4 @@
-name: go-land
+name: go-land tests
 
 on:
   push:
