@@ -2,8 +2,9 @@ name: deploy cmp-lab-srv to docker hub
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 env:
   DOCKER_REPO_NAME: venikshow/cmp-lab-srv # Название нового образа, которое вы хотите записать в Docker Hub
