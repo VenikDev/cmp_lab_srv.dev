@@ -1,7 +1,7 @@
 package tests
 
 import (
-	"comparisonLaboratories/src/global"
+	"cmp_lab/src/global"
 	"testing"
 )
 
