@@ -9,7 +9,7 @@ services:
   service-1:
     container_name: cmp-srv-1
     restart: on-failure
-    build: server
+    build: venikshow/cmp-lab-srv
     ports:
       - '8881:8080'
     links:
@@ -17,7 +17,7 @@ services:
   service-2:
     container_name: cmp-srv-2
     restart: on-failure
-    build: server
+    build: venikshow/cmp-lab-srv
     ports:
       - '8882:8080'
     links:
