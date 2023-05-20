@@ -61,15 +61,17 @@ function SearchBlock() {
   // If the key is "ENTER", it sets "setVisibleDialog" to false and waits for the "sendReq" function to finish before continuing.
   // The "Key" in "case Key.ENTER" is likely an enumeration with predefined values for different types of keys.
   const keyTest = async (event: any) => {
-    switch (event.key) {
-      case Key.ESCAPE: {
-        setVisibleDialog(false)
-        break
-      }
-      case Key.ENTER: {
-        setVisibleDialog(false)
-        await sendReq()
-        break
+    if (visibleDialog) {
+      switch (event.key) {
+        case Key.ESCAPE: {
+          setVisibleDialog(false)
+          break
+        }
+        case Key.ENTER: {
+          setVisibleDialog(false)
+          await sendReq()
+          break
+        }
       }
     }
   };
