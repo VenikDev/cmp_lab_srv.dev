@@ -26,7 +26,7 @@ COPY --from=builder /usr/src/app/static ./static
 COPY --from=builder /usr/src/app/.env ./.env
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-ENV GIN_MODE=release \
+ENV GIN_MODE=debug \
     HOST=http://localhost \
     PORT=8080 \
     REDIS_HOST=redis:6379 \

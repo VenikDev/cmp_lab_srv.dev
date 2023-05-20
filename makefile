@@ -3,7 +3,7 @@ del_all_static:
 
 build_client: del_all_static
 	cd client_v2 && yarn build
-	cd client_v2/dist && move * ../../server/static && move assets ../../server/static
+	cd client_v2/dist && tree /F && move * ../../server/static && move assets ../../server/static
 
 del:
 	docker-compose down
