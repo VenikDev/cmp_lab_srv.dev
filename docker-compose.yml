@@ -7,7 +7,6 @@ services:
     ports:
       - '6379:6379'
   service-1:
-    container_name: cmp-srv-1
     restart: on-failure
     image: venikshow/cmp-lab-srv:latest
     ports:
@@ -15,7 +14,6 @@ services:
     links:
       - redis
   service-2:
-    container_name: cmp-srv-2
     restart: on-failure
     image: venikshow/cmp-lab-srv:latest
     ports:

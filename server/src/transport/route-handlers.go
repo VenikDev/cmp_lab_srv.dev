@@ -145,12 +145,10 @@ func GetPopular(context *gin.Context) {
 	)
 	if len(result) > 5 {
 		result = result[:5]
-		clog.Logger.Info("[router/get_popular]", result)
-
-		context.IndentedJSON(http.StatusOK, result)
-	} else {
-		context.IndentedJSON(http.StatusNotFound, gin.H{"error": "Not found popular"})
 	}
+	clog.Logger.Info("[router/get_popular]", result)
+
+	context.IndentedJSON(http.StatusOK, result)
 }
 
 // GetCityInfo

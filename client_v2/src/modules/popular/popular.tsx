@@ -82,7 +82,7 @@ function Popular() {
         className="p-4"
       >
         {
-          popular && popular.map((item, id) =>
+          popular && popular.length != 0 && popular.map((item, id) =>
             <SwiperSlide
               key={id}
               className={classes.slide}
@@ -117,6 +117,7 @@ function Popular() {
         }
       </Swiper>
       {
+        popular && popular.length != 0 && 
         <CDescription
             className="text-center"
         >

@@ -79,16 +79,12 @@ function Carousel() {
           clickable: true,
         }}
         breakpoints={{
-          "@0.00": {
-            slidesPerView: 1,
-            spaceBetween: 10,
-          },
           "@0.50": {
-            slidesPerView: 2,
+            slidesPerView: 1,
             spaceBetween: 20,
           },
           "@1.00": {
-            slidesPerView: 3,
+            slidesPerView: 2,
             spaceBetween: 40,
           },
           "@1.50": {
