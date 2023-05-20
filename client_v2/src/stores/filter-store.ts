@@ -15,6 +15,6 @@ export const useFilterStore = create<IFilterStore>(set => ({
   })),
   category: FiltrationTypes.SEARCH_DESCRIPTION,
   setCategory: (category: string) => set(state => ({
-    query: category
+    category: category
   })),
 }))

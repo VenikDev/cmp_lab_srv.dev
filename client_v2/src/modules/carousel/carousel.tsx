@@ -62,18 +62,20 @@ function Carousel() {
         </h1>
         {
           listLaboratoryTests.list?.filter((value: IAnalysis) => {
-            const regex = new RegExp(filterStore.query, 'gi');
+            if (filterStore.query.length !== 0) {
+              const regex = new RegExp(filterStore.query, 'gi');
 
-            const category = filterStore.category
-            switch (category) {
-              case FiltrationTypes.SEARCH_DESCRIPTION: {
-                return value.description.match(regex) != null;
-              }
-              default: {
-                return value.name.match(regex) != null;
+              const category = filterStore.category
+              switch (category) {
+                case FiltrationTypes.SEARCH_DESCRIPTION: {
+                  return value.description.match(regex) != null;
+                }
+                default: {
+                  return value.name.match(regex) != null;
+                }
               }
             }
-
+            return true
           }).map((analysis: IAnalysis, idxAnalysis) =>
             <CardAnalysis
               key={idxAnalysis}

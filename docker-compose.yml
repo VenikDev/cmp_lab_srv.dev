@@ -8,14 +8,14 @@ services:
       - '6379:6379'
   service-1:
     restart: on-failure
-    image: venikshow/cmp-lab-srv:latest
+    build: server
     ports:
       - '8881:8080'
     links:
       - redis
   service-2:
     restart: on-failure
-    image: venikshow/cmp-lab-srv:latest
+    build: server
     ports:
       - '8882:8080'
     links:

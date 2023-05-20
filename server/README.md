@@ -15,3 +15,8 @@ run
 ```
 docker run --name cmp-lab-srv -p 80:8080 --link redis:redis venikshow/cmp-lab-srv
 ```
+
+pull and deploy
+```
+docker pull venikshow/cmp-lab-srv && docker run --name cmp-lab-srv -p 80:8080 --link redis:redis venikshow/cmp-lab-srv
+```
