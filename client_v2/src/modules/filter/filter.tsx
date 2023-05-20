@@ -28,8 +28,13 @@ const Filter = () => {
   }
 
   const callbackInput = (value: string) => {
-    Logger.Info("callbackInput", value)
     filterStore.setQuery(value)
+  }
+
+  function handlerInput(event: ChangeEvent<HTMLInputElement>) {
+    Logger.Info("handlerInput", event.target.value)
+
+    callbackInput(event.target.value)
   }
 
   return (
@@ -50,7 +55,7 @@ const Filter = () => {
             className="mr-2"
           />
           <CInput
-            onInput={(event: ChangeEvent<HTMLInputElement>) => callbackInput(event.target.value) }
+            onInput={handlerInput}
             placeholder="Фильтр"
           />
         </div>

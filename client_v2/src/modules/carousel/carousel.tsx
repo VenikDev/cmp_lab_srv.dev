@@ -13,11 +13,15 @@ import {Logger} from "../../common/logger";
 // css
 import "swiper/css";
 import "swiper/css/pagination";
+import {useFilterStore} from "../../stores/filter-store";
+import category from "../../ui/category/category";
+import {FiltrationTypes} from "../../ui/expended-card/FiltrationTypes";
 
 function Carousel() {
   // stores
   const analysisStore = useAnalysis()
   const selectAnalysisStore = useSelectAnalysis()
+  const filterStore = useFilterStore()
 
   function openSelectAnalysis(value: IAnalysis) {
     selectAnalysisStore.changeAnalysis(value)
@@ -34,13 +38,13 @@ function Carousel() {
   function getStyleByNameLab(name: string, tag: string): string | undefined {
     switch (name) {
       case "gemotest": {
-        return tag+"-gemotest"
+        return tag + "-gemotest"
       }
       case "citilab": {
-        return tag+"-citilab"
+        return tag + "-citilab"
       }
       case "invitro": {
-        return tag+"-invitro"
+        return tag + "-invitro"
       }
     }
   }
@@ -57,7 +61,20 @@ function Carousel() {
           {listLaboratoryTests.name_lab}
         </h1>
         {
-          listLaboratoryTests.list?.map((analysis: IAnalysis, idxAnalysis) =>
+          listLaboratoryTests.list?.filter((value: IAnalysis) => {
+            const regex = new RegExp(filterStore.query, 'gi');
+
+            const category = filterStore.category
+            switch (category) {
+              case FiltrationTypes.SEARCH_DESCRIPTION: {
+                return value.description.match(regex) != null;
+              }
+              default: {
+                return value.name.match(regex) != null;
+              }
+            }
+
+          }).map((analysis: IAnalysis, idxAnalysis) =>
             <CardAnalysis
               key={idxAnalysis}
               openSelectCallback={openSelectAnalysis}

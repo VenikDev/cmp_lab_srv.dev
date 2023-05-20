@@ -117,7 +117,7 @@ function Popular() {
         }
       </Swiper>
       {
-        popular && popular.length != 0 && 
+        popular && popular.length != 0 &&
         <CDescription
             className="text-center"
         >
