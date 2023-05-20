@@ -46,13 +46,12 @@ const Filter = () => {
         title="Фильтрация результатов"
       >
         <div
-          className="flex"
+          className="flex flex-col 2xl:flex-row xl:flex-row lg:flex-row"
         >
           <Select
             id="filter_to"
             list={list}
             callbackSelect={callbackSelect}
-            className="mr-2"
           />
           <CInput
             onInput={handlerInput}

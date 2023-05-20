@@ -1,5 +1,7 @@
 nav {
     @apply border-main-border border-2 rounded-md p-5;
+    /* sm */
+    @apply sm:m-0;
 }
 
 ul {
@@ -15,7 +17,7 @@ a:hover {
 }
 
 .name {
-    @apply text-main-text font-bold text-2xl;
+    @apply text-main-text font-bold text-xl;
     /* hover */
     @apply hover:text-black hover:outline-2;
     user-select: none;
@@ -26,9 +28,9 @@ a:hover {
 }
 
 .area_visible_city {
-    /*@apply align;*/
+    @apply content-center;
 }
 
 .btn_selected {
-    @apply flex block text-white border-2 border-white p-0.5 ml-3 rounded-md;
+    @apply flex text-white border-2 border-white p-0.5 ml-3 rounded-md;
 }

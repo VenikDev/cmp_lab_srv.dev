@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import classes from './style.module.css';
-import {Link} from "react-router-dom";
 import SelectCityDialog from "../select-city/select-city-dialog";
 import {useGlobalProperties} from "../../stores/global-properties-store";
 import ky from "ky";
@@ -62,8 +61,12 @@ function NavBar() {
     <>
       <nav>
         <ul className="flex justify-between">
-          <li className={classes.name}>
-            {nameSite}
+          <li>
+            <div
+              className={classes.name}
+            >
+              {nameSite}
+            </div>
           </li>
           <li className={classes.area_visible_city}>
             <div className="flex">
