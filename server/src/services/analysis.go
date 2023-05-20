@@ -59,10 +59,6 @@ func SendRequests(documentChannel chan resultDocument, key string) {
 }
 
 // fillMapAnalyses
-// Функция заполняет массив структур ключами и анализами с помощью указанного URL.
-// Для каждой лаборатории из списка отправляется запрос, полученные данные помещаются в documentChannel,
-// после чего на основании содержимого массива labsAndListTests создаются анализы. После того, как все запросы
-// будут обработаны, выполнится метод Wait, который ожидает, пока не завершатся все задания из директивы Add.
 func fillMapAnalyses(labsAndListTests model.LabAndListAnalyses, key string) {
 	var wg sync.WaitGroup
 	sizeLabs := len(global.Laboratories)

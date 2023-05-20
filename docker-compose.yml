@@ -7,6 +7,7 @@ services:
     ports:
       - '6379:6379'
   service-1:
+    container_name: cmp_lab
     restart: on-failure
     build: server
     ports:
@@ -14,6 +15,7 @@ services:
     links:
       - redis
   service-2:
+    container_name: cmp_lab
     restart: on-failure
     build: server
     ports:
