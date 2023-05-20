@@ -96,7 +96,9 @@ function Popular() {
                   analysisStore.changeStateLoading()
                 }}
               >
-                <CRB>{item.name}</CRB>
+                <CRB>
+                  {item.name}
+                </CRB>
                 {/* count */}
                 <div
                   className="text-center"

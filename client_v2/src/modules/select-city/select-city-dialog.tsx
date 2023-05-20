@@ -51,7 +51,7 @@ function SelectCityDialog(props: ISelectCityDialog) {
           {
             cities.map((city, idx) =>
               <div
-                className={classes.list_item}
+                className={`${classes.list_item} ${city.name == globalPropertiesStore.selectCity?.name ? "border-main-border font-bold" : ""}`}
                 key={city.coords.lat}
                 onClick={() => changeSelectCity(city)}
               >

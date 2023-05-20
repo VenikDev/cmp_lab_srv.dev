@@ -16,6 +16,9 @@ a:hover {
 
 .name {
     @apply text-main-text font-bold text-2xl;
+    /* hover */
+    @apply hover:text-black hover:outline-2;
+    user-select: none;
 }
 
 .btn_select_city {

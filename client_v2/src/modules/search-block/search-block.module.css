@@ -4,6 +4,8 @@
 
 .search_btn {
     @apply w-full bg-black text-white rounded-md p-2 shadow-black shadow-md drop-shadow-2xl;
+    /* hover */
+    @apply hover:bg-white hover:text-black duration-500 hover:border-2 hover:border-main-border;
 }
 
 .find_tests {

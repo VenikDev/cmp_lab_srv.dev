@@ -2,6 +2,7 @@
     margin-top: 3vw;
     margin-bottom: 3vw;
     @apply flex flex-col p-4 border-l-2 border-b-2 border-main-border;
+    user-select: none;
 }
 
 .title {
@@ -9,9 +10,11 @@
     font-size: 8vw;
     margin-top: 3vw;
     margin-bottom: 3vw;
+    user-select: none;
 }
 
 .title_with_bg {
     @apply font-bold p-4 underline underline-offset-8;
     margin-left: 4vw;
+    user-select: none;
 }

@@ -1,0 +1,13 @@
+.card {
+    /* стили для каждой карточки */
+    overflow: hidden;
+    transition: all 1s ease-out; /* анимация */
+}
+
+.card .expanded {
+    transition: all 1s ease-in; /* анимация */
+}
+
+.title {
+    @apply select-none;
+}

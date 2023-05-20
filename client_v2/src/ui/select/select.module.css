@@ -1,0 +1,13 @@
+.select {
+    @apply block bg-white border-2 border-main-border text-main-text rounded-lg w-full p-2.5;
+}
+
+.label {
+    @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white;
+}
+
+.select > option {
+    @apply rounded-md;
+    /* focus */
+    @apply focus:bg-black focus:text-white;
+}

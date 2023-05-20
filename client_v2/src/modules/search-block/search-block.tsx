@@ -92,7 +92,7 @@ function SearchBlock() {
         Открыть поиск
       </button>
       <CDescription>
-        Найми, чтоб открыть окно для <StrongBold>ввода запроса</StrongBold>
+        Наймите, чтоб открыть окно для <StrongBold>ввода запроса</StrongBold>
       </CDescription>
       <Dialog
         open={visibleDialog}

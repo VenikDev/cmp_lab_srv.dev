@@ -2,8 +2,15 @@ import React, {
   useState,
   ChangeEvent
 } from 'react';
-import {IInputProps} from "./models";
 import classes from "./input.module.css"
+
+export interface IInputProps {
+  placeholder?: string
+  value?: string
+  disabled?: boolean
+  className?: string
+  onInput?: (event: ChangeEvent<HTMLInputElement>) => void
+}
 
 function CInput(props: IInputProps) {
 

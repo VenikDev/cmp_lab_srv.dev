@@ -63,9 +63,7 @@ function NavBar() {
       <nav>
         <ul className="flex justify-between">
           <li className={classes.name}>
-            <Link to="/">
-              {nameSite}
-            </Link>
+            {nameSite}
           </li>
           <li className={classes.area_visible_city}>
             <div className="flex">

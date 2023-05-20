@@ -3,6 +3,7 @@ import {IAnalysis} from "../../models/analysis";
 import classes from "./style.module.css";
 import {truncate} from "../../common/truncate";
 import Description from "../../ui/description/description";
+import {useFilterStore} from "../../stores/filter-store";
 
 interface ICardAnalysis {
   openSelectCallback: (value: IAnalysis) => void,
@@ -11,6 +12,9 @@ interface ICardAnalysis {
 }
 
 function CardAnalysis(props: ICardAnalysis) {
+  // stores
+  const filterStore = useFilterStore()
+
   return (
     <div
       onClick={() => props.openSelectCallback(props.analysis)}
@@ -19,10 +23,10 @@ function CardAnalysis(props: ICardAnalysis) {
       <h5
         className={classes.title}
       >
-        {truncate(props.analysis.name, 50)}
+        { truncate(props.analysis.name, 50) }
       </h5>
       <p className={classes.description}>
-        {truncate(props.analysis.description)}
+        { truncate(props.analysis.description) }
       </p>
       <Description
         className="text-center mt-2"
