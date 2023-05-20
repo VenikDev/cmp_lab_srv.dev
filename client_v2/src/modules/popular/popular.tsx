@@ -10,7 +10,6 @@ import {Pagination} from "swiper";
 import {LabAndAnalysis} from "../../models/analysis";
 import {useAnalysis} from "../../stores/analysis-store";
 import {useGlobalProperties} from "../../stores/global-properties-store";
-import Description from "../../ui/description/description";
 
 // css
 import classes from "./popular.module.css"
@@ -29,7 +28,8 @@ function Popular() {
   // If popular is not null or undefined, then it checks the length of the array using the length
   // property and returns a boolean value indicating whether the length is equal to zero or not.
   function popularEmpty() {
-    return popular?.length == 0
+    Logger.Info("popular/length", popular)
+    return popular?.length === 0
   }
 
   // await ky(HOST_V1 + "/get_popular"): This line sends a GET request to a Redis server at the "/get_popular"
@@ -51,7 +51,7 @@ function Popular() {
 
   // render component
   return (
-    popularEmpty() ? <div
+    !popularEmpty() ? <div
       className="w-full my-4"
     >
       <Swiper
@@ -123,7 +123,7 @@ function Popular() {
             Потяните <CRB>влево</CRB> или <CRB>вправо</CRB>, чтоб посмотреть еще
         </CDescription>
       }
-    </div> : ""
+    </div> : <></>
   );
 }
 

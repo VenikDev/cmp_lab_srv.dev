@@ -28,7 +28,7 @@ function CardAnalysis(props: ICardAnalysis) {
     (filterStore.category == FiltrationTypes.SEARCH_DESCRIPTION &&
       isValidTest(props.analysis.description, filterStore.query) ||
       filterStore.category == FiltrationTypes.SEARCH_TITLE &&
-      isValidTest(props.analysis.name, filterStore.query)) &&
+      isValidTest(props.analysis.name, filterStore.query)) ?
     <div
         onClick={() => props.openSelectCallback(props.analysis)}
         className={classes.card}
@@ -46,6 +46,6 @@ function CardAnalysis(props: ICardAnalysis) {
         >
             Нажми, чтобы узнать подробнее
         </Description>
-    </div>
+    </div> : <></>
   );
 }

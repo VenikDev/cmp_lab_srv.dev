@@ -13,10 +13,10 @@ COPY . .
 RUN go mod download && go mod verify
 RUN go build -a -installsuffix -v -o cmp_lab_srv ./src/main.go
 
-#FROM scratch
 FROM alpine
 
 RUN apk --no-cache add ca-certificates
+RUN update-ca-certificates
 
 WORKDIR /app
 
@@ -24,6 +24,7 @@ COPY --from=builder /usr/src/app/cmp_lab_srv ./cmp_lab_srv
 COPY --from=builder /usr/src/app/config_for_search ./config_for_search
 COPY --from=builder /usr/src/app/static ./static
 COPY --from=builder /usr/src/app/.env ./.env
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 ENV GIN_MODE=release \
     HOST=http://localhost \

@@ -58,7 +58,7 @@ const Filter = () => {
           Фильтруйте результаты поиска по категориям
         </CDescription>
       </ExpendedCard>
-    </div> : ""
+    </div> : <></>
   );
 };
 

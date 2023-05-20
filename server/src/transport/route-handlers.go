@@ -114,12 +114,18 @@ func GetDefaultCity(context *gin.Context) {
 	idx := algorithm.LinearSearch(labs.Cities, func(city city.City) bool {
 		return city.Name == "Нижний Тагил"
 	})
+
+	defaultCity := labs.Cities[idx]
+	clog.Logger.Info("[router/default_city]", defaultCity.Name)
+
 	context.IndentedJSON(http.StatusOK, labs.Cities[idx])
 }
 
 // GetListCities
 // TODO change on regis in future
 func GetListCities(context *gin.Context) {
+	clog.Logger.Info("[router/lust_cites]", labs.Cities)
+
 	context.IndentedJSON(http.StatusOK, labs.Cities)
 }
 
@@ -139,8 +145,12 @@ func GetPopular(context *gin.Context) {
 	)
 	if len(result) > 5 {
 		result = result[:5]
+		clog.Logger.Info("[router/get_popular]", result)
+
+		context.IndentedJSON(http.StatusOK, result)
+	} else {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"error": "Not found popular"})
 	}
-	context.IndentedJSON(http.StatusOK, result)
 }
 
 // GetCityInfo

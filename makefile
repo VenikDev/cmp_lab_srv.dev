@@ -1,5 +1,5 @@
 del_all_static:
-	cd server/static && del /f /q * && rmdir /s assets
+	cd server/static && tree /F && del /f /q * && rmdir /s assets
 
 build_client: del_all_static
 	cd client_v2 && yarn build

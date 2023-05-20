@@ -7,7 +7,16 @@
 }
 
 .slide {
-    @apply border-2 border-red-500 rounded-md text-center;
+    @apply border-2 border-main-border rounded-md text-center;
+    /* hover */
+    @apply hover:shadow-black hover:shadow-md duration-500;
+}
+
+.slide:hover{
+    @apply duration-500;
+    -webkit-box-shadow: 4px 4px 19px 1px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 19px 1px rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 19px 1px rgba(34, 60, 80, 0.2);
 }
 
 .description {

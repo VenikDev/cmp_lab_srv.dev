@@ -59,9 +59,9 @@ function Carousel() {
         {
           listLaboratoryTests.list?.map((analysis: IAnalysis, idxAnalysis) =>
             <CardAnalysis
+              key={idxAnalysis}
               openSelectCallback={openSelectAnalysis}
               analysis={analysis}
-              key={idxAnalysis}
               colorLab={color}
             />
           )
