@@ -47,9 +47,10 @@ const Filter = () => {
             id="filter_to"
             list={list}
             callbackSelect={callbackSelect}
+            className="mr-2"
           />
           <CInput
-            onInput={(event: ChangeEvent<HTMLInputElement>) => callbackSelect(event.target.value) }
+            onInput={(event: ChangeEvent<HTMLInputElement>) => callbackInput(event.target.value) }
             placeholder="Фильтр"
           />
         </div>

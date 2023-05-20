@@ -7,6 +7,7 @@ interface ISelect {
   list: Array<string>
   label?: string
   callbackSelect: (value: string) => void
+  className?: string
 }
 
 const Select = (props: ISelect) => {
@@ -19,7 +20,7 @@ const Select = (props: ISelect) => {
 
   return (
     <div
-      className="mt-3"
+      className={`mt-3 ${props.className}`}
     >
       {
         props.label &&
