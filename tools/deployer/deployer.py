@@ -15,10 +15,10 @@ def main():
         username=os.getenv('SSH_NAME'),
         password=os.getenv('SSH_PASSWORD'))
 
-    # отправляем команду
+    # отправляем команды
     ssh.exec_command('cd cmp-srv/')
     ssh.exec_command('git pull')
-    stdin, stdout, stderr = ssh.exec_command('make deploy')
+    stdin, stdout, stderr = ssh.exec_command('make deploy SCALE=3')
 
     result = stdout.read()
     print(result.decode())
