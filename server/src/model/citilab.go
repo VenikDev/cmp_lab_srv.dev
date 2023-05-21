@@ -40,10 +40,6 @@ func GetAnalyzesCitilab(document *goquery.Document) ListAnalyses {
 			linkToAnalyses, _ := h2Tag.Find("a").Attr("href")
 			price := selection.Find(".price-block .new-price").Text()
 
-			// This code assigns the text of the element with class "description" found within the "selection
-			// " variable, to the variable "description". Then,
-			// it removes any leading or trailing spaces from the "description" string using the "Trim" method from
-			// the "strings" package.
 			description := selection.Find(".description").Text()
 			strings.Trim(description, " ")
 			// если не пустые
@@ -51,10 +47,6 @@ func GetAnalyzesCitilab(document *goquery.Document) ListAnalyses {
 				totalPrice, err := strconv.Atoi(re.FindString(price))
 				herr.HandlerError(err, "Not parse price")
 				if err == nil {
-					// In this case, the function checks if the name of the `lab` parameter is equal to the constant
-					// `CITILAB`. If it is, the function returns `true`,
-					// which means that the linear search will stop and the index of the found element will be
-					// returned in `idx`. Otherwise, the function returns `false`.
 					idx := algorithm.LinearSearch(global.Laboratories, func(lab global.Laboratory) bool {
 						if lab.Name == CITILAB {
 							return true
