@@ -6,4 +6,4 @@ del:
 	docker-compose down --rmi all
 
 deploy: del
-	docker-compose up
+	docker-compose up --scale srv=3

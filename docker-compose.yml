@@ -6,29 +6,17 @@ services:
     build: redis
     ports:
       - '6379:6379'
-  service-1:
-    container_name: cmp_lab
+  srv:
     restart: on-failure
     build: server
-    ports:
-      - '8881:8080'
-    links:
-      - redis
-  service-2:
-    container_name: cmp_lab
-    restart: on-failure
-    build: server
-    ports:
-      - '8882:8080'
-    links:
+    depends_on:
       - redis
   nginx:
     container_name: nginx-reverse-proxy
     restart: on-failure
     build: nginx
     ports:
-      - "80:80"
+      - "8888:80"
       - "443:443"
-    links:
-      - service-1
-      - service-2
+    depends_on:
+      - srv
