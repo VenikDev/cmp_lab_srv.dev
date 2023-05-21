@@ -16,7 +16,7 @@ services:
     restart: on-failure
     build: nginx
     ports:
-      - "8888:80"
+      - "80:80"
       - "443:443"
     depends_on:
       - srv
