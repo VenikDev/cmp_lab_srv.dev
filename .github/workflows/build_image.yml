@@ -1,4 +1,4 @@
-name: build cmp-lab-srv
+name: build image
 
 on:
   push:

@@ -29,7 +29,6 @@ jobs:
         run: |
           go version
           go get -u -v ./...
-      
 
       # run unit tests
       - name: Tests
