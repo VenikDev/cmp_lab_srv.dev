@@ -6,4 +6,5 @@ del:
 	docker-compose down --rmi all
 
 deploy: del
-	docker-compose up --scale srv=$(SCALE)
+	docker-compose create --scale srv=$(SCALE)
+	docker-compose start

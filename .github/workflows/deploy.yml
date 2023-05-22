@@ -32,12 +32,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.10
         with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: pip install -r tools/deployer/requirements.txt
-      - name: Run script
-        run: python tools/deployer/deployer.py ${{ secrets.SSH_IP }} ${{ secrets.SSH_NAME }} ${{ secrets.SSH_PASSWORD }}
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_NAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: cd cmp-srv && git pull && make deploy SCALE=3
