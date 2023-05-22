@@ -4,6 +4,7 @@ import SearchBlock from "../../modules/search-block/search-block";
 import Carousel from "../../modules/carousel/carousel";
 import Popular from "../../modules/popular/popular";
 import Filter from "../../modules/filter/filter";
+import Footer from "../../modules/footer/footer";
 
 function Home() {
   return (
@@ -15,6 +16,7 @@ function Home() {
       <Popular/>
       <Filter/>
       <Carousel/>
+      <Footer/>
     </>
   );
 }

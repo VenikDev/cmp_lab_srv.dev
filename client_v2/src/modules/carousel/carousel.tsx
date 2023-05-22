@@ -1,21 +1,25 @@
 import React from 'react';
 import {useAnalysis} from '../../stores/analysis-store'
 import classes from "./style.module.css";
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Pagination} from "swiper";
 import {useSelectAnalysis} from "../../stores/select-analysis-store";
 import {IAnalysis, LabAndAnalysis} from "../../models/analysis";
 import CardAnalysis from "./card-analysis";
 import DialogSelectAnalysis from "./dialog-select-analysis";
 import {AssertMsg} from "../../common/assert_msg";
 import {Logger} from "../../common/logger";
-
-// css
-import "swiper/css";
-import "swiper/css/pagination";
-import {useFilterStore} from "../../stores/filter-store";
-import category from "../../ui/category/category";
 import {FiltrationTypes} from "../../ui/expended-card/FiltrationTypes";
+import {useFilterStore} from "../../stores/filter-store";
+
+// Import Swiper styles
+import {Swiper, SwiperSlide} from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+
+// import required modules
+import {EffectCoverflow, Pagination, Parallax} from "swiper";
 
 function Carousel() {
   // stores
@@ -49,17 +53,9 @@ function Carousel() {
     }
   }
 
-  function RenderSwipe(listLaboratoryTests: LabAndAnalysis, idx: number) {
-    const color = getStyleByNameLab(listLaboratoryTests.name_lab, "text")!!
-    Logger.Info("color", color)
-
+  function RenderSwipe(listLaboratoryTests: LabAndAnalysis) {
     return (
-      <SwiperSlide
-        key={idx}
-      >
-        <h1 className={`${classes.name_lab} ${color}`}>
-          {listLaboratoryTests.name_lab}
-        </h1>
+      <>
         {
           listLaboratoryTests.list?.filter((value: IAnalysis) => {
             if (filterStore.query.length !== 0) {
@@ -77,49 +73,59 @@ function Carousel() {
             }
             return true
           }).map((analysis: IAnalysis, idxAnalysis) =>
-            <CardAnalysis
-              key={idxAnalysis}
-              openSelectCallback={openSelectAnalysis}
-              analysis={analysis}
-              colorLab={color}
-            />
+            <SwiperSlide
+              className="w-[300px] h-[300px]"
+            >
+              <CardAnalysis
+                key={idxAnalysis}
+                openSelectCallback={openSelectAnalysis}
+                analysis={analysis}
+              />
+            </SwiperSlide>
           )
         }
-      </SwiperSlide>
+      </>
     )
   }
 
   return (
     <div>
-      <Swiper
-        slidesPerView={3}
-        spaceBetween={10}
-        pagination={{
-          clickable: true,
-        }}
-        breakpoints={{
-          "@0.00": {
-            slidesPerView: 1,
-            spaceBetween: 20,
-          },
-          "@0.75": {
-            slidesPerView: 2,
-            spaceBetween: 20,
-          },
-          "@1.50": {
-            slidesPerView: 2,
-            spaceBetween: 50,
-          },
-        }}
-        modules={[Pagination]}
-        className="p-4"
-      >
-        {
-          analysisStore.analysis?.map((listLaboratoryTests: LabAndAnalysis, idx) =>
-            listLaboratoryTests?.list.length != 0 && RenderSwipe(listLaboratoryTests, idx))
-        }
-      </Swiper>
-
+      {
+        analysisStore.analysis?.map((listLaboratoryTests: LabAndAnalysis, idx) =>
+          <>
+            {
+              listLaboratoryTests?.list.length != 0 &&
+                <>
+                    <h1
+                        className={`${classes.name_lab}`}
+                    >
+                      {listLaboratoryTests.name_lab}
+                    </h1>
+                    <Swiper
+                        effect={"coverflow"}
+                        grabCursor={true}
+                        centeredSlides={true}
+                        slidesPerView={"auto"}
+                        coverflowEffect={{
+                          rotate: 50,
+                          stretch: 0,
+                          depth: 100,
+                          modifier: 1,
+                          // slideShadows: true,
+                        }}
+                        pagination={true}
+                        modules={[EffectCoverflow, Pagination]}
+                        className="w-full"
+                    >
+                      {
+                        RenderSwipe(listLaboratoryTests)
+                      }
+                    </Swiper>
+                </>
+            }
+          </>
+        )
+      }
       <DialogSelectAnalysis/>
     </div>
   );

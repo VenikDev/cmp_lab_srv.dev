@@ -2,12 +2,6 @@
     @apply block p-6 mb-4 cursor-pointer z-0;
     /* border */
     @apply rounded-lg border-main-border border-2;
-    /* shadow */
-    @apply shadow-black;
-    /* bg */
-    /*@apply bg-soft-peach;*/
-    /* hover */
-    @apply hover:shadow-2xl hover:bg-gray-200 duration-200;
 }
 
 .title {
@@ -20,9 +14,7 @@
 }
 
 .name_lab {
-    @apply border-2 rounded-md border-main-border p-2 text-center text-xl mb-4 text-main-text;
-    /*  shadow  */
-    @apply shadow-xl;
+    @apply border-2 rounded-md border-main-border p-2 text-center text-xl mb-4 text-main-text mt-4 bg-black;
 }
 
 .link_to_lab {

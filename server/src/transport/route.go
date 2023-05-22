@@ -5,13 +5,17 @@ import (
 )
 
 func InitRouters(app *gin.Engine) {
-	//groupApiV1 := app.Group(API_V1)
 	app.GET("/", GetIndexHtml)
-	app.GET(API_V1+"/get_labs", GetLabs)
-	app.GET(API_V1+"/get_names_labs", GetLabsNames)
-	app.GET(API_V1+"/analysis", GetListAnalyses)
-	app.GET(API_V1+"/get_default_city", GetDefaultCity)
-	app.GET(API_V1+"/get_city_info", GetCityInfo)
-	app.GET(API_V1+"/get_list_of_cities", GetListCities)
-	app.GET(API_V1+"/get_popular", GetPopular)
+
+	v1 := app.Group(API_V1)
+	{
+		v1.GET("/get_labs", GetLabs)
+		v1.GET("/get_names_labs", GetLabsNames)
+		v1.GET("/analysis", GetListAnalyses)
+		v1.GET("/get_default_city", GetDefaultCity)
+		v1.GET("/get_city_info", GetCityInfo)
+		v1.GET("/get_list_of_cities", GetListCities)
+		v1.GET("/get_popular", GetPopular)
+	}
+
 }

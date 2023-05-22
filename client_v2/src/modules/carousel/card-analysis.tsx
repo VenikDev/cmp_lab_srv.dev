@@ -3,13 +3,10 @@ import {IAnalysis} from "../../models/analysis";
 import classes from "./style.module.css";
 import {truncate} from "../../common/truncate";
 import Description from "../../ui/description/description";
-import {useFilterStore} from "../../stores/filter-store";
-import {FiltrationTypes} from "../../ui/expended-card/FiltrationTypes";
 
 interface ICardAnalysis {
   openSelectCallback: (value: IAnalysis) => void,
   analysis: IAnalysis,
-  colorLab: string
 }
 
 export default CardAnalysis;
