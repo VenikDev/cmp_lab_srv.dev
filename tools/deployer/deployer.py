@@ -13,7 +13,8 @@ def main():
     # Connect to the server
     ssh.connect(sys.argv[1],
                 username=sys.argv[2],
-                password=sys.argv[2])
+                password=sys.argv[2],
+                disabled_algorithms={'pubkeys': ['rsa-sha2-256', 'rsa-sha2-512']})
 
     # Send a command
     stdin, stdout, stderr = ssh.exec_command('cd cmp-srv && git pull && make deploy SCALE=3')
