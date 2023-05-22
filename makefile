@@ -7,3 +7,4 @@ del:
 
 deploy: del
 	docker-compose up --no-start --scale srv=$(SCALE)
+	docker-compose start
