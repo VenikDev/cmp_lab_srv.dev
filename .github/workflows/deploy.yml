@@ -2,11 +2,20 @@ name: push to docker hub
 
 on:
   push:
-    branches:
-      - master
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
 
 jobs:
-  build:
+  check-build-cluster:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the stack
+        run: docker-compose up -d
+  deploy-to-docker-hub:
+    needs: check-build-cluster
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -28,8 +37,8 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/cmp-lab-srv:latest
-  deploy:
-    needs: build
+  deploy-to-host:
+    needs: deploy-to-docker-hub
     runs-on: ubuntu-latest
     steps:
       - name: executing remote ssh commands using password
