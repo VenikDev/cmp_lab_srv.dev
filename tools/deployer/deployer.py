@@ -1,27 +1,27 @@
+import sys
+
 import paramiko
 from dotenv import load_dotenv
-import os
 
 
 def main():
     ssh = paramiko.SSHClient()
 
-    # добавляем новый ключ в список известных хостов
+    # Automatically add the server's host key
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-    # устанавливаем соединение
-    ssh.connect(
-        os.getenv('SSH_IP'),
-        username=os.getenv('SSH_NAME'),
-        password=os.getenv('SSH_PASSWORD'))
+    # Connect to the server
+    ssh.connect(sys.argv[1],
+                username=sys.argv[2],
+                password=sys.argv[2])
 
-    # отправляем команды
-    ssh.exec_command('cd cmp-srv/')
-    ssh.exec_command('git pull')
-    stdin, stdout, stderr = ssh.exec_command('make deploy SCALE=3')
+    # Send a command
+    stdin, stdout, stderr = ssh.exec_command('cd cmp-srv && git pull && make deploy SCALE=3')
 
-    result = stdout.read()
-    print(result.decode())
+    # Print the output of the command
+    print(stdout.read().decode())
+
+    # Close the SSH connection
     ssh.close()
 
 

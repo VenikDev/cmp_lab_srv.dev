@@ -28,3 +28,15 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/cmp-lab-srv:latest
+  push-to-host:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r tools/deployer/requirements.txt
+      - name: Run script
+        run: python tools/deployer/deployer.py ${{ secrets.SSH_IP }} ${{ secrets.SSH_NAME }} ${{ secrets.SSH_PASSWORD }}
