@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build-and-push:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -28,7 +28,8 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/cmp-lab-srv:latest
-  push-to-host:
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
