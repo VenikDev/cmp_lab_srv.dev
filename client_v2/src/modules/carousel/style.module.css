@@ -14,7 +14,7 @@
 }
 
 .name_lab {
-    @apply border-2 rounded-md border-main-border p-2 text-center text-xl mb-4 text-main-text mt-4 bg-black;
+    @apply border-2 rounded-md border-main-border p-2 text-center text-xl mb-4 text-main-text mt-4 ;
 }
 
 .link_to_lab {

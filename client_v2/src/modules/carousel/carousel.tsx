@@ -3,12 +3,11 @@ import {useAnalysis} from '../../stores/analysis-store'
 import classes from "./style.module.css";
 import {useSelectAnalysis} from "../../stores/select-analysis-store";
 import {IAnalysis, LabAndAnalysis} from "../../models/analysis";
-import CardAnalysis from "./card-analysis";
 import DialogSelectAnalysis from "./dialog-select-analysis";
 import {AssertMsg} from "../../common/assert_msg";
-import {Logger} from "../../common/logger";
 import {FiltrationTypes} from "../../ui/expended-card/FiltrationTypes";
 import {useFilterStore} from "../../stores/filter-store";
+import CDescription from "../../ui/description/description";
 
 // Import Swiper styles
 import {Swiper, SwiperSlide} from "swiper/react";
@@ -74,13 +73,19 @@ function Carousel() {
             return true
           }).map((analysis: IAnalysis, idxAnalysis) =>
             <SwiperSlide
-              className="w-[300px] h-[300px]"
+              key={idxAnalysis}
+              className="w-[300px] h-[300px] border-2 border-main-border rounded-md"
+              onChange={() => openSelectAnalysis(analysis)}
             >
-              <CardAnalysis
-                key={idxAnalysis}
-                openSelectCallback={openSelectAnalysis}
-                analysis={analysis}
-              />
+              <h1
+                className="p-2"
+              >
+                { analysis.name }
+              </h1>
+              <hr/>
+              <CDescription>
+                {analysis.description}
+              </CDescription>
             </SwiperSlide>
           )
         }
@@ -111,7 +116,7 @@ function Carousel() {
                           stretch: 0,
                           depth: 100,
                           modifier: 1,
-                          // slideShadows: true,
+                          slideShadows: true,
                         }}
                         pagination={true}
                         modules={[EffectCoverflow, Pagination]}

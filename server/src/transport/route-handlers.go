@@ -10,8 +10,8 @@ import (
 	"cmp_lab/src/model/labs"
 	"cmp_lab/src/redis"
 	"cmp_lab/src/services"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"github.com/goccy/go-json"
 	"net/http"
 	"strings"
 )
