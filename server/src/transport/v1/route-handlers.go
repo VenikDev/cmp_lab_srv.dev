@@ -1,4 +1,4 @@
-package transport
+package version1
 
 import (
 	"cmp_lab/src/algorithm"
@@ -30,7 +30,7 @@ func GetIndexHtml(context *gin.Context) {
 // it attempts to fetch the data from an external service using the services.GetLaboratoryAnalyses(key) function,
 // caches the result in Redis,
 // and adds the key to the Redis set of popular keys before returning the result as a JSON response.
-// The function uses logging via the clog.Logger object to track execution steps and errors.
+// The function uses logging via the clog object to track execution steps and errors.
 // The function expects a model.LabAndListAnalyses struct to represent the fetched analysis data and uses the json
 // package to parse the jsonData response. Overall,
 // the function provides a simple RESTful API endpoint for retrieving laboratory analyses that is backed by an
@@ -40,24 +40,24 @@ func GetListAnalyses(context *gin.Context) {
 	cityForSearch := strings.ToLower(context.Query("city"))
 
 	if key == "" {
-		clog.Logger.Error("[router/get_list_ana]", "message", "Key is not provided")
+		clog.Error("[router/get_list_ana]", "message", "Key is not provided")
 		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "Key is not provided"})
 		return
 	}
 
 	if cityForSearch == "" {
-		clog.Logger.Error("[router/get_list_ana]", "message", "City is not provided")
+		clog.Error("[router/get_list_ana]", "message", "City is not provided")
 		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "City is not provided"})
 		return
 	}
 
 	addToPopular := func(key string) {
 		if err := redis.AddToPopular(key); err != nil {
-			clog.Logger.Error("[router/get_list_ana]", "Couldn't save", key)
+			clog.Error("[router/get_list_ana]", "Couldn't save", key)
 		}
 	}
 
-	clog.Logger.Info("[router/get_list_ana]", "cityForSearch", cityForSearch)
+	clog.Info("[router/get_list_ana]", "cityForSearch", cityForSearch)
 	query := cityForSearch + ":" + key
 
 	jsonData, err := redis.GetAnalysisByCity(query)
@@ -77,7 +77,7 @@ func GetListAnalyses(context *gin.Context) {
 		addToPopular(key)
 
 		if err := redis.AddAnalysisByCity(query, result); err != nil {
-			clog.Logger.Error("[router/get_list_ana]", "No added data to redis")
+			clog.Error("[router/get_list_ana]", "No added data to redis")
 		}
 
 		context.JSON(http.StatusOK, result)
@@ -86,7 +86,7 @@ func GetListAnalyses(context *gin.Context) {
 
 		var analysis model.LabAndListAnalyses
 		if err := json.Unmarshal([]byte(jsonData), &analysis); err != nil {
-			clog.Logger.Error("[router/get_list_ana]", "message", "Failed to unmarshal data")
+			clog.Error("[router/get_list_ana]", "message", "Failed to unmarshal data")
 
 			headers := gin.H{
 				"message": "Failed to unmarshal data",
@@ -116,7 +116,7 @@ func GetDefaultCity(context *gin.Context) {
 	})
 
 	defaultCity := labs.Cities[idx]
-	clog.Logger.Info("[router/default_city]", defaultCity.Name)
+	clog.Info("[router/default_city]", defaultCity.Name)
 
 	context.IndentedJSON(http.StatusOK, labs.Cities[idx])
 }

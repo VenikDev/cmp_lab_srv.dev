@@ -13,8 +13,8 @@ import (
 )
 
 func main() {
-	clog.Logger.Info("[main/runtime]", "Number of threads", runtime.GOMAXPROCS(runtime.NumCPU()-1))
-	clog.Logger.Info("[main/runtime]", "OS", runtime.GOOS, "Arch", runtime.GOARCH)
+	clog.Info("[main/runtime]", "Number of threads", runtime.GOMAXPROCS(runtime.NumCPU()-1))
+	clog.Info("[main/runtime]", "OS", runtime.GOOS, "Arch", runtime.GOARCH)
 
 	// Logging to a file.
 	logFile, _ := os.Create("logs/gin.log")

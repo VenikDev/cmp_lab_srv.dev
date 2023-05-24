@@ -17,6 +17,5 @@ var (
 	Logger = log.New(
 		log.WithTimestamp(),
 		log.WithTimeFormat(time.Kitchen),
-		log.WithCaller(),
 	)
 )

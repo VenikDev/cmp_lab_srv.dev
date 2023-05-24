@@ -17,7 +17,7 @@ var (
 func InitCities() []city.City {
 	cities, err := parseCities()
 	if err != nil {
-		clog.Logger.Fatal("InitCities", "failed to parse cities", err)
+		clog.Fatal("InitCities", "failed to parse cities", err)
 	}
 
 	return cities

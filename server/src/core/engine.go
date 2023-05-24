@@ -17,7 +17,7 @@ func GetHtmlFrom(url string, lab global.Laboratory) *goquery.Document {
 	response, err := http.Get(url)
 
 	if err != nil {
-		clog.Logger.Error("[parse_html/get_html_from]", "error", err)
+		clog.Error("[parse_html/get_html_from]", "error", err)
 		return nil
 	}
 
@@ -25,7 +25,7 @@ func GetHtmlFrom(url string, lab global.Laboratory) *goquery.Document {
 
 	defer response.Body.Close()
 	if response.StatusCode != 200 {
-		clog.Logger.Error(
+		clog.Error(
 			"[parse_html/get_html_from]",
 			"error",
 			fmt.Sprintf("status code error: %d %s", response.StatusCode, response.Status))
@@ -34,7 +34,7 @@ func GetHtmlFrom(url string, lab global.Laboratory) *goquery.Document {
 	// Load the HTML document
 	doc, err := goquery.NewDocumentFromReader(response.Body)
 	if err != nil {
-		clog.Logger.Error("[parse_html/get_html_from]", "error", err)
+		clog.Error("[parse_html/get_html_from]", "error", err)
 		return nil
 	}
 

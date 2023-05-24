@@ -31,11 +31,11 @@ func connectToRedis(host, password string, dbNumber int) (val string, error erro
 
 func connectToRedisIsSuccess(err error) bool {
 	if err != nil {
-		clog.Logger.Error("[init/redis]", "Can't connect to redis...", err.Error())
+		clog.Error("[init/redis]", "Can't connect to redis...", err.Error())
 		return false
 	}
 
-	clog.Logger.Info("[init/redis]", "Connected to Redis", "OK")
+	clog.Info("[init/redis]", "Connected to Redis", "OK")
 	return true
 }
 
@@ -48,15 +48,15 @@ func connectToRedisIsSuccess(err error) bool {
 func InitRedis() {
 	dbNumber, err := strconv.Atoi(os.Getenv("REDIS_DB"))
 	if err != nil {
-		clog.Logger.Error("[init/redis]", "No parse number dbNumber", "OK")
+		clog.Error("[init/redis]", "No parse number dbNumber", "OK")
 		dbNumber = 0
 	}
 
 	redisHost := os.Getenv("REDIS_HOST")
-	clog.Logger.Info("[init/redis]", "REDIS_HOST", redisHost)
+	clog.Info("[init/redis]", "REDIS_HOST", redisHost)
 
 	redisPassword := os.Getenv("REDIS_PASSWORD")
-	clog.Logger.Info("[init/redis]", "REDIS_PASSWORD", redisPassword)
+	clog.Info("[init/redis]", "REDIS_PASSWORD", redisPassword)
 
 	_, err = connectToRedis(redisHost, redisPassword, dbNumber)
 	if !connectToRedisIsSuccess(err) {
@@ -87,9 +87,9 @@ func AddToPopular(key string) error {
 		// save new value in redis on one day
 		oneDay := time.Hour * 24
 		statusCms := RedisClient.Set(ctx, editedKey, 1, oneDay)
-		clog.Logger.Info("[add/redis]", statusCms)
+		clog.Info("[add/redis]", statusCms)
 
-		clog.Logger.Info("[add/redis]", "create value", editedKey)
+		clog.Info("[add/redis]", "create value", editedKey)
 	} else {
 		pipe := RedisClient.Pipeline()
 		incr := pipe.Incr(ctx, editedKey)
@@ -98,7 +98,7 @@ func AddToPopular(key string) error {
 			return err
 		}
 
-		clog.Logger.Info("[add/redis]", editedKey, incr.Val())
+		clog.Info("[add/redis]", editedKey, incr.Val())
 	}
 
 	return nil

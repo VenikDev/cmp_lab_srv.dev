@@ -1,21 +1,28 @@
 package transport
 
 import (
+	"cmp_lab/src/transport/v1"
+	"cmp_lab/src/transport/v2"
 	"github.com/gin-gonic/gin"
 )
 
 func InitRouters(app *gin.Engine) {
-	app.GET("/", GetIndexHtml)
+	app.GET("/", version1.GetIndexHtml)
 
-	v1 := app.Group(API_V1)
+	routerV1 := app.Group(API_V1)
 	{
-		v1.GET("/get_labs", GetLabs)
-		v1.GET("/get_names_labs", GetLabsNames)
-		v1.GET("/analysis", GetListAnalyses)
-		v1.GET("/get_default_city", GetDefaultCity)
-		v1.GET("/get_city_info", GetCityInfo)
-		v1.GET("/get_list_of_cities", GetListCities)
-		v1.GET("/get_popular", GetPopular)
+		routerV1.GET("/get_labs", version1.GetLabs)
+		routerV1.GET("/get_names_labs", version1.GetLabsNames)
+		routerV1.GET("/analysis", version1.GetListAnalyses)
+		routerV1.GET("/get_default_city", version1.GetDefaultCity)
+		routerV1.GET("/get_city_info", version1.GetCityInfo)
+		routerV1.GET("/get_list_of_cities", version1.GetListCities)
+		routerV1.GET("/get_popular", version1.GetPopular)
 	}
 
+	v2 := app.Group(API_V2)
+	{
+		v2.GET("/ping", version2.Ping)
+		v2.GET("/analysis", version2.GetListAnalyses)
+	}
 }
