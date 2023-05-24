@@ -10,28 +10,34 @@ import (
 	"os"
 )
 
-var Cities []city.City // assuming City is the type of the elements in the JSON array
+var (
+	Cities = InitCities()
+)
 
-func InitCities() {
-	err := parseCities()
+func InitCities() []city.City {
+	cities, err := parseCities()
 	if err != nil {
 		clog.Logger.Fatal("InitCities", "failed to parse cities", err)
 	}
+
+	return cities
 }
 
-func parseCities() error {
+func parseCities() ([]city.City, error) {
 	pathToConfig := paths.PathToConfig()
 
 	file, err := os.Open(pathToConfig + paths.JSON_USE_RUSSIAN_CITIES)
 	if err != nil {
-		return fmt.Errorf("failed to open file: %v", err)
+		return nil, fmt.Errorf("failed to open file: %v", err)
 	}
 	defer file.Close()
 
 	reader := bufio.NewReader(file)
 	decoder := json.NewDecoder(reader)
-	if err = decoder.Decode(&Cities); err != nil {
-		return fmt.Errorf("failed to parse JSON: %v", err)
+
+	var cities []city.City
+	if err = decoder.Decode(&cities); err != nil {
+		return nil, fmt.Errorf("failed to parse JSON: %v", err)
 	}
-	return nil
+	return cities, nil
 }

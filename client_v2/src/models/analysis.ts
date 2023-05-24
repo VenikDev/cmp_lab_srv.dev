@@ -23,9 +23,3 @@ export interface IListAnalysis {
   addAnalysis: (newAnalysis: LabAndAnalysis[]) => void
   changeStateLoading: () => void
 }
-
-export interface IFavoriteAnalysis {
-  list: IAnalysis[]
-  length: number
-  addToFavorite: (analysis: IAnalysis) => void
-}

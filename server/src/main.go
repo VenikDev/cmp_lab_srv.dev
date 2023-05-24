@@ -4,7 +4,6 @@ import (
 	"cmp_lab/src/clog"
 	"cmp_lab/src/core"
 	"cmp_lab/src/herr"
-	"cmp_lab/src/model/labs"
 	"cmp_lab/src/redis"
 	"cmp_lab/src/transport"
 	"github.com/gin-gonic/gin"
@@ -22,7 +21,6 @@ func main() {
 	gin.DefaultWriter = io.MultiWriter(logFile)
 
 	core.InitEnv()
-	labs.InitCities()
 	core.InitServer(core.Server)
 	core.InitConfig()
 	redis.InitRedis()

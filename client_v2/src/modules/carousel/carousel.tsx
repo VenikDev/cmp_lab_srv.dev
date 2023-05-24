@@ -19,6 +19,8 @@ import "swiper/css/pagination";
 
 // import required modules
 import {EffectCoverflow, Pagination, Parallax} from "swiper";
+import {Button, Card} from "antd";
+import {CButton} from "../../ui/button/button";
 
 function Carousel() {
   // stores
@@ -74,18 +76,21 @@ function Carousel() {
           }).map((analysis: IAnalysis, idxAnalysis) =>
             <SwiperSlide
               key={idxAnalysis}
-              className="w-[300px] h-[300px] border-2 border-main-border rounded-md"
-              onChange={() => openSelectAnalysis(analysis)}
+              className="w-72 h-72 border-2 border-main-border rounded-md select-none"
             >
-              <h1
-                className="p-2"
+              <Card
+                title={analysis.name}
               >
-                { analysis.name }
-              </h1>
-              <hr/>
-              <CDescription>
-                {analysis.description}
-              </CDescription>
+                <CDescription>
+                  {analysis.description}
+                </CDescription>
+                <button
+                  className="bg-black text-white hover:text-black hover:bg-white hover:border-2 hover:border-black duration-300 p-2 w-full rounded-md"
+                  onClick={() => openSelectAnalysis(analysis)}
+                >
+                  Подробнее
+                </button>
+              </Card>
             </SwiperSlide>
           )
         }
