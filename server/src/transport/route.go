@@ -23,6 +23,6 @@ func InitRouters(app *gin.Engine) {
 	v2 := app.Group(API_V2)
 	{
 		v2.GET("/ping", version2.Ping)
-		v2.GET("/analysis", version2.GetListAnalyses)
+		v2.POST("/analysis", version2.GetListAnalyses)
 	}
 }

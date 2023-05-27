@@ -15,11 +15,12 @@ import (
 
 var (
 	// redis client
-	RedisClient *redis.Client
-	ctx         = context.Background()
+	RedisClient    *redis.Client
+	ctx            = context.Background()
+	ConnectSuccess = false
 )
 
-func connectToRedis(host, password string, dbNumber int) (val string, error error) {
+func TryConnectToRedis(host, password string, dbNumber int) (val string, error error) {
 	RedisClient = redis.NewClient(&redis.Options{
 		Addr:     host,     // Redis server address and port
 		Password: password, // Redis server password, if any
@@ -58,11 +59,16 @@ func InitRedis() {
 	redisPassword := os.Getenv("REDIS_PASSWORD")
 	clog.Info("[init/redis]", "REDIS_PASSWORD", redisPassword)
 
-	_, err = connectToRedis(redisHost, redisPassword, dbNumber)
+	_, err = TryConnectToRedis(redisHost, redisPassword, dbNumber)
 	if !connectToRedisIsSuccess(err) {
 		// for testing
 		host := "http://localhost:6379"
-		_, err = connectToRedis(host, os.Getenv("REDIS_PASSWORD"), dbNumber)
+		_, err = TryConnectToRedis(host, os.Getenv("REDIS_PASSWORD"), dbNumber)
+		if err == nil {
+			ConnectSuccess = true
+		}
+	} else {
+		ConnectSuccess = true
 	}
 }
 
