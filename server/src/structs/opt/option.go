@@ -40,3 +40,8 @@ func (o Option[T]) ValueOr(value T) T {
 	}
 	return *o.Value
 }
+
+func (o Option[T]) ProcessIfHas(fn func(*T)) T {
+	fn(o.Value)
+	return *o.Value
+}

@@ -9,9 +9,10 @@ import (
 	"cmp_lab/src/structs/opt"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/valyala/fasthttp"
+	"github.com/go-resty/resty/v2"
+	"github.com/sourcegraph/conc"
+	"github.com/sourcegraph/conc/iter"
 	"net/http"
-	"time"
 )
 
 func Ping(ctx *gin.Context) {
@@ -28,7 +29,7 @@ func Ping(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, <-result)
 }
 
-func GetListAnalyses(ctx *gin.Context) {
+func GetAllAnalyses(ctx *gin.Context) {
 	result := make(chan responce.Response[model.LaboratoryAnalyzes])
 	key := ctx.Query("key")
 	go func(key string) {
@@ -63,51 +64,48 @@ func GetListAnalyses(ctx *gin.Context) {
 		"key":  key,
 	}
 
-	go func(parameters model.Bundle) {
-		clog.Info("[router/parse]", "parsing", "start")
+	chAnalysis := make(chan model.Analysis, 10)
+	var wg conc.WaitGroup
 
-		//analysis := make(chan)
+	for _, lab := range global.Laboratories {
+		lab := lab
+		parameters := parameters
 
-		for _, lab := range global.Laboratories {
-			go func(lab global.Laboratory, parameters model.Bundle) {
-				// formation an url
-				url := fmt.Sprintf("%s?%s=%s", lab.Url, lab.ParamForFind, parameters["key"])
-				clog.Info("[client/request]", "url to lab", url)
+		wg.Go(func() {
+			// formation an url
+			url := fmt.Sprintf("%s/search/?%s=%s", lab.Url, lab.ParamForFind, parameters["key"])
+			clog.Info("[client/request]", "url to lab", url)
 
-				req := fasthttp.AcquireRequest()
-				defer fasthttp.ReleaseRequest(req)
-
-				req.SetRequestURI(url)
-				req.Header.SetMethod(fasthttp.MethodGet)
-
-				// Set a custom timeout
-				timeout := 5 * time.Second
-				client := &fasthttp.Client{
-					ReadTimeout:  timeout,
-					WriteTimeout: timeout,
-				}
-
-				resp := fasthttp.AcquireResponse()
-				defer fasthttp.ReleaseResponse(resp)
-
-				err := client.DoTimeout(req, resp, timeout)
-				if err != nil {
-					clog.Error("[client/request]", "request to the lab ended with an error", err)
-					return
-				}
-
+			resp, err := resty.New().R().Get(url)
+			if err == nil {
 				parameters["lab"] = lab
 				// Process response
-				process.Body(resp.Body(), parameters, func(err error) {
-					clog.Error("[client/request]", fmt.Sprintf("parsing on %s. Error", lab.Name), err)
+				process.GetAllUrlFrom(resp.Body(), parameters).ProcessIfHas(func(urls *[]string) {
+					iter.ForEach(*urls, func(urlToAnalysis *string) {
+						fullUrl := fmt.Sprintf("%s%s", lab.Url, *urlToAnalysis)
+						clog.Info("[request/get_data]", "send request to", fullUrl)
+
+						resp, err := resty.New().R().Get(fullUrl)
+						if err == nil {
+							body := resp.Body()
+
+							data := process.GetDataAbout(body, parameters)
+							if data != nil {
+								chAnalysis <- *data
+							}
+						}
+					})
 				})
-
 				clog.Info("[client/request]", fmt.Sprintf("status code from %s", lab.Name), resp.StatusCode())
-			}(lab, parameters)
-		}
+			}
+		})
+	}
 
-		clog.Info("[router/parse]", "parsing", "end")
-	}(parameters)
+	for analysis := range chAnalysis {
+		clog.Info("[ch/analysis]", "analysis", analysis.Name)
+	}
+
+	wg.Wait()
 
 	badResponse := <-result
 	switch badResponse.Error.Code {
@@ -118,5 +116,21 @@ func GetListAnalyses(ctx *gin.Context) {
 			"msg": "success",
 		})
 	}
+}
 
+func GetAnalysisByLab(ctx *gin.Context) {
+	switch ctx.Param("lab") {
+	case model.CITILAB:
+		{
+
+		}
+	case model.GEMOTEST:
+		{
+
+		}
+	case model.INVITRO:
+		{
+
+		}
+	}
 }
