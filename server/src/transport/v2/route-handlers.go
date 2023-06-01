@@ -72,13 +72,14 @@ func GetAllAnalyses(ctx *gin.Context) {
 		parameters := parameters
 
 		wg.Go(func() {
+			parameters["lab"] = lab
+
 			// formation an url
-			url := fmt.Sprintf("%s/search/?%s=%s", lab.Url, lab.ParamForFind, parameters["key"])
+			url := GetUrl(parameters)
 			clog.Info("[client/request]", "url to lab", url)
 
 			resp, err := resty.New().R().Get(url)
 			if err == nil {
-				parameters["lab"] = lab
 				// Process response
 				process.GetAllUrlFrom(resp.Body(), parameters).ProcessIfHas(func(urls *[]string) {
 					iter.ForEach(*urls, func(urlToAnalysis *string) {
@@ -91,6 +92,7 @@ func GetAllAnalyses(ctx *gin.Context) {
 
 							data := process.GetDataAbout(body, parameters)
 							if data != nil {
+								data.OriginalURL = fullUrl
 								chAnalysis <- *data
 							}
 						}
@@ -103,6 +105,7 @@ func GetAllAnalyses(ctx *gin.Context) {
 
 	for analysis := range chAnalysis {
 		clog.Info("[ch/analysis]", "analysis", analysis.Name)
+		clog.Info("[ch/analysis/price]", "price", analysis.Price)
 	}
 
 	wg.Wait()
@@ -116,6 +119,13 @@ func GetAllAnalyses(ctx *gin.Context) {
 			"msg": "success",
 		})
 	}
+}
+
+func GetUrl(parameters model.Bundle) string {
+	lab := parameters["lab"].(global.Laboratory)
+	key := parameters["key"].(string)
+
+	return fmt.Sprintf("%s/search/?%s=%s", lab.Url, lab.ParamForFind, key)
 }
 
 func GetAnalysisByLab(ctx *gin.Context) {

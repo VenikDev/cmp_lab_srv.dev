@@ -1,12 +1,17 @@
 package global
 
 type Laboratory struct {
-	// Название
-	Name string `json:"name"`
-	// url офф сайта
-	Url string `json:"url"`
-	// параметры запроса
+	Name         string `json:"name"`
+	Url          string `json:"url"`
 	ParamForFind string `json:"param_for_find"`
+}
+
+func NewLaboratory(name, url, paramForFind string) *Laboratory {
+	return &Laboratory{
+		Name:         name,
+		Url:          url,
+		ParamForFind: paramForFind,
+	}
 }
 
 func (lab *Laboratory) GetName() string {

@@ -22,6 +22,15 @@ type Analysis struct {
 	OriginalURL string `json:"original_url"`
 }
 
+func NewAnalysis(name string, price int, description string, originalURL string) *Analysis {
+	return &Analysis{
+		Name:        name,
+		Price:       price,
+		Description: description,
+		OriginalURL: originalURL,
+	}
+}
+
 type LaboratoryAnalyzes struct {
 	NameLab string     `json:"name_lab"`
 	List    []Analysis `json:"list"`
