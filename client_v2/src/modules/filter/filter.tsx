@@ -102,7 +102,6 @@ const Filter = () => {
                 description: description,
                 price: price
               }
-              Logger.Info("filter/to_store", filterData)
               filterStore.setQuery(filterData)
 
               filterStore.close()

@@ -14,7 +14,8 @@
 }
 
 .name_lab {
-    @apply border-2 rounded-md border-main-border p-2 text-center text-xl mb-4 text-main-text mt-4 ;
+    @apply p-2 text-left text-xl mb-4 text-main-text mt-4 underline underline-offset-8 select-none;
+    font-family: 'Comfortaa', cursive;
 }
 
 .link_to_lab {
