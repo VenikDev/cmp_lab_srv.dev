@@ -14,6 +14,11 @@ import Description from "../../ui/description/description";
 import classes from "./search-block.module.css"
 import StrongBold from "../../ui/text/strong_bold";
 import CDescription from "../../ui/description/description";
+import {IError} from "../../models/error";
+import {Logger} from "../../common/logger";
+import {minMaxFilter} from "../../common/minMaxFilter";
+import {useFilterStore} from "../../stores/filter-store";
+import {notification} from "antd";
 
 function SearchBlock() {
   // Для открытия/закрытия диалогового окна
@@ -27,6 +32,10 @@ function SearchBlock() {
   // stores
   const globalPropertiesStore = useGlobalProperties()
   const analysisStore = useAnalysis()
+  const filterStore = useFilterStore()
+
+  // ant
+  const [notificationApi, contextHolder] = notification.useNotification();
 
   // get names of labs
   useEffect(() => {
@@ -38,6 +47,13 @@ function SearchBlock() {
     })()
   }, [])
 
+  function sendNotification(msg: string) {
+    notificationApi['error']({
+      message: "Ошибка",
+      description: msg
+    })
+  }
+
   const sendReq = async () => {
     if (!nameAnalysis || nameAnalysis.length == 0) {
       setError("Поле для запроса пустое")
@@ -48,8 +64,23 @@ function SearchBlock() {
     }
 
     analysisStore.changeStateLoading()
-    const analysis = await getAnalysis<LabAndAnalysis[]>(nameAnalysis, globalPropertiesStore.selectCity?.name!!)
-    analysisStore.addAnalysis(analysis)
+    const analysisOrErr
+      = await getAnalysis<LabAndAnalysis[]>(nameAnalysis, globalPropertiesStore.selectCity?.name!!)
+
+    let messageErr = (analysisOrErr as IError).message
+    if (messageErr !== undefined) {
+      Logger.Warring("popular/select_city", analysisOrErr)
+      sendNotification(messageErr)
+    } else {
+      const labs = analysisOrErr as Array<LabAndAnalysis>
+      const [min, max] = minMaxFilter(labs)
+
+      filterStore.setMin(min)
+      filterStore.setMax(max)
+
+      analysisStore.addAnalysis(labs)
+    }
+
     analysisStore.changeStateLoading()
 
     return true

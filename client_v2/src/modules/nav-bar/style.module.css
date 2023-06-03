@@ -24,7 +24,7 @@ a:hover {
 }
 
 .btn_select_city {
-    @apply block cursor-pointer text-main-text;
+    @apply cursor-pointer text-main-text;
 }
 
 .area_visible_city {
@@ -33,4 +33,13 @@ a:hover {
 
 .btn_selected {
     @apply flex text-white border-2 border-white p-0.5 ml-3 rounded-md;
+}
+
+.city {
+    @apply my-0.5;
+    text-align: right;
+}
+
+.menu_btn {
+    @apply select-none;
 }

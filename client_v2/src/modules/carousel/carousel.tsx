@@ -19,8 +19,8 @@ import "swiper/css/pagination";
 
 // import required modules
 import {EffectCoverflow, Pagination, Parallax} from "swiper";
-import {Button, Card} from "antd";
-import {CButton} from "../../ui/button/button";
+import {Card} from "antd";
+import {Logger} from "../../common/logger";
 
 function Carousel() {
   // stores
@@ -40,39 +40,48 @@ function Carousel() {
     return analysisStore.analysis.length == 0
   }
 
-  function getStyleByNameLab(name: string, tag: string): string | undefined {
-    switch (name) {
-      case "gemotest": {
-        return tag + "-gemotest"
-      }
-      case "citilab": {
-        return tag + "-citilab"
-      }
-      case "invitro": {
-        return tag + "-invitro"
-      }
-    }
-  }
-
   function RenderSwipe(listLaboratoryTests: LabAndAnalysis) {
+
+    function filtration(analysis: IAnalysis) {
+      let inTitle = false
+      if (filterStore.title.length !== 0) {
+        const regex = new RegExp(filterStore.title, 'gi');
+        inTitle = analysis.name.match(regex) != null;
+      } else {
+        inTitle = true
+      }
+
+      let inDesc = false
+      if (filterStore.description.length !== 0) {
+        const regex = new RegExp(filterStore.description, 'gi');
+        inDesc = analysis.description.match(regex) != null;
+      } else {
+        inDesc = true
+      }
+
+      let inPrice = false
+      const isZero = filterStore.minPrice == 0 && filterStore.maxPrice == 0
+      switch (isZero) {
+        case true: {
+          inPrice = true
+          break
+        }
+        case false: {
+          if ((analysis.price > filterStore.minPrice && analysis.price < filterStore.maxPrice)) {
+            inPrice = true
+          }
+          break
+        }
+      }
+
+      return inTitle && inDesc && inPrice
+    }
+
     return (
       <>
         {
           listLaboratoryTests.list?.filter((value: IAnalysis) => {
-            if (filterStore.query.length !== 0) {
-              const regex = new RegExp(filterStore.query, 'gi');
-
-              const category = filterStore.category
-              switch (category) {
-                case FiltrationTypes.SEARCH_DESCRIPTION: {
-                  return value.description.match(regex) != null;
-                }
-                default: {
-                  return value.name.match(regex) != null;
-                }
-              }
-            }
-            return true
+            return filtration(value)
           }).map((analysis: IAnalysis, idxAnalysis) =>
             <SwiperSlide
               key={idxAnalysis}
@@ -105,13 +114,16 @@ function Carousel() {
           <>
             {
               listLaboratoryTests?.list.length != 0 &&
-                <>
+                <div
+                  key={idx}
+                >
                     <h1
                         className={`${classes.name_lab}`}
                     >
                       {listLaboratoryTests.name_lab}
                     </h1>
                     <Swiper
+                        key={idx}
                         effect={"coverflow"}
                         grabCursor={true}
                         centeredSlides={true}
@@ -131,7 +143,7 @@ function Carousel() {
                         RenderSwipe(listLaboratoryTests)
                       }
                     </Swiper>
-                </>
+                </div>
             }
           </>
         )

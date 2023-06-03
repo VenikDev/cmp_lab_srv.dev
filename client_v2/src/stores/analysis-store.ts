@@ -1,5 +1,8 @@
 import {create} from "zustand";
-import {IAnalysis, IListAnalysis, LabAndAnalysis} from "../models/analysis";
+import {
+  IListAnalysis,
+  LabAndAnalysis
+} from "../models/analysis";
 
 export const useAnalysis = create<IListAnalysis>(set => ({
   analysis: [],

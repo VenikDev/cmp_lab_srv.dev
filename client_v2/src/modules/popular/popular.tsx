@@ -10,25 +10,30 @@ import {Pagination} from "swiper";
 import {LabAndAnalysis} from "../../models/analysis";
 import {useAnalysis} from "../../stores/analysis-store";
 import {useGlobalProperties} from "../../stores/global-properties-store";
+import {Logger} from "../../common/logger";
+import {IError} from "../../models/error";
 
 // css
 import classes from "./popular.module.css"
 import "swiper/css";
 import "swiper/css/pagination";
-import {Logger} from "../../common/logger";
-
+import {message, notification} from "antd";
+import {minMaxFilter} from "../../common/minMaxFilter";
+import {useFilterStore} from "../../stores/filter-store";
 
 function Popular() {
   const globalPropertiesStore = useGlobalProperties()
   const analysisStore = useAnalysis()
+  const filterStore = useFilterStore()
 
   const [popular, setPopular] = useState<IPopular[]>()
 
+  // ant
+  const [notificationApi, contextHolder] = notification.useNotification();
   // To check if the variable popular is null or undefined.
   // If popular is not null or undefined, then it checks the length of the array using the length
   // property and returns a boolean value indicating whether the length is equal to zero or not.
   function popularEmpty() {
-    Logger.Info("popular/length", popular)
     return popular?.length === 0
   }
 
@@ -43,17 +48,41 @@ function Popular() {
   useEffect(() => {
     (async () => {
       // get popular analysis from redis
-      await ky(HOST_V1 + "/get_popular")
-        .json<IPopular[]>()
-        .then(value => setPopular(value))
+      try {
+        const response = await ky(HOST_V1 + "/get_popular")
+        // response is fail
+        if (response.status !== 200) {
+          const errResponse = await response.json<{error: string}>()
+          Logger.Warring("req/get_popular", errResponse.error)
+
+          notificationApi['error']({
+            message: "Ошибка получения популярного",
+            description: errResponse.error
+          })
+        } else {
+          response.json<IPopular[]>().then(value => setPopular(value))
+        }
+      } catch (ex) {
+        notificationApi['error']({
+          message: "Ошибка получения популярного"
+        })
+      }
     })()
   }, [])
+
+  function sendNotification(msg: string) {
+    notificationApi['error']({
+      message: "Ошибка",
+      description: msg
+    })
+  }
 
   // render component
   return (
     !popularEmpty() ? <div
       className="w-full my-4"
     >
+      {contextHolder}
       <Swiper
         slidesPerView={3}
         spaceBetween={10}
@@ -91,8 +120,23 @@ function Popular() {
                 className="cursor-pointer"
                 onClick={async () => {
                   analysisStore.changeStateLoading()
-                  const analysis = await getAnalysis<LabAndAnalysis[]>(item.name, globalPropertiesStore.selectCity?.name!!)
-                  analysisStore.addAnalysis(analysis)
+                  const analysisOrErr
+                    = await getAnalysis<Array<LabAndAnalysis>>(item.name, globalPropertiesStore.selectCity?.name!!)
+
+                  let messageErr = (analysisOrErr as IError).message
+                  if (messageErr !== undefined) {
+                    Logger.Warring("popular/select_city", analysisOrErr)
+                    sendNotification(messageErr)
+                  } else {
+                    const labs = analysisOrErr as Array<LabAndAnalysis>
+                    const [min, max] = minMaxFilter(labs)
+
+                    filterStore.setMin(min)
+                    filterStore.setMax(max)
+
+                    analysisStore.addAnalysis(labs)
+                  }
+
                   analysisStore.changeStateLoading()
                 }}
               >
