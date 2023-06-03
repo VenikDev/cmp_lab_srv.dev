@@ -1,6 +1,7 @@
 package version2
 
 import (
+	"cmp_lab/src/algorithm"
 	"cmp_lab/src/clog"
 	"cmp_lab/src/global"
 	"cmp_lab/src/model"
@@ -10,9 +11,11 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-resty/resty/v2"
+	"github.com/liyue201/gostl/ds/vector"
 	"github.com/sourcegraph/conc"
 	"github.com/sourcegraph/conc/iter"
 	"net/http"
+	"sync"
 )
 
 func Ping(ctx *gin.Context) {
@@ -129,10 +132,72 @@ func GetUrl(parameters model.Bundle) string {
 }
 
 func GetAnalysisByLab(ctx *gin.Context) {
-	switch ctx.Param("lab") {
+	parLab := ctx.Param("lab")
+
+	var lab global.Laboratory
+	{
+		idxLab := algorithm.LinearSearch(global.Laboratories, func(laboratory global.Laboratory) bool {
+			if laboratory.Name == parLab {
+				return true
+			}
+
+			return false
+		})
+
+		lab = global.Laboratories[idxLab]
+	}
+
+	key := ctx.Param("key")
+	city := ctx.Param("city")
+
+	parameters := model.Bundle{
+		"lab":  lab,
+		"city": city,
+		"key":  key,
+	}
+
+	var listAnalysis struct {
+		Result vector.Vector[model.Analysis]
+		Mutex  sync.Mutex
+	}
+
+	switch parLab {
 	case model.CITILAB:
 		{
+			for page := 1; ; page += 1 {
+				pageUrl := fmt.Sprintf("%s/search/?%s=%s&s=page-%d", lab.Url, lab.ParamForFind, key, page)
 
+				resp, err := resty.New().R().Get(pageUrl)
+				if err != nil || resp.StatusCode() != http.StatusOK {
+					break
+				}
+
+				// Process response
+				urls := process.GetAllUrlFrom(resp.Body(), parameters)
+				if urls.IsNone() {
+					break
+				}
+
+				iter.ForEach(*urls.Value, func(urlToAnalysis *string) {
+					fullUrl := fmt.Sprintf("%s%s", lab.Url, *urlToAnalysis)
+					clog.Info("[request/get_data]", "send request to", fullUrl)
+
+					resp, err := resty.New().R().Get(fullUrl)
+					if err == nil {
+						body := resp.Body()
+
+						data := process.GetDataAbout(body, parameters)
+						if data != nil {
+							data.OriginalURL = fullUrl
+							clog.Info("[req/citilab]", "name analysis", data.Name)
+
+							listAnalysis.Mutex.Lock()
+							listAnalysis.Result.PushBack(*data)
+							listAnalysis.Mutex.Unlock()
+						}
+					}
+				})
+			}
 		}
 	case model.GEMOTEST:
 		{
@@ -140,7 +205,42 @@ func GetAnalysisByLab(ctx *gin.Context) {
 		}
 	case model.INVITRO:
 		{
+			for page := 1; page <= 30; page += 1 {
+				pageUrl := fmt.Sprintf("%s/search/?%s=%s&PAGEN_5=%d", lab.Url, lab.ParamForFind, key, page)
 
+				resp, err := resty.New().R().Get(pageUrl)
+				if err != nil || resp.StatusCode() != http.StatusOK {
+					break
+				}
+
+				// Process response
+				urls := process.GetAllUrlFrom(resp.Body(), parameters)
+				if urls.IsNone() {
+					break
+				}
+
+				iter.ForEach(*urls.Value, func(urlToAnalysis *string) {
+					fullUrl := fmt.Sprintf("%s%s", lab.Url, *urlToAnalysis)
+					clog.Info("[request/get_data]", "send request to", fullUrl)
+
+					resp, err := resty.New().R().Get(fullUrl)
+					if err == nil {
+						body := resp.Body()
+
+						data := process.GetDataAbout(body, parameters)
+						if data != nil {
+							data.OriginalURL = fullUrl
+							clog.Info("[req/invitro]", "name analysis", data.Name)
+
+							listAnalysis.Mutex.Lock()
+							listAnalysis.Result.PushBack(*data)
+							listAnalysis.Mutex.Unlock()
+						}
+					}
+				})
+			}
 		}
 	}
+
+	ctx.JSON(http.StatusOK, listAnalysis.Result.Data())
 }
