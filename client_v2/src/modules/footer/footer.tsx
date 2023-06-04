@@ -3,9 +3,20 @@ import classes from './footer.module.css'
 
 function Footer() {
   return (
-    <div className={classes.footer}>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus asperiores, aut consectetur consequuntur dolore earum enim incidunt itaque perspiciatis quibusdam quidem quo quod ratione repudiandae sequi veniam veritatis vitae voluptatibus?
-    </div>
+    <footer
+      className={classes.footer}
+    >
+      <div>
+
+      </div>
+      <div
+        className={classes.right}
+      >
+        <span className="mx-auto">
+          2023 г. Все права защищены.
+        </span>
+      </div>
+    </footer>
   );
 }
 

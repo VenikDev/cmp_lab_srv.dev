@@ -27,27 +27,32 @@ function App() {
   return (
     <div className={classes.App}>
       <BrowserRouter>
-        <NavBar/>
-        <Routes>
-          {/* main */}
-          <Route
-            path="/"
-            element={ <Home/> }
-          />
+        <main
+          className="flex flex-col h-full"
+        >
+          <NavBar/>
+          <Routes>
 
-          {/* about */}
-          <Route
-            path="/about"
-            element={ <About/> }
-          />
+            {/* main */}
+            <Route
+              path="/"
+              element={ <Home/> }
+            />
 
-          {/* favorite */}
-          <Route
-            path="/favorite"
-            element={ <Favorite/> }
-          />
-        </Routes>
-        {/*<Footer/>*/}
+            {/* about */}
+            <Route
+              path="/about"
+              element={ <About/> }
+            />
+
+            {/* favorite */}
+            <Route
+              path="/favorite"
+              element={ <Favorite/> }
+            />
+          </Routes>
+        </main>
+        <Footer/>
         <PageLoading/>
       </BrowserRouter>
     </div>

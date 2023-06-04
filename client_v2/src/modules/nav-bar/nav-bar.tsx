@@ -9,12 +9,14 @@ import {Logger} from "../../common/logger";
 import {KEY_SELECT_CITY_FOR_LOCAL_STORE} from "../../common/keys";
 import {IError} from "../../models/error";
 import {AiOutlineMenu} from "react-icons/all";
-import {Drawer} from "antd";
+import {Drawer, notification} from "antd";
 
 //  stores
 import {useGlobalProperties} from "../../stores/global-properties-store";
 import {useMenuStore} from "../../stores/menu-store";
 import Description from "../../ui/description/description";
+import {MESSAGE_TEXT, TypeNotification} from "../../common/notification/notification";
+import {Link} from "react-router-dom";
 
 
 function NavBar() {
@@ -23,6 +25,15 @@ function NavBar() {
 
   const [stateDialog, setStateDialog] = useState(false)
   const nameSite = "ZдравRU"
+
+  // atn
+  const [notificationApi, contextHolder] = notification.useNotification();
+  const sendNotification = (desc: string) => {
+    notificationApi[TypeNotification.TN_ERROR]({
+      message: MESSAGE_TEXT,
+      description: desc
+    })
+  }
 
   useEffect(() => {
     let city = window.localStorage.getItem(KEY_SELECT_CITY_FOR_LOCAL_STORE)
@@ -38,6 +49,7 @@ function NavBar() {
         }
         else {
           const error = await response.json<IError>()
+          sendNotification("Ошибка получения города по умолчаю")
           Logger.Error("get city", error.message)
         }
       })()
@@ -51,6 +63,7 @@ function NavBar() {
         }
         else {
           const error = await response.json<IError>()
+          sendNotification(`Ошибка получения информации об ${city}`)
           Logger.Error("get city", error.message)
         }
       })()
@@ -67,6 +80,7 @@ function NavBar() {
 
   return (
     <>
+      { contextHolder }
       <div
         className={classes.city}
       >
@@ -86,7 +100,12 @@ function NavBar() {
             <div
               className={classes.name}
             >
-              {nameSite}
+              <Link
+                to="/"
+                className="hover:text-black focus:text-black"
+              >
+                {nameSite}
+              </Link>
             </div>
           </li>
           <li className={classes.area_visible_city}>
@@ -95,7 +114,9 @@ function NavBar() {
                 className={classes.menu_btn}
                 onClick={menuStore.open}
               >
-                <AiOutlineMenu/>
+                <AiOutlineMenu
+                  className="w-6 h-6"
+                />
               </button>
             </div>
           </li>
@@ -110,8 +131,11 @@ function NavBar() {
       >
         <button
           className={btn_class.btn}
+          onClick={menuStore.close}
         >
-          Открыть избранное
+          <Link to="/favorite">
+            Открыть избранное
+          </Link>
         </button>
         <Description>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi deleniti doloribus qui quibusdam tempora. Aut commodi, dolore dolorum, eligendi impedit ipsa ipsum, nostrum odio possimus quia reiciendis sapiente suscipit ut.

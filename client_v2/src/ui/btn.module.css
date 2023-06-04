@@ -1,4 +1,4 @@
 .btn {
-    @apply rounded-md border-2 border-main-border w-full p-2;
-    @apply hover:border-2 hover:border-black hover:text-white hover:bg-black duration-300;
+    @apply rounded-md border-2 border-main-border text-white bg-black w-full p-2;
+    @apply hover:border-2 hover:border-black hover:text-black hover:bg-white duration-300;
 }

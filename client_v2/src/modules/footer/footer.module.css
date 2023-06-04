@@ -1,3 +1,7 @@
 .footer {
     @apply w-full bg-black text-white p-5 rounded-md;
 }
+
+.right {
+    @apply w-full;
+}

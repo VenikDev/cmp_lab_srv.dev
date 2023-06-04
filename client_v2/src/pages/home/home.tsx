@@ -16,7 +16,6 @@ function Home() {
       <Popular/>
       <Filter/>
       <Carousel/>
-      <Footer/>
     </>
   );
 }

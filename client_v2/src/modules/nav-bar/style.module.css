@@ -17,9 +17,9 @@ a:hover {
 }
 
 .name {
-    @apply text-main-text font-bold text-xl;
+    @apply text-main-text font-bold text-xl cursor-pointer;
     /* hover */
-    @apply hover:text-black hover:outline-2;
+    @apply hover:text-black hover:outline-2 focus:text-black focus:outline-2;
     user-select: none;
 }
 
