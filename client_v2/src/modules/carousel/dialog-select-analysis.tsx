@@ -2,10 +2,7 @@ import React from 'react';
 import CRB from "../../ui/text/strong_bold";
 import classes from "./style.module.css";
 import {useSelectAnalysis} from "../../stores/select-analysis-store";
-import {Modal} from "antd";
-import SelectCityDialog from "../select-city/select-city-dialog";
 import Dialog from "../../ui/dialog/dialog";
-import Description from "../../ui/description/description";
 
 function DialogSelectAnalysis() {
   const selectAnalysisStore = useSelectAnalysis()

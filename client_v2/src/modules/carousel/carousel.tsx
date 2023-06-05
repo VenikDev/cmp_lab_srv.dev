@@ -4,11 +4,9 @@ import classes from "./style.module.css";
 import {useSelectAnalysis} from "../../stores/select-analysis-store";
 import {IAnalysis, LabAndAnalysis} from "../../models/analysis";
 import DialogSelectAnalysis from "./dialog-select-analysis";
-import {AssertMsg} from "../../common/assert_msg";
 import {useFilterStore} from "../../stores/filter-store";
 import CDescription from "../../ui/description/description";
-import { v4 as uuidv4 } from 'uuid';
-
+import uuid from 'react-uuid';
 // Import Swiper styles
 import {Swiper, SwiperSlide} from "swiper/react";
 
@@ -20,7 +18,7 @@ import "swiper/css/pagination";
 // import required modules
 import {EffectCoverflow, Pagination, Parallax} from "swiper";
 import {Card, notification} from "antd";
-import {MdOutlineFavorite, MdOutlineFavoriteBorder} from "react-icons/all";
+import {MdOutlineFavorite, MdOutlineFavoriteBorder} from "react-icons/md";
 import {useFavorite} from "../../stores/favorit-store";
 import {Logger} from "../../common/logger";
 
@@ -47,22 +45,22 @@ function CardHeader({analysis} : {analysis: IAnalysis}) {
         <span className="grow truncate">
           { analysis.name }
         </span>
-        <button
-          onClick={() =>
-            addToFavorite(analysis)
-          }
-        >
-          {
-            analysis.isSelect ?
-              <MdOutlineFavorite
-                className="w-5 h-5"
-              />
-              :
-              <MdOutlineFavoriteBorder
-                className="w-5 h-5"
-              />
-          }
-        </button>
+        {/*<button*/}
+        {/*  onClick={() =>*/}
+        {/*    addToFavorite(analysis)*/}
+        {/*  }*/}
+        {/*>*/}
+        {/*  {*/}
+        {/*    analysis.isSelect ?*/}
+        {/*      <MdOutlineFavorite*/}
+        {/*        className="w-5 h-5"*/}
+        {/*      />*/}
+        {/*      :*/}
+        {/*      <MdOutlineFavoriteBorder*/}
+        {/*        className="w-5 h-5"*/}
+        {/*      />*/}
+        {/*  }*/}
+        {/*</button>*/}
       </div>
     </>
   )
@@ -120,7 +118,7 @@ function Carousel() {
       <>
         {
           listLaboratoryTests.list?.filter((value: IAnalysis) => {
-            value.id = uuidv4()
+            value.id = uuid()
             return filtration(value)
           }).map((analysis: IAnalysis, idxAnalysis) =>
             <SwiperSlide

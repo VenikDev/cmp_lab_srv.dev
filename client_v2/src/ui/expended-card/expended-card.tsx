@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import classes from "./expended-card.module.css"
-import {IoIosArrowDown, IoIosArrowForward} from "react-icons/all";
+import {IoIosArrowDown, IoIosArrowForward} from "react-icons/io";
 import CDescription from "../description/description";
 import StrongBold from "../text/strong_bold";
 

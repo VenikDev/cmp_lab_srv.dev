@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './dialog.module.css'
-import {TfiClose} from "react-icons/all";
+import {TfiClose} from "react-icons/tfi";
 import {IDialog} from "./model";
 
 function Dialog(props: IDialog) {

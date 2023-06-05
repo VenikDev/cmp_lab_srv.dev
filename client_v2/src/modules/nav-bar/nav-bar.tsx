@@ -8,15 +8,15 @@ import {ICity} from "../../models/city";
 import {Logger} from "../../common/logger";
 import {KEY_SELECT_CITY_FOR_LOCAL_STORE} from "../../common/keys";
 import {IError} from "../../models/error";
-import {AiOutlineMenu} from "react-icons/all";
 import {Drawer, notification} from "antd";
+import {Link} from "react-router-dom";
+import {AiOutlineMenu} from "react-icons/ai";
 
 //  stores
 import {useGlobalProperties} from "../../stores/global-properties-store";
 import {useMenuStore} from "../../stores/menu-store";
 import Description from "../../ui/description/description";
 import {MESSAGE_TEXT, TypeNotification} from "../../common/notification/notification";
-import {Link} from "react-router-dom";
 
 
 function NavBar() {
@@ -109,16 +109,16 @@ function NavBar() {
             </div>
           </li>
           <li className={classes.area_visible_city}>
-            <div className="flex">
-              <button
-                className={classes.menu_btn}
-                onClick={menuStore.open}
-              >
-                <AiOutlineMenu
-                  className="w-6 h-6"
-                />
-              </button>
-            </div>
+            {/*<div className="flex">*/}
+            {/*  <button*/}
+            {/*    className={classes.menu_btn}*/}
+            {/*    onClick={menuStore.open}*/}
+            {/*  >*/}
+            {/*    <AiOutlineMenu*/}
+            {/*      className="w-6 h-6"*/}
+            {/*    />*/}
+            {/*  </button>*/}
+            {/*</div>*/}
           </li>
         </ul>
       </nav>

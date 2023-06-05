@@ -1,5 +1,6 @@
 import React from 'react';
 import {useFavorite} from "../../stores/favorit-store";
+import FavoriteDiagram from "./modules/diagram/favoriteDiagram";
 
 function Favorite() {
   // get store
@@ -16,7 +17,10 @@ function Favorite() {
           </h1>
           <span>
             { item.price }
-          </span>
+          </span>\
+          <FavoriteDiagram
+            title="Избранное"
+          />
         </div>
       ) }
     </div>

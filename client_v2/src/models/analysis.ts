@@ -1,7 +1,5 @@
 // export type LabAndAnalysis = Map<string, IAnalysis[]>
 
-import {v4 as uuid4} from "uuid";
-
 interface NameAndListAnalysis {
   nameLab: string
   list: IAnalysis[]
