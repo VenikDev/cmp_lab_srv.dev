@@ -3,6 +3,7 @@ package model
 import (
 	"bytes"
 	"cmp_lab/src/algorithm"
+	"cmp_lab/src/clog"
 	"cmp_lab/src/global"
 	"cmp_lab/src/herr"
 	"cmp_lab/src/model/city"
@@ -59,6 +60,8 @@ func GetAnalyzesGemotest(document *goquery.Document, params Bundle) ListAnalyses
 						}
 						return false
 					})
+
+					clog.Info("[get_analysis/gemotest]", "url", linkToAnalyses)
 
 					re := regexp.MustCompile(`^/([a-zA-Z_-]+)`)
 					match := re.FindAllStringSubmatch(linkToAnalyses, -1)

@@ -2,6 +2,7 @@ package model
 
 import (
 	"cmp_lab/src/algorithm"
+	"cmp_lab/src/clog"
 	"cmp_lab/src/global"
 	"cmp_lab/src/herr"
 	"cmp_lab/src/model/city"
@@ -56,6 +57,8 @@ func GetAnalyzesCitilab(document *goquery.Document, params Bundle) ListAnalyses 
 					})
 
 					original := global.Laboratories[idx].Url + "/" + params["city"].(city.City).NameEn + linkToAnalyses
+					clog.Info("[get_analysis/citilab]", "url", original)
+
 					listAnalysesResult = append(listAnalysesResult, Analysis{
 						Name:        title,
 						Price:       totalPrice,

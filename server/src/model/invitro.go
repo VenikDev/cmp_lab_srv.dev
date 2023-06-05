@@ -2,6 +2,7 @@ package model
 
 import (
 	"cmp_lab/src/algorithm"
+	"cmp_lab/src/clog"
 	"cmp_lab/src/global"
 	"cmp_lab/src/herr"
 	"cmp_lab/src/model/city"
@@ -42,6 +43,8 @@ func GetAnalyzesInvitro(document *goquery.Document, params Bundle) ListAnalyses 
 						}
 						return false
 					})
+
+					clog.Info("[get_analysis/invitro]", "url", linkToAnalyses)
 
 					re := regexp.MustCompile(`for-doctors/([a-zA-Z_-]+)/\w+`)
 					match := re.FindAllStringSubmatch(linkToAnalyses, -1)
