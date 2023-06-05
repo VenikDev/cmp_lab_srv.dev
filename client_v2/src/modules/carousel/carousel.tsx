@@ -7,6 +7,7 @@ import DialogSelectAnalysis from "./dialog-select-analysis";
 import {AssertMsg} from "../../common/assert_msg";
 import {useFilterStore} from "../../stores/filter-store";
 import CDescription from "../../ui/description/description";
+import { v4 as uuidv4 } from 'uuid';
 
 // Import Swiper styles
 import {Swiper, SwiperSlide} from "swiper/react";
@@ -25,16 +26,15 @@ import {Logger} from "../../common/logger";
 
 function CardHeader({analysis} : {analysis: IAnalysis}) {
   const favoriteStore = useFavorite()
-  const [isSelect, setIsSelect] = useState(false)
 
   function addToFavorite(analysis: IAnalysis) {
-
-    if (!isSelect) {
-      favoriteStore.addToFavorite(analysis)
+    if (!analysis.isSelect) {
+      favoriteStore.add(analysis)
+      analysis.isSelect = true
     } else {
       favoriteStore.delete(analysis)
+      analysis.isSelect = false
     }
-    setIsSelect(!isSelect)
 
     Logger.Info("favorite", favoriteStore.selectedList)
   }
@@ -53,7 +53,7 @@ function CardHeader({analysis} : {analysis: IAnalysis}) {
           }
         >
           {
-            isSelect ?
+            analysis.isSelect ?
               <MdOutlineFavorite
                 className="w-5 h-5"
               />
@@ -77,13 +77,6 @@ function Carousel() {
   function openSelectAnalysis(value: IAnalysis) {
     selectAnalysisStore.changeAnalysis(value)
     selectAnalysisStore.changeState()
-  }
-
-  function analysisEmpty() {
-    const condition = analysisStore.analysis.length == 0
-    AssertMsg(condition, "carousel", analysisStore.analysis)
-
-    return analysisStore.analysis.length == 0
   }
 
   function RenderSwipe(listLaboratoryTests: LabAndAnalysis) {
@@ -127,6 +120,7 @@ function Carousel() {
       <>
         {
           listLaboratoryTests.list?.filter((value: IAnalysis) => {
+            value.id = uuidv4()
             return filtration(value)
           }).map((analysis: IAnalysis, idxAnalysis) =>
             <SwiperSlide

@@ -52,63 +52,65 @@ const Filter = () => {
         <div
           className="flex flex-col 2xl:flex-row xl:flex-row lg:flex-row scroll-auto"
         >
-          <Input
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              setTitle(event.target.value)
-            }}
-            placeholder="Искать в названии"
-            size="large"
-          />
-          <Description>
-            Поле ввода для поиска в названии анализа.
-          </Description>
-
-          <Input
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              setDescription(event.target.value)
-            }}
-            placeholder="Искать в описание"
-            size="large"
-          />
-          <Description>
-            Поле ввода для поиска в описании анализа.
-          </Description>
-          <Space
-            style={{ width: '100%' }}
-          >
-            <label>От</label>
-            <InputNumber
-              value={price[0]}
-              defaultValue={price[0]}
-              onChange={(value: number | null) => price[0] = value!!}
+          <Space.Compact direction="vertical" className="mx-auto">
+            <Input
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                setTitle(event.target.value)
+              }}
+              placeholder="Искать в названии"
+              size="large"
             />
-            <label>До</label>
-            <InputNumber
-              value={price[1]}
-              defaultValue={price[1]}
-              onChange={(value: number | null) => price[1] = value!!}
+            <Description>
+              Поле ввода для поиска в названии анализа.
+            </Description>
+
+            <Input
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                setDescription(event.target.value)
+              }}
+              placeholder="Искать в описание"
+              size="large"
             />
-          </Space>
-          <Description>
-            Выбор диапазоны цены для фильтрации. Чтобы не фильтровать по цене -
-            оставьте максимально и минимальное значение 0.
-          </Description>
+            <Description>
+              Поле ввода для поиска в описании анализа.
+            </Description>
+            <Space
+              style={{width: '100%'}}
+            >
+              <label>От</label>
+              <InputNumber
+                value={price[0]}
+                defaultValue={price[0]}
+                onChange={(value: number | null) => price[0] = value!!}
+              />
+              <label>До</label>
+              <InputNumber
+                value={price[1]}
+                defaultValue={price[1]}
+                onChange={(value: number | null) => price[1] = value!!}
+              />
+            </Space>
+            <Description>
+              Выбор диапазоны цены для фильтрации. Чтобы не фильтровать по цене -
+              оставьте максимально и минимальное значение 0.
+            </Description>
 
-          <button
-            className={btn_class.btn}
-            onClick={() => {
-              const filterData = {
-                title: title,
-                description: description,
-                price: price
-              }
-              filterStore.setQuery(filterData)
+            <button
+              className={btn_class.btn}
+              onClick={() => {
+                const filterData = {
+                  title: title,
+                  description: description,
+                  price: price
+                }
+                filterStore.setQuery(filterData)
 
-              filterStore.close()
-            }}
-          >
-            Применить фильтр
-          </button>
+                filterStore.close()
+              }}
+            >
+              Применить фильтр
+            </button>
+          </Space.Compact>
         </div>
       </Drawer>
     </>
