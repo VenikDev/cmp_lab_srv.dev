@@ -66,7 +66,10 @@ func TestOption(t *testing.T) {
 
 	// Test ValueOrCall function
 	var called bool
-	callback := func() { called = true }
+	callback := func() int {
+		called = true
+		return 10
+	}
 	valueOrCall := some.ValueOrCall(callback)
 	assert.Equal(t, value, valueOrCall, "ValueOrCall should return value")
 	assert.False(t, called, "Callback should not be called when option is Some")

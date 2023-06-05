@@ -27,9 +27,9 @@ func (o Option[T]) Unwrap() T {
 	return *o.Value
 }
 
-func (o Option[T]) ValueOrCall(callback func()) T {
+func (o Option[T]) ValueOrCall(callback func() T) T {
 	if o.IsNone() {
-		callback()
+		return callback()
 	}
 	return *o.Value
 }
