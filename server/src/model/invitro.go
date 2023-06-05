@@ -6,6 +6,7 @@ import (
 	"cmp_lab/src/global"
 	"cmp_lab/src/herr"
 	"cmp_lab/src/model/city"
+	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"regexp"
 	"strconv"
@@ -46,10 +47,10 @@ func GetAnalyzesInvitro(document *goquery.Document, params Bundle) ListAnalyses 
 
 					clog.Info("[get_analysis/invitro]", "url", linkToAnalyses)
 
-					re := regexp.MustCompile(`for-doctors/([a-zA-Z_-]+)/\w+`)
-					match := re.FindAllStringSubmatch(linkToAnalyses, -1)
+					re := regexp.MustCompile(`/\d+/\d+/$`)
+					tailUrl := re.FindString(linkToAnalyses)
 					cityEn := params["city"].(city.City).NameEn
-					linkToAnalyses := strings.ReplaceAll(linkToAnalyses, match[0][1], cityEn)
+					linkToAnalyses := fmt.Sprintf("/analizes/for-doctors/%s%s", cityEn, tailUrl)
 
 					result = append(result, Analysis{
 						Name:        title,
