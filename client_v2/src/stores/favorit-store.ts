@@ -2,15 +2,23 @@ import {create} from "zustand";
 import {IAnalysis} from "../models/analysis";
 
 export interface IFavoriteAnalysis {
-  list: IAnalysis[]
+  selectedList: IAnalysis[]
   addToFavorite: (analysis: IAnalysis) => void
+  delete: (analysis: IAnalysis) => void
 }
 
 export const useFavorite = create<IFavoriteAnalysis>(set => ({
-  list: [],
+  selectedList: [],
   // Add to favorites
   addToFavorite: (analysis: IAnalysis) => set(state => ({
-    list: [...state.list, analysis],
-    length: state.list.length
-  }))
+    selectedList: [...state.selectedList, analysis],
+    length: state.selectedList.length
+  })),
+  delete(analysis: IAnalysis) {
+    set(state => ({
+      selectedList: state.selectedList.filter((value: IAnalysis) => {
+        return value.name == analysis.name;
+      }),
+    }))
+  }
 }))

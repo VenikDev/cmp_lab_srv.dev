@@ -4,6 +4,7 @@ import (
 	"cmp_lab/src/algorithm"
 	"cmp_lab/src/global"
 	"cmp_lab/src/herr"
+	"cmp_lab/src/model/city"
 	"github.com/PuerkitoBio/goquery"
 	"regexp"
 	"strconv"
@@ -20,7 +21,7 @@ func findProfile(str string) bool {
 }
 
 // GetAnalyzesCitilab
-func GetAnalyzesCitilab(document *goquery.Document) ListAnalyses {
+func GetAnalyzesCitilab(document *goquery.Document, params Bundle) ListAnalyses {
 	listAnalysesResult := make(ListAnalyses, 0)
 	re := regexp.MustCompile("[0-9]+")
 
@@ -54,11 +55,12 @@ func GetAnalyzesCitilab(document *goquery.Document) ListAnalyses {
 						return false
 					})
 
+					original := global.Laboratories[idx].Url + "/" + params["city"].(city.City).NameEn + linkToAnalyses
 					listAnalysesResult = append(listAnalysesResult, Analysis{
 						Name:        title,
 						Price:       totalPrice,
 						Description: description,
-						OriginalURL: global.Laboratories[idx].Url + linkToAnalyses,
+						OriginalURL: original,
 					})
 				}
 			}

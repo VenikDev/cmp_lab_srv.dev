@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useAnalysis} from '../../stores/analysis-store'
 import classes from "./style.module.css";
 import {useSelectAnalysis} from "../../stores/select-analysis-store";
 import {IAnalysis, LabAndAnalysis} from "../../models/analysis";
 import DialogSelectAnalysis from "./dialog-select-analysis";
 import {AssertMsg} from "../../common/assert_msg";
-import {FiltrationTypes} from "../../ui/expended-card/FiltrationTypes";
 import {useFilterStore} from "../../stores/filter-store";
 import CDescription from "../../ui/description/description";
 
@@ -19,8 +18,55 @@ import "swiper/css/pagination";
 
 // import required modules
 import {EffectCoverflow, Pagination, Parallax} from "swiper";
-import {Card} from "antd";
+import {Card, notification} from "antd";
+import {MdOutlineFavorite, MdOutlineFavoriteBorder} from "react-icons/all";
+import {useFavorite} from "../../stores/favorit-store";
 import {Logger} from "../../common/logger";
+
+function CardHeader({analysis} : {analysis: IAnalysis}) {
+  const favoriteStore = useFavorite()
+  const [isSelect, setIsSelect] = useState(false)
+
+  function addToFavorite(analysis: IAnalysis) {
+
+    if (!isSelect) {
+      favoriteStore.addToFavorite(analysis)
+    } else {
+      favoriteStore.delete(analysis)
+    }
+    setIsSelect(!isSelect)
+
+    Logger.Info("favorite", favoriteStore.selectedList)
+  }
+
+  return (
+    <>
+      <div
+        className="flex flex-row"
+      >
+        <span className="grow truncate">
+          { analysis.name }
+        </span>
+        <button
+          onClick={() =>
+            addToFavorite(analysis)
+          }
+        >
+          {
+            isSelect ?
+              <MdOutlineFavorite
+                className="w-5 h-5"
+              />
+              :
+              <MdOutlineFavoriteBorder
+                className="w-5 h-5"
+              />
+          }
+        </button>
+      </div>
+    </>
+  )
+}
 
 function Carousel() {
   // stores
@@ -88,13 +134,16 @@ function Carousel() {
               className="w-72 h-72 border-2 border-main-border rounded-md select-none"
             >
               <Card
-                title={analysis.name}
+                key={idxAnalysis}
+                title={<CardHeader analysis={analysis}/>}
               >
-                <CDescription>
+                <CDescription
+                  className="h-28 truncate whitespace-normal overflow-hidden"
+                >
                   {analysis.description}
                 </CDescription>
                 <button
-                  className="bg-black text-white hover:text-black hover:bg-white hover:border-2 hover:border-black duration-300 p-2 w-full rounded-md"
+                  className="bg-black text-white hover:text-black hover:bg-white hover:border-2 hover:border-black duration-300 p-2 w-full rounded-md grow-0"
                   onClick={() => openSelectAnalysis(analysis)}
                 >
                   Подробнее
@@ -137,7 +186,7 @@ function Carousel() {
                         }}
                         pagination={true}
                         modules={[EffectCoverflow, Pagination]}
-                        className="w-full"
+                        className="w-full pb-10"
                     >
                       {
                         RenderSwipe(listLaboratoryTests)

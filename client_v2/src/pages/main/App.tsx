@@ -52,7 +52,7 @@ function App() {
             />
           </Routes>
         </main>
-        <Footer/>
+        {/*<Footer/>*/}
         <PageLoading/>
       </BrowserRouter>
     </div>

@@ -6,7 +6,7 @@ import {IError} from "../models/error";
 export async function getAnalysis<T, TErr = IError>(
   key: string,
   city: string,
-  timeout: number = 5000
+  timeout: number = 10000 // 10 сек
 ) : Promise<T | TErr>
 {
   Logger.Info("get_analysis", `Search: ${key} in ${city}`)

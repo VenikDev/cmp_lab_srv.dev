@@ -133,12 +133,15 @@ function NavBar() {
           className={btn_class.btn}
           onClick={menuStore.close}
         >
-          <Link to="/favorite">
+          <Link
+            to="/favorite"
+            className="hover:text-black"
+          >
             Открыть избранное
           </Link>
         </button>
         <Description>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi deleniti doloribus qui quibusdam tempora. Aut commodi, dolore dolorum, eligendi impedit ipsa ipsum, nostrum odio possimus quia reiciendis sapiente suscipit ut.
+          После завершения сессии, данные для сравнения анализов будут удалены
         </Description>
       </Drawer>
 

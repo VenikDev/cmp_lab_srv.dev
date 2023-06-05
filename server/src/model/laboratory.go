@@ -22,14 +22,14 @@ type LabSearchResults struct {
 	Data ListAnalyses
 }
 
-func GetAnalyzes(labName string, document *goquery.Document) ListAnalyses {
+func GetAnalyzes(labName string, document *goquery.Document, params Bundle) ListAnalyses {
 	switch labName {
 	case CITILAB:
-		return GetAnalyzesCitilab(document)
+		return GetAnalyzesCitilab(document, params)
 	case INVITRO:
-		return GetAnalyzesInvitro(document)
+		return GetAnalyzesInvitro(document, params)
 	case GEMOTEST:
-		return GetAnalyzesGemotest(document)
+		return GetAnalyzesGemotest(document, params)
 	default:
 		return nil
 	}

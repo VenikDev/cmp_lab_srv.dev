@@ -19,9 +19,9 @@ type resultDocument struct {
 
 // GetLaboratoryAnalyses
 // Получить список анализов для каждой лаборатории
-func GetLaboratoryAnalyses(key string) (model.LabAndListAnalyses, error) {
+func GetLaboratoryAnalyses(params model.Bundle) (model.LabAndListAnalyses, error) {
 	labsAndListTests := make(model.LabAndListAnalyses, 3)
-	fillMapAnalyses(labsAndListTests, key)
+	fillMapAnalyses(labsAndListTests, params)
 
 	// если нашли хоть бы для обной лаборатории
 	if len(labsAndListTests) != 0 {
@@ -41,13 +41,14 @@ func GetLaboratoryAnalyses(key string) (model.LabAndListAnalyses, error) {
 // lab, and the "Data" property set to the HTML string returned by the "GetHtmlFrom" function from the "core" package
 // using the URL. This "resultDocument" object then sent to the channel provided as an input parameter of the function.
 // The code also includes a deferred close statement to close the channel when all requests have been sent.
-func SendRequests(documentChannel chan resultDocument, key string) {
+func SendRequests(documentChannel chan resultDocument, params model.Bundle) {
 	for _, lab := range global.Laboratories {
-		url := core.CreateURLFrom(key, lab)
+		url := core.CreateURLFrom(params, lab)
 		clog.Info("[req/fill_map_analyses]", "Send request", url)
 
 		go func(lab global.Laboratory, url string) {
-			data := core.GetHtmlFrom(url, lab)
+			params := params
+			data := core.GetHtmlFrom(url, lab, params)
 			if data != nil {
 				documentChannel <- resultDocument{
 					Name: lab.Name,
@@ -59,14 +60,14 @@ func SendRequests(documentChannel chan resultDocument, key string) {
 }
 
 // fillMapAnalyses
-func fillMapAnalyses(labsAndListTests model.LabAndListAnalyses, key string) {
+func fillMapAnalyses(labsAndListTests model.LabAndListAnalyses, params model.Bundle) {
 	var wg sync.WaitGroup
 	sizeLabs := len(global.Laboratories)
 
 	documentChannel := make(chan resultDocument, sizeLabs)
 
-	key = strings.ReplaceAll(key, " ", "+")
-	SendRequests(documentChannel, key)
+	params["key"] = strings.ReplaceAll(params["key"].(string), " ", "+")
+	SendRequests(documentChannel, params)
 
 	for idx := 0; idx < sizeLabs; idx++ {
 		wg.Add(1)
@@ -77,7 +78,7 @@ func fillMapAnalyses(labsAndListTests model.LabAndListAnalyses, key string) {
 
 			clog.Info("[req/list_analysis]", "Received a list of analyzes from", foundData.Name)
 
-			foundLaboratories := model.GetAnalyzes(foundData.Name, foundData.Data)
+			foundLaboratories := model.GetAnalyzes(foundData.Name, foundData.Data, params)
 			labsAndListTests[idx] = model.LaboratoryAnalyzes{
 				NameLab: foundData.Name,
 				List:    foundLaboratories,

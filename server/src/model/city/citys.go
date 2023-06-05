@@ -11,4 +11,5 @@ type City struct {
 	Name       string `json:"name"`
 	Population uint64 `json:"population"`
 	Subject    string `json:"subject"`
+	NameEn     string `json:"name_en"`
 }

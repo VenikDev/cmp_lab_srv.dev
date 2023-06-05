@@ -60,10 +60,17 @@ func GetListAnalyses(context *gin.Context) {
 	clog.Info("[router/get_list_ana]", "cityForSearch", cityForSearch)
 	query := cityForSearch + ":" + key
 
+	params := make(model.Bundle)
+	params["key"] = key
+	idxCity := algorithm.LinearSearch(labs.Cities, func(c city.City) bool {
+		return cityForSearch == strings.ToLower(c.Name)
+	})
+	params["city"] = labs.Cities[idxCity]
+
 	jsonData, err := redis.GetAnalysisByCity(query)
 	// if there isn't a redis, then
 	if err != nil {
-		result, err := services.GetLaboratoryAnalyses(key)
+		result, err := services.GetLaboratoryAnalyses(params)
 		if err != nil {
 			headers := gin.H{
 				"message": "Failed to fetch analyses from service",

@@ -4,13 +4,14 @@ import (
 	"cmp_lab/src/algorithm"
 	"cmp_lab/src/global"
 	"cmp_lab/src/herr"
+	"cmp_lab/src/model/city"
 	"github.com/PuerkitoBio/goquery"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
-func GetAnalyzesInvitro(document *goquery.Document) ListAnalyses {
+func GetAnalyzesInvitro(document *goquery.Document, params Bundle) ListAnalyses {
 	result := make(ListAnalyses, 0)
 	re := regexp.MustCompile("[0-9]+")
 
@@ -41,6 +42,11 @@ func GetAnalyzesInvitro(document *goquery.Document) ListAnalyses {
 						}
 						return false
 					})
+
+					re := regexp.MustCompile(`for-doctors/([a-zA-Z_-]+)/\w+`)
+					match := re.FindAllStringSubmatch(linkToAnalyses, -1)
+					cityEn := params["city"].(city.City).NameEn
+					linkToAnalyses := strings.ReplaceAll(linkToAnalyses, match[0][1], cityEn)
 
 					result = append(result, Analysis{
 						Name:        title,
