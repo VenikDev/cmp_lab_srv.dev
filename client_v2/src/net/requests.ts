@@ -11,10 +11,10 @@ export async function getAnalysis<T, TErr = IError>(
 {
   Logger.Info("get_analysis", `Search: ${key} in ${city}`)
   console.log("Search: ", key, " in ", city)
+
   // request
-  const response =  await ky(`${HOST_V1}/analysis?key=${key}&city=${city}`, {
-    timeout: timeout
-  })
+  const response =  await ky.get(`${HOST_V1}/analysis?key=${key}&city=${city}`)
+
   if (!response.ok) {
     const error = await response.json<TErr>()
     Logger.Error("get_analysis", error)
