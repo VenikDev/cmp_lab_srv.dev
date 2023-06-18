@@ -22,7 +22,7 @@ function Favorite() {
   const favoriteStore = useFavorite()
 
   return (
-    <>
+    favoriteStore.selectedList.length !== 0 ? <>
       {
         _.chain(favoriteStore.selectedList)
           .groupBy(item => item.name)
@@ -90,6 +90,12 @@ function Favorite() {
       >
         <FavoriteDiagram/>
       </div>
+    </> : <>
+      <CDescription
+        className="text-center"
+      >
+        Пока здесь ничего нет. Добавляйте в избранное для сравнения
+      </CDescription>
     </>
   );
 }
