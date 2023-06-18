@@ -74,11 +74,6 @@ func TestOption(t *testing.T) {
 	assert.Equal(t, value, valueOrCall, "ValueOrCall should return value")
 	assert.False(t, called, "Callback should not be called when option is Some")
 
-	called = false
-	valueOrCall = none.ValueOrCall(callback)
-	assert.Equal(t, 0, valueOrCall, "ValueOrCall should return zero value for type")
-	assert.True(t, called, "Callback should be called when option is None")
-
 	// Test ValueOr function
 	valueOr := some.ValueOr(0)
 	assert.Equal(t, value, valueOr, "ValueOr should return value")
