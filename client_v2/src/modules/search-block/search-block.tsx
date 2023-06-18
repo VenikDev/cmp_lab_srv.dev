@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Dialog from "../../ui/dialog/dialog";
 import CInput from "../../ui/input/input";
-import {AiOutlineSearch} from "react-icons/all";
+import {AiOutlineSearch} from "react-icons/ai";
 import {Key} from "../../common/keys";
 import ky from "ky";
 import {HOST_V1} from "../../net/consts";
@@ -40,7 +40,7 @@ function SearchBlock() {
   // get names of labs
   useEffect(() => {
     (async () => {
-      await ky(HOST_V1+`/get_names_labs`)
+      await ky(HOST_V1 + `/get_names_labs`)
         .json<string[]>().then(value => {
           setLabs(value)
         });
@@ -58,8 +58,7 @@ function SearchBlock() {
     if (!nameAnalysis || nameAnalysis.length == 0) {
       setError("Поле для запроса пустое")
       return false
-    }
-    else {
+    } else {
       setError(undefined)
     }
 
@@ -134,7 +133,7 @@ function SearchBlock() {
       >
         {/* Для воода ключевого слова */}
         <CInput
-          onInput={(event) => setNameAnalysis(event.target.value) }
+          onInput={(event) => setNameAnalysis(event.target.value)}
           placeholder="Поиск анализа"
         />
         {/* alert for error */}
@@ -155,7 +154,9 @@ function SearchBlock() {
           }}
           className={classes.find_tests}
         >
-          <AiOutlineSearch className="w-5 h-5 mr-2 my-auto"/>
+          <AiOutlineSearch
+            className="w-5 h-5 mr-2 my-auto"
+          />
           Найти
         </button>
       </Dialog>

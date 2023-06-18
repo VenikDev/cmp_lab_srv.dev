@@ -1,5 +1,7 @@
 package model
 
+import "github.com/google/uuid"
+
 // ListAnalyses which is just a slice (array) of "Analysis" objects
 type ListAnalyses []Analysis
 
@@ -16,6 +18,7 @@ type AnalysesResponse []LabAndListAnalyses
 // and "original_url"). This is used when encoding and decoding the struct to/from a JSON format,
 // as the tag determines the JSON key that corresponds to each struct field.
 type Analysis struct {
+	ID          string `json:"id"`
 	Name        string `json:"name"`
 	Price       int    `json:"price"`
 	Description string `json:"description"`
@@ -24,6 +27,7 @@ type Analysis struct {
 
 func NewAnalysis(name string, price int, description string, originalURL string) *Analysis {
 	return &Analysis{
+		ID:          uuid.New().String(),
 		Name:        name,
 		Price:       price,
 		Description: description,

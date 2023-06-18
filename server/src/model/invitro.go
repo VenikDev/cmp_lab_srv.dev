@@ -52,12 +52,8 @@ func GetAnalyzesInvitro(document *goquery.Document, params Bundle) ListAnalyses 
 					cityEn := params["city"].(city.City).NameEn
 					linkToAnalyses := fmt.Sprintf("/analizes/for-doctors/%s%s", cityEn, tailUrl)
 
-					result = append(result, Analysis{
-						Name:        title,
-						Price:       totalPrice,
-						Description: description,
-						OriginalURL: global.Laboratories[idx].Url + linkToAnalyses,
-					})
+					result = append(result, *NewAnalysis(title, totalPrice, description,
+						global.Laboratories[idx].Url+linkToAnalyses))
 				}
 			}
 		}

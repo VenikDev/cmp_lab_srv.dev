@@ -59,12 +59,8 @@ func GetAnalyzesCitilab(document *goquery.Document, params Bundle) ListAnalyses 
 					original := global.Laboratories[idx].Url + "/" + params["city"].(city.City).NameEn + linkToAnalyses
 					clog.Info("[get_analysis/citilab]", "url", original)
 
-					listAnalysesResult = append(listAnalysesResult, Analysis{
-						Name:        title,
-						Price:       totalPrice,
-						Description: description,
-						OriginalURL: original,
-					})
+					listAnalysesResult = append(listAnalysesResult, *NewAnalysis(title, totalPrice, description,
+						original))
 				}
 			}
 		}

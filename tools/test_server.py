@@ -12,7 +12,7 @@ async def main(idx):
 
 async def run_main_times():
     tasks = []
-    for i in range(10):
+    for i in range(1000):
         tasks.append(asyncio.ensure_future(main(i)))
     await asyncio.gather(*tasks)
 

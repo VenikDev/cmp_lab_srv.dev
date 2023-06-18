@@ -41,13 +41,12 @@ function NavBar() {
 
     if (city == null) {
       (async () => {
-        let response = await ky(HOST_V1+"/get_default_city")
+        let response = await ky(HOST_V1 + "/get_default_city")
         if (response.ok) {
           const defaultCity = await response.json<ICity>()
 
           globalPropertiesStore.setNewSelectCity(defaultCity)
-        }
-        else {
+        } else {
           const error = await response.json<IError>()
           sendNotification("Ошибка получения города по умолчаю")
           Logger.Error("get city", error.message)
@@ -55,13 +54,12 @@ function NavBar() {
       })()
     } else {
       (async () => {
-        let response = await ky(HOST_V1+`/get_city_info?city=${city}`)
+        let response = await ky(HOST_V1 + `/get_city_info?city=${city}`)
         if (response.ok) {
           const cityInfo = await response.json<ICity>()
 
           globalPropertiesStore.setNewSelectCity(cityInfo)
-        }
-        else {
+        } else {
           const error = await response.json<IError>()
           sendNotification(`Ошибка получения информации об ${city}`)
           Logger.Error("get city", error.message)
@@ -80,7 +78,7 @@ function NavBar() {
 
   return (
     <>
-      { contextHolder }
+      {contextHolder}
       <div
         className={classes.city}
       >
@@ -109,16 +107,16 @@ function NavBar() {
             </div>
           </li>
           <li className={classes.area_visible_city}>
-            {/*<div className="flex">*/}
-            {/*  <button*/}
-            {/*    className={classes.menu_btn}*/}
-            {/*    onClick={menuStore.open}*/}
-            {/*  >*/}
-            {/*    <AiOutlineMenu*/}
-            {/*      className="w-6 h-6"*/}
-            {/*    />*/}
-            {/*  </button>*/}
-            {/*</div>*/}
+            <div className="flex">
+              <button
+                className={classes.menu_btn}
+                onClick={menuStore.open}
+              >
+                <AiOutlineMenu
+                  className="w-6 h-6"
+                />
+              </button>
+            </div>
           </li>
         </ul>
       </nav>

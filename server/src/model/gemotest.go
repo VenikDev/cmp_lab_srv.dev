@@ -68,12 +68,8 @@ func GetAnalyzesGemotest(document *goquery.Document, params Bundle) ListAnalyses
 					cityEn := params["city"].(city.City).NameEn
 					linkToAnalyses := strings.ReplaceAll(linkToAnalyses, match[0][1], cityEn)
 
-					result = append(result, Analysis{
-						Name:        title,
-						Price:       totalPrice,
-						Description: description,
-						OriginalURL: global.Laboratories[idx].Url + linkToAnalyses,
-					})
+					result = append(result, *NewAnalysis(title, totalPrice, description,
+						global.Laboratories[idx].Url+linkToAnalyses))
 				}
 			}
 		}

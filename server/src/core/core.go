@@ -1,6 +1,7 @@
 package core
 
 import (
+	"cmp_lab/src/core/middleware"
 	"cmp_lab/src/global"
 	"cmp_lab/src/herr"
 	"cmp_lab/src/model/labs"
@@ -15,23 +16,6 @@ var (
 	Server = gin.Default()
 )
 
-func CORSMiddleware() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-
-		ctx.Header("Access-Control-Allow-Origin", "*")
-		ctx.Header("Access-Control-Allow-Credentials", "true")
-		ctx.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-		ctx.Header("Access-Control-Allow-Methods", "POST,HEAD,PATCH, OPTIONS, GET, PUT")
-
-		if ctx.Request.Method == "OPTIONS" {
-			ctx.AbortWithStatus(204)
-			return
-		}
-
-		ctx.Next()
-	}
-}
-
 func InitConfig() {
 	global.Laboratories = labs.ParseLabs()
 }
@@ -41,8 +25,8 @@ func InitServer(app *gin.Engine) {
 	pathToStaticFiles.WriteString(paths.GetWorkDir())
 	pathToStaticFiles.WriteString(`/static/`)
 
-	app.Use(gin.Logger())
-	app.Use(CORSMiddleware())
+	app.Use(middleware.Logger())
+	app.Use(middleware.CORSMiddleware())
 
 	// static files
 	app.StaticFS("/assets", http.Dir(pathToStaticFiles.String()+"assets"))

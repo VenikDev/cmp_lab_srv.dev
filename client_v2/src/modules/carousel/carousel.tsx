@@ -22,15 +22,20 @@ import {MdOutlineFavorite, MdOutlineFavoriteBorder} from "react-icons/md";
 import {useFavorite} from "../../stores/favorit-store";
 import {Logger} from "../../common/logger";
 
-function CardHeader({analysis} : {analysis: IAnalysis}) {
+function CardHeader({analysis, nameLab}: { analysis: IAnalysis, nameLab: string }) {
   const favoriteStore = useFavorite()
 
-  function addToFavorite(analysis: IAnalysis) {
+  function addToFavorite(analysis: IAnalysis, nameLab: string) {
+    const favAnalysis = {
+      name: nameLab,
+      analysis: analysis
+    }
+
     if (!analysis.isSelect) {
-      favoriteStore.add(analysis)
+      favoriteStore.add(favAnalysis)
       analysis.isSelect = true
     } else {
-      favoriteStore.delete(analysis)
+      favoriteStore.delete(favAnalysis)
       analysis.isSelect = false
     }
 
@@ -43,24 +48,24 @@ function CardHeader({analysis} : {analysis: IAnalysis}) {
         className="flex flex-row"
       >
         <span className="grow truncate">
-          { analysis.name }
+          {analysis.name}
         </span>
-        {/*<button*/}
-        {/*  onClick={() =>*/}
-        {/*    addToFavorite(analysis)*/}
-        {/*  }*/}
-        {/*>*/}
-        {/*  {*/}
-        {/*    analysis.isSelect ?*/}
-        {/*      <MdOutlineFavorite*/}
-        {/*        className="w-5 h-5"*/}
-        {/*      />*/}
-        {/*      :*/}
-        {/*      <MdOutlineFavoriteBorder*/}
-        {/*        className="w-5 h-5"*/}
-        {/*      />*/}
-        {/*  }*/}
-        {/*</button>*/}
+        <button
+          onClick={() =>
+            addToFavorite(analysis, nameLab)
+          }
+        >
+          {
+            analysis.isSelect ?
+              <MdOutlineFavorite
+                className="w-5 h-5"
+              />
+              :
+              <MdOutlineFavoriteBorder
+                className="w-5 h-5"
+              />
+          }
+        </button>
       </div>
     </>
   )
@@ -118,7 +123,6 @@ function Carousel() {
       <>
         {
           listLaboratoryTests.list?.filter((value: IAnalysis) => {
-            value.id = uuid()
             return filtration(value)
           }).map((analysis: IAnalysis, idxAnalysis) =>
             <SwiperSlide
@@ -127,7 +131,7 @@ function Carousel() {
             >
               <Card
                 key={idxAnalysis}
-                title={<CardHeader analysis={analysis}/>}
+                title={<CardHeader analysis={analysis} nameLab={listLaboratoryTests.name_lab}/>}
               >
                 <CDescription
                   className="h-28 truncate whitespace-normal overflow-hidden"
@@ -156,7 +160,7 @@ function Carousel() {
             {
               listLaboratoryTests?.list.length != 0 &&
                 <div
-                  key={idx}
+                    key={idx}
                 >
                     <h1
                         className={`${classes.name_lab}`}
