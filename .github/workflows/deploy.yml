@@ -48,4 +48,4 @@ jobs:
           username: ${{ secrets.SSH_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: 22
-          script: cd cmp-srv && git pull && make deploy SCALE=3
+          script: cd cmp-srv && git pull && make deploy SCALE=2
