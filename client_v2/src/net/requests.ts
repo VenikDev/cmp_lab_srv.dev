@@ -13,7 +13,9 @@ export async function getAnalysis<T, TErr = IError>(
   console.log("Search: ", key, " in ", city)
 
   // request
-  const response =  await ky.get(`${HOST_V1}/analysis?key=${key}&city=${city}`)
+  const response =  await ky.get(`${HOST_V1}/analysis?key=${key}&city=${city}`, {
+    timeout: 100000
+  })
 
   if (!response.ok) {
     const error = await response.json<TErr>()
