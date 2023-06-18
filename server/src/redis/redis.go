@@ -92,33 +92,31 @@ func AddToPopular(key string) error {
 	if valueOfKey := RedisClient.Get(ctx, editedKey); valueOfKey.Err() != nil {
 		// save new value in redis on one day
 		oneDay := time.Hour * 24
-		statusCms := RedisClient.Set(ctx, editedKey, 1, oneDay)
-		clog.Info("[add/redis]", statusCms)
-
-		clog.Info("[add/redis]", "create value", editedKey)
-	} else {
-		pipe := RedisClient.Pipeline()
-		incr := pipe.Incr(ctx, editedKey)
-
-		if _, err := pipe.Exec(ctx); err != nil {
-			return err
+		err := RedisClient.Set(ctx, editedKey, 1, oneDay).Err()
+		if err != nil {
+			clog.Info("[add/redis]", "Error adding popular", err)
+		} else {
+			clog.Info("[add/redis]", "create value", editedKey)
 		}
-
-		clog.Info("[add/redis]", editedKey, incr.Val())
+	} else {
+		err := RedisClient.Incr(ctx, editedKey).Err()
+		if err != nil {
+			clog.Info("[add/redis]", "Error increment popular", err)
+		}
 	}
 
 	return nil
 }
 
-// GetFavorite
-// This code defines a function called `GetFavorite` that returns a slice of `favorite.
+// GetPopular
+// This code defines a function called `GetPopular` that returns a slice of `favorite.
 // Favorite` structs and an error. The function scans a Redis database using a wildcard key pattern,
 // iterating over all keys that match the pattern. For each matching key, it retrieves the corresponding value,
 // which is assumed to be an integer count. It then creates a new `favorite.
 // Favorite` struct with the key name as the `Name` field and the count as the `Count` field,
 // and appends it to the result slice. Finally,
 // it returns the result slice and any errors encountered during scanning or parsing.
-func GetFavorite() ([]favorite.Favorite, error) {
+func GetPopular() ([]favorite.Favorite, error) {
 	// pre-allocate a slice with a sufficient capacity
 	result := make([]favorite.Favorite, 0, 100)
 

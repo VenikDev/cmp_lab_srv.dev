@@ -135,7 +135,7 @@ func GetListCities(context *gin.Context) {
 }
 
 func GetPopular(context *gin.Context) {
-	allFavorite, err := redis.GetFavorite()
+	allFavorite, err := redis.GetPopular()
 
 	if err != nil {
 		context.IndentedJSON(http.StatusNotFound, gin.H{"error": err})
