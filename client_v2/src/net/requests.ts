@@ -16,7 +16,9 @@ export async function getAnalysis<T, TErr = IError>(
     timeout: timeout
   })
   if (!response.ok) {
-    return await response.json<TErr>()
+    const error = await response.json<TErr>()
+    Logger.Error("get_analysis", error)
+    return error
   }
   return await response.json<T>()
 }
