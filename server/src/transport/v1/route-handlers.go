@@ -138,6 +138,7 @@ func GetPopular(context *gin.Context) {
 	allFavorite, err := redis.GetPopular()
 
 	if err != nil {
+		clog.Error("[get_popular]", "Error getting popular", err.Error())
 		context.IndentedJSON(http.StatusNotFound, gin.H{"error": err})
 		return
 	}
@@ -148,9 +149,7 @@ func GetPopular(context *gin.Context) {
 			return left.Count > right.Count
 		},
 	)
-	if len(result) > 5 {
-		result = result[:5]
-	}
+
 	context.IndentedJSON(http.StatusOK, result)
 }
 
