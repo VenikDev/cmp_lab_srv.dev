@@ -14,6 +14,13 @@ module.exports = {
         'lilac': '#d9e6ff'
       },
     },
+    screens: {
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1024px',
+      '2xl': '1024px',
+    }
   },
   plugins: [],
 }
