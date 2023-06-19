@@ -60,16 +60,6 @@ func InitRedis() {
 	clog.Info("[init/redis]", "REDIS_PASSWORD", redisPassword)
 
 	_, err = TryConnectToRedis(redisHost, redisPassword, dbNumber)
-	if !connectToRedisIsSuccess(err) {
-		// for testing
-		host := "http://localhost:6379"
-		_, err = TryConnectToRedis(host, os.Getenv("REDIS_PASSWORD"), dbNumber)
-		if err == nil {
-			ConnectSuccess = true
-		}
-	} else {
-		ConnectSuccess = true
-	}
 }
 
 // AddToPopular

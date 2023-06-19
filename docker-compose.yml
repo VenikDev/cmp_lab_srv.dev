@@ -4,8 +4,8 @@ services:
     container_name: cmp-lab-redis
     restart: on-failure
     build: redis
-    ports:
-      - '6379:6379'
+#    ports:
+#      - '6379:6379'
   srv:
     restart: on-failure
     image: venikshow/cmp-lab-srv
